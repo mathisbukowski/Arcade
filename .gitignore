@@ -6,3 +6,4 @@ cmake-build-release/
 *.a
 *.so
 *.c
+.vscode/
