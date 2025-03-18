@@ -8,7 +8,7 @@
 #ifndef DLOBJECT_HPP
 #define DLOBJECT_HPP
 
-#include "DLLoader.hpp"
+#include "DLManager.hpp"
 #include <string>
 
 /**
