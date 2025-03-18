@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <map>
 #include <vector>
-#include "arcade.hpp"
+#include "Arcade.hpp"
 #include "DLObject.hpp"
 
 /**
