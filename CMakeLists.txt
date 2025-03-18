@@ -31,6 +31,8 @@ message(STATUS "Platform-specific libraries: ${PLATFORM_LIBS}")
 
 set(CORE_SOURCES
     src/main.cpp
+    src/Arcade/DLLoader.cpp
+    src/Arcade/Core.cpp
 )
 
 add_executable(arcade ${CORE_SOURCES})
