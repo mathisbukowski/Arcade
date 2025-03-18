@@ -12,71 +12,102 @@
  * @brief Class to load dynamic libraries & encapsulate them
  */
 
-#include <dlfcn.h> -> dlclose, dlopen, dlsym, dlerror
+#include <dlfcn.h>
 #include <string>
 #include <memory>
 #include <stdexcept>
-
+#include <map>
+#include <vector>
+#include "arcade.hpp"
+#include "DLObject.hpp"
 
 /**
- * @class DLLoader
- * @brief Class for loading dynamic libraries in C++.
+ * @class DynamicLibraryManager
+ * @brief Manages multiple dynamic libraries
  */
-class DLLoader {
-    public:
-        /**
-         * @brief Constructor for DLLoader.
-         * @param dll_path Path to the dynamic library.
-         * @param mode Mode for opening the library (RTLD_LAZY, etc.).
-         */
-        DLLoader(const std::string &dll_path, int mode);
 
-        /**
-         * @brief Destructor for DLLoader.
-         */
-        ~DLLoader();
+namespace arcade {
+    class DynamicLibraryManager {
+        public:
+            /**
+             * @brief Constructor
+             * @param directory Directory to search for libraries
+             * @param loadImmediately Whether to load libraries immediately
+             */
+            DynamicLibraryManager(const std::string& directory = "./lib", bool loadImmediately = false);
+    
+            /**
+             * @brief Scan a directory for libraries
+             * @param directory Directory path
+             * @param loadDiscovered Whether to load discovered libraries
+             * @return Number of libraries found
+             */
+            int scanDirectory(const std::string& directory, bool loadDiscovered = true);
+    
+            /**
+             * @brief Load a specific library
+             * @param path Path to the library
+             * @param type Type of the library
+             * @return Shared pointer to the loaded library
+             */
+            std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& path, LibraryType type = LibraryType::UNKNOWN);
+    
+            /**
+             * @brief Find a library by name
+             * @param name Name of the library
+             * @return Shared pointer to the library if found, nullptr otherwise
+             */
+            std::shared_ptr<DynamicLibraryObject> findLibrary(const std::string& name) const;
+    
+            /**
+             * @brief Get all libraries of a specific type
+             * @param type Type of libraries to retrieve
+             * @return Vector of libraries of the specified type
+             */
+            std::vector<std::shared_ptr<DynamicLibraryObject>> getLibrariesByType(LibraryType type) const;
+    
+            /**
+             * @brief Get all loaded libraries
+             * @return Vector of all loaded libraries
+             */
+            const std::vector<std::shared_ptr<DynamicLibraryObject>>& getAllLibraries() const {
+                return _libraries;
+            }
+    
+            /**
+             * @brief Get the next library of a specific type
+             * @param type Type of library to get
+             * @return Next library of specified type
+             */
+            std::shared_ptr<DynamicLibraryObject> getNextLibrary(LibraryType type);
+    
+        private:
+            /**
+             * @brief Determine library type from filename or content
+             * @param path Path to the library
+             * @return Determined library type
+             */
+            LibraryType determineLibraryType(const std::string& path);
+    
+            /**
+             * @brief Extract name from path
+             * @param path File path
+             * @return Filename without path and extension
+             */
+            std::string extractNameFromPath(const std::string& path) const;
+    
+        private:
 
-        /**
-         * @brief Opens the dynamic library.
-         * @throws std::runtime_error if the library cannot be opened.
-         */
-        void openLibrary();
-
-        /**
-         * @brief Closes the dynamic library.
-         */
-        void closeLibrary();
-
-        /**
-         * @brief Retrieves a function from the library.
-         * @tparam FromLib The function type (e.g., `int(*)(float)`).
-         * @param function_name Name of the function.
-         * @return A function pointer of type FromLib.
-         * @throws std::runtime_error if the function is not found.
-        */
-        template <typename FromLib>
-        FromLib getFunction(const std::string &function_name);
-
-        /**
-        * @brief Gets the last error message.
-        * @return The error message as a string.
-        */
-        std::string getError();
-
-    protected:
-    private:
-        /**
-         * @brief Path to the dynamic library.
-         */
-        std::string _dllPath;
-        /**
-         * @brief Mode for opening the library.
-         */
-        int _mode;
-        /**
-         * @brief Handle to the dynamic library.
-         */
-        std::unique_ptr<void, decltype(&dlclose)> _libHandle;
-};
+            /**
+             * @brief Loaded libraries
+             */
+            std::vector<std::shared_ptr<DynamicLibraryObject>> _libraries;
+            
+            /**
+             * @brief Type indices
+             */
+            std::map<LibraryType, size_t> _typeIndices;
+    };
+}
 
 #endif /* !DLLOADER_HPP_ */
