@@ -11,7 +11,7 @@
 
 namespace arcade {
     enum  LibraryType {
-        LIBRARY,
+        GRAPHIC_LIB,
         GAME,
         UNKNOWN
     };

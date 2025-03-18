@@ -85,7 +85,7 @@ arcade::LibraryType arcade::DynamicLibraryManager::determineLibraryType(const st
     if (path.find("game") != std::string::npos)
         return GAME;
     if (path.find("lib") != std::string::npos)
-        return LIBRARY;
+        return GRAPHIC_LIB;
     return UNKNOWN;
 }
 
