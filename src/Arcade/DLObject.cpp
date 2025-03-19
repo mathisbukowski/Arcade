@@ -14,6 +14,17 @@ arcade::DynamicLibraryObject::DynamicLibraryObject(const std::string& path, Libr
     _handle.reset(dlopen(path.c_str(), RTLD_LAZY));
     if (!_handle)
         throw std::runtime_error("Failed to load library: " + path);
+    try {
+            LibraryType detectedType = getEntryPointType();
+            if (detectedType != LibraryType::UNKNOWN) {
+                _type = detectedType;
+            }
+                        std::string detectedName = getEntryPointName();
+            if (!detectedName.empty() && detectedName != path) {
+                _name = detectedName;
+            }
+        } catch (const std::exception&) {
+        }
 }
 
 arcade::DynamicLibraryObject::~DynamicLibraryObject()

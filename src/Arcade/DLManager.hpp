@@ -35,7 +35,7 @@ namespace arcade {
              * @param loadImmediately Whether to load libraries immediately
              */
             DynamicLibraryManager(const std::string& directory = "./lib", bool loadImmediately = false);
-    
+
             /**
              * @brief Scan a directory for libraries
              * @param directory Directory path
@@ -43,7 +43,7 @@ namespace arcade {
              * @return Number of libraries found
              */
             int scanDirectory(const std::string& directory, bool loadDiscovered = true);
-    
+
             /**
              * @brief Load a specific library
              * @param path Path to the library
@@ -51,21 +51,21 @@ namespace arcade {
              * @return Shared pointer to the loaded library
              */
             std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& path, LibraryType type = LibraryType::UNKNOWN);
-    
+
             /**
              * @brief Find a library by name
              * @param name Name of the library
              * @return Shared pointer to the library if found, nullptr otherwise
              */
             std::shared_ptr<DynamicLibraryObject> findLibrary(const std::string& name) const;
-    
+
             /**
              * @brief Get all libraries of a specific type
              * @param type Type of libraries to retrieve
              * @return Vector of libraries of the specified type
              */
             std::vector<std::shared_ptr<DynamicLibraryObject>> getLibrariesByType(LibraryType type) const;
-    
+
             /**
              * @brief Get all loaded libraries
              * @return Vector of all loaded libraries
@@ -73,36 +73,21 @@ namespace arcade {
             const std::vector<std::shared_ptr<DynamicLibraryObject>>& getAllLibraries() const {
                 return _libraries;
             }
-    
+
             /**
              * @brief Get the next library of a specific type
              * @param type Type of library to get
              * @return Next library of specified type
              */
             std::shared_ptr<DynamicLibraryObject> getNextLibrary(LibraryType type);
-    
-        private:
-            /**
-             * @brief Determine library type from filename or content
-             * @param path Path to the library
-             * @return Determined library type
-             */
-            LibraryType determineLibraryType(const std::string& path);
-    
-            /**
-             * @brief Extract name from path
-             * @param path File path
-             * @return Filename without path and extension
-             */
-            std::string extractNameFromPath(const std::string& path) const;
-    
+
         private:
 
             /**
              * @brief Loaded libraries
              */
             std::vector<std::shared_ptr<DynamicLibraryObject>> _libraries;
-            
+
             /**
              * @brief Type indices
              */
