@@ -31,3 +31,33 @@ arcade::LibraryType arcade::DynamicLibraryObject::getType() const
 {
     return _type;
 }
+
+arcade::LibraryType arcade::DynamicLibraryObject::getEntryPointType() const
+{
+    using EntryPointTypeFunc = LibraryType (*)();
+
+    dlerror();
+
+    void* symbol = dlsym(_handle.get(), "entryPointType");
+    const char* error = dlerror();
+
+    if (error || !symbol)
+        return _type;
+    auto entryPointFunc = reinterpret_cast<EntryPointTypeFunc>(symbol);
+    return entryPointFunc();
+}
+
+std::string arcade::DynamicLibraryObject::getEntryPointName()
+{
+    using EntryPointNameFunc = std::string (*)();
+
+    dlerror();
+
+    void* symbol = dlsym(_handle.get(), "entryPointName");
+    const char* error = dlerror();
+
+    if (error || !symbol)
+        return _name;
+    auto entryPointFunc = reinterpret_cast<EntryPointNameFunc>(symbol);
+    return entryPointFunc();
+}
