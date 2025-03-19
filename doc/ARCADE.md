@@ -4,6 +4,7 @@
 - [Library Type](#library-type)
 - [Dynamic Library Manager](#dynamic-library-manager)
 - [Dynamic Library Object](#dynamic-library-object)
+- [Vector Class](#vector-class)
 
 
 ## Library Type
@@ -149,3 +150,61 @@ The Dynamic Library Object is the "subclass" of DLManager. That represents all e
      */
     LibraryType _type;
 ```
+
+## Vector Class
+
+The `Vector` class is a template class designed to represent 2D vectors. It provides a set of operations and methods to manipulate vectors, making it a versatile tool for various calculations in the Arcade project, such as movement, collision detection, or graphical transformations.
+
+### Features
+- **Template Support**: The class supports any numeric type (e.g., `int`, `float`, `double`) through templates.
+- **Basic Operations**: Includes addition, subtraction, multiplication, and division of vectors.
+- **Comparison Operators**: Allows comparison of vectors using equality, inequality, and relational operators.
+- **Getter and Setter Methods**: Provides access to and modification of the `x` and `y` components.
+
+### Example Usage
+```cpp
+#include "Vector.hpp"
+#include <iostream>
+
+int main() {
+    Vector<int> v1(3, 4);
+    Vector<int> v2(1, 2);
+
+    // Vector addition
+    Vector<int> result = v1 + v2;
+
+    // Accessing components
+    std::cout << "Result: (" << result.getX() << ", " << result.getY() << ")" << std::endl;
+
+    // Comparison
+    if (v1 != v2) {
+        std::cout << "Vectors are not equal." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+### Operator Overloads
+
+The `Vector` class supports a variety of operator overloads to simplify vector operations. Below is a table summarizing the available operators and their functionality:
+
+| **Operator**      | **Description**                                      | **Return Type**          |
+|--------------------|------------------------------------------------------|--------------------------|
+| `+`               | Adds two vectors component-wise                      | `Vector<T>`             |
+| `-`               | Subtracts two vectors component-wise                 | `Vector<T>`             |
+| `*`               | Multiplies two vectors component-wise                | `Vector<T>`             |
+| `/`               | Divides two vectors component-wise                   | `Vector<T>`             |
+| `==`              | Checks if two vectors are equal                      | `bool`                  |
+| `!=`              | Checks if two vectors are not equal                  | `bool`                  |
+| `<`               | Checks if one vector is less than another (both components) | `bool`          |
+| `>`               | Checks if one vector is greater than another (both components) | `bool`          |
+| `<=`              | Checks if one vector is less than or equal to another (both components) | `bool` |
+| `>=`              | Checks if one vector is greater than or equal to another (both components) | `bool` |
+| `+=`              | Adds another vector to the current vector            | `Vector<T>&`            |
+| `-=`              | Subtracts another vector from the current vector     | `Vector<T>&`            |
+
+### Notes
+- All arithmetic operators (`+`, `-`, `*`, `/`) perform operations component-wise.
+- Comparison operators (`==`, `!=`, `<`, `>`, `<=`, `>=`) compare the `x` and `y` components of the vectors.
+- Compound assignment operators (`+=`, `-=`) modify the current vector in place.

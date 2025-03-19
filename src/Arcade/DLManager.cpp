@@ -83,10 +83,10 @@ std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::get
 arcade::LibraryType arcade::DynamicLibraryManager::determineLibraryType(const std::string& path)
 {
     if (path.find("game") != std::string::npos)
-        return GAME;
+        return LibraryType::GAME;
     if (path.find("lib") != std::string::npos)
-        return GRAPHIC_LIB;
-    return UNKNOWN;
+        return LibraryType::GRAPHIC_LIB;
+    return LibraryType::UNKNOWN;
 }
 
 std::string arcade::DynamicLibraryManager::extractNameFromPath(const std::string& path) const

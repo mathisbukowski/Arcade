@@ -10,7 +10,7 @@
 
 
 namespace arcade {
-    enum  LibraryType {
+    enum  class LibraryType {
         GRAPHIC_LIB,
         GAME,
         UNKNOWN

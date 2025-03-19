@@ -6,7 +6,7 @@
 */
 
 
-#include "DLLoader.hpp"
+#include "DLManager.hpp"
 #include "DLObject.hpp"
 #include <filesystem>
 #include <iostream>
@@ -30,7 +30,7 @@ int main(int ac, char **av)
         const auto& libraries = manager.getAllLibraries();
         std::cout << "Loaded libraries:" << std::endl;
         for (const auto& lib : libraries) {
-            std::cout << "- " << lib->getName() << " (Type: " << lib->getType() << ")" << std::endl;
+            std::cout << "- " << lib->getName() << " (Type: " << static_cast<int>(lib->getType()) << ")" << std::endl;
             auto foundLibrary = manager.findLibrary(lib->getName());
             if (foundLibrary) {
                 std::cout << "Found library: " << foundLibrary->getName() << std::endl;
