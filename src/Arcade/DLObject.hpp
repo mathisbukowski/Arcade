@@ -8,8 +8,10 @@
 #ifndef DLOBJECT_HPP
 #define DLOBJECT_HPP
 
-#include "DLManager.hpp"
 #include <string>
+#include "Arcade.hpp"
+#include <dlfcn.h>
+
 
 /**
  * @brief Class to load dynamic libraries & encapsulate them
