@@ -5,7 +5,7 @@ generator: doxide
 
 # Arcade
 
-
+Epitech Arcade project
 
 :material-package: [arcade](arcade/index.md)
 :    Namespace containing classes and types related to the Arcade project.

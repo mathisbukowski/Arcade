@@ -1,5 +1,6 @@
 title: Arcade
 description: Epitech Arcade project
+output: doc
 files:
   - "*.hpp"
   - "**/*.hpp"
