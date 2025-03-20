@@ -6,7 +6,7 @@
 ##
 
 SRC = Core.cpp \
-      DLLoader.cpp \
+      DLManager.cpp \
       main.cpp \
       DLObject.cpp \
 

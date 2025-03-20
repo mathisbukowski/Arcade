@@ -8,16 +8,22 @@
 #ifndef ARCADE_HPP_
 #define ARCADE_HPP_
 
-
+/**
+ * @namespace arcade
+ * Namespace containing classes and types related to the Arcade project.
+ */
 namespace arcade {
-    enum  class LibraryType {
-        GRAPHIC_LIB,
-        GAME,
-        UNKNOWN
+    /**
+     * @enum LibraryType
+     * Represents the types of dynamic libraries.
+     */
+    enum class LibraryType {
+        GRAPHIC_LIB, /**< Graphic library */
+        GAME, /**< Game library */
+        UNKNOWN /**< Unknown type */
     };
     class DynamicLibraryObject;
     class DynamicLibraryManager;
 }
-
 
 #endif /* !ARCADE_HPP_ */
