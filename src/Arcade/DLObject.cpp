@@ -14,6 +14,17 @@ arcade::DynamicLibraryObject::DynamicLibraryObject(const std::string& path, Libr
     _handle.reset(dlopen(path.c_str(), RTLD_LAZY));
     if (!_handle)
         throw std::runtime_error("Failed to load library: " + path);
+    try {
+            LibraryType detectedType = getEntryPointType();
+            if (detectedType != LibraryType::UNKNOWN) {
+                _type = detectedType;
+            }
+                        std::string detectedName = getEntryPointName();
+            if (!detectedName.empty() && detectedName != path) {
+                _name = detectedName;
+            }
+        } catch (const std::exception&) {
+        }
 }
 
 arcade::DynamicLibraryObject::~DynamicLibraryObject()
@@ -30,4 +41,34 @@ std::string arcade::DynamicLibraryObject::getName() const
 arcade::LibraryType arcade::DynamicLibraryObject::getType() const
 {
     return _type;
+}
+
+arcade::LibraryType arcade::DynamicLibraryObject::getEntryPointType() const
+{
+    using EntryPointTypeFunc = LibraryType (*)();
+
+    dlerror();
+
+    void* symbol = dlsym(_handle.get(), "entryPointType");
+    const char* error = dlerror();
+
+    if (error || !symbol)
+        return _type;
+    auto entryPointFunc = reinterpret_cast<EntryPointTypeFunc>(symbol);
+    return entryPointFunc();
+}
+
+std::string arcade::DynamicLibraryObject::getEntryPointName()
+{
+    using EntryPointNameFunc = std::string (*)();
+
+    dlerror();
+
+    void* symbol = dlsym(_handle.get(), "entryPointName");
+    const char* error = dlerror();
+
+    if (error || !symbol)
+        return _name;
+    auto entryPointFunc = reinterpret_cast<EntryPointNameFunc>(symbol);
+    return entryPointFunc();
 }

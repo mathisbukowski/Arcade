@@ -25,7 +25,7 @@ int arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, b
         if (entry.is_regular_file() && entry.path().extension() == ".so") {
             if (loadDiscovered) {
                 try {
-                    loadLibrary(entry.path().string(), determineLibraryType(entry.path().string()));
+                    loadLibrary(entry.path().string());
                 } catch (const std::exception& e) {
                     std::cerr << "Failed to load library: " << entry.path().string() << " (" << e.what() << ")" << std::endl;
                 }
@@ -40,6 +40,9 @@ int arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, b
 std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& path, LibraryType type)
 {
     auto library = std::make_shared<DynamicLibraryObject>(path, type);
+
+    std::cout << "Loaded library: " << library->getName()
+              << " (Type: " << static_cast<int>(library->getType()) << ")" << std::endl;
     _libraries.push_back(library);
     return library;
 }
@@ -79,22 +82,3 @@ std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::get
     index = (index + 1) % libraries.size();
     return library;
 }
-
-arcade::LibraryType arcade::DynamicLibraryManager::determineLibraryType(const std::string& path)
-{
-    if (path.find("game") != std::string::npos)
-        return LibraryType::GAME;
-    if (path.find("lib") != std::string::npos)
-        return LibraryType::GRAPHIC_LIB;
-    return LibraryType::UNKNOWN;
-}
-
-std::string arcade::DynamicLibraryManager::extractNameFromPath(const std::string& path) const
-{
-    size_t lastSlash = path.find_last_of('/');
-    size_t lastDot = path.find_last_of('.');
-    if (lastDot == std::string::npos || lastDot <= lastSlash)
-        return path.substr(lastSlash + 1);
-    return path.substr(lastSlash + 1, lastDot - lastSlash - 1);
-}
-    

@@ -8,8 +8,10 @@
 #ifndef DLOBJECT_HPP
 #define DLOBJECT_HPP
 
-#include "DLManager.hpp"
 #include <string>
+#include "Arcade.hpp"
+#include <dlfcn.h>
+
 
 /**
  * Class to load dynamic libraries & encapsulate them
@@ -57,8 +59,20 @@ namespace arcade {
          */
         LibraryType getType() const;
 
+        /**
+         * @brief Get the library type from entryPointType function
+         * @return Library type from entryPointType or the default type if the function doesn't exist
+         */
+        LibraryType getEntryPointType() const;
+
+        /**
+         * @brief Get the library name from entryPointName function
+         * @return Library name from entryPointName or the default name if the function doesn't exist
+         */
+        std::string getEntryPointName();
+
     private:
-        
+
         /**
          * Handle to the library
          * @note The handle is automatically closed when the object is destroyed
