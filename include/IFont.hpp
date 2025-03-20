@@ -27,13 +27,11 @@ namespace arcade {
         Color color;
         std::size_t size;
     };
-   
-    using MyFont = Font;
 
     class IFont {
     public:
         virtual ~IFont() = default;
-        [[nodiscard]] virtual const MyFont& getInformations() const = 0;
+        [[nodiscard]] virtual const Font& getInformations() const = 0;
         [[nodiscard]] virtual uint32_t getWidth() const = 0;
         [[nodiscard]] virtual uint32_t getHeight() const = 0;
     };
@@ -43,7 +41,7 @@ namespace arcade {
     public:
         virtual ~IFontManager() = default;
 
-        [[nodiscard]] virtual int load(const std::string& name, const MyFont texture) const = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const Font texture) const = 0;
         [[nodiscard]] virtual std::shared_ptr<IFont> get(const std::string& name) const = 0;
     };
 }
