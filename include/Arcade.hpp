@@ -18,12 +18,10 @@ namespace arcade {
      * Represents the types of dynamic libraries.
      */
     enum class LibraryType {
-        GRAPHIC_LIB, /**< Graphic library */
-        GAME, /**< Game library */
-        UNKNOWN /**< Unknown type */
+        GRAPHIC_LIB,
+        GAME,
+        UNKNOWN
     };
-    class DynamicLibraryObject;
-    class DynamicLibraryManager;
 }
 
 #endif /* !ARCADE_HPP_ */

@@ -17,10 +17,22 @@
 
 namespace arcade {
     
+    /**
+     * @brief Font properties
+     */
     class Font {
     public:
+        /**
+         * @brief Construct a new Font object
+         * @param path Path to the font file
+         * @param color Color of the font
+         * @param size Size of the font
+         */
         Font(std::string path, Color color, std::size_t size = 12)
             : path(std::move(path)), color(color), size(size) {}
+        /**
+         * @brief Destroy the Font object
+         */
         ~Font() = default;
 
         std::string path;
@@ -28,20 +40,54 @@ namespace arcade {
         std::size_t size;
     };
 
+    /**
+     * @brief Interface for the font
+     */
     class IFont {
     public:
+        /** 
+         * @brief Destroy the IFont object
+         */
         virtual ~IFont() = default;
+        /**
+         * @brief Get the font informations
+         * @return const Font&
+         */
         [[nodiscard]] virtual const Font& getInformations() const = 0;
+        /**
+         * @brief Get the width of the font
+         * @return uint32_t
+         */
         [[nodiscard]] virtual uint32_t getWidth() const = 0;
+        /**
+         * @brief Get the height of the font
+         * @return uint32_t
+         */
         [[nodiscard]] virtual uint32_t getHeight() const = 0;
     };
 
 
+    /**
+     * @brief Interface for the font manager
+     */
     class IFontManager {
     public:
+    /**
+     * @brief Destroy the IFontManager object
+     */
         virtual ~IFontManager() = default;
-
+        /**
+         * @brief Load a font
+         * @param name Name of the font
+         * @param texture Font properties
+         * @return int
+         */
         [[nodiscard]] virtual int load(const std::string& name, const Font texture) const = 0;
+        /**
+         * @brief Get a font
+         * @param name Name of the font
+         * @return std::shared_ptr<IFont>
+         */
         [[nodiscard]] virtual std::shared_ptr<IFont> get(const std::string& name) const = 0;
     };
 }

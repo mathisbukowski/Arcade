@@ -12,21 +12,34 @@
 #include "Vector.hpp"
 
 namespace arcade {
+    /**
+     * @brief Interface for the game module
+     */
     class IGameModule {
-        public:
-            virtual ~IGameModule() = default;
-    
-            virtual void init(IDisplayLibrary &displayLib) = 0;
-
-            virtual void onKeyPressed(IDisplayLibrary& displayLib, Keyboard key, bool isShifted) = 0;
-
-            virtual void onMouseEvent(IDisplayLibrary& displayLib, Mouse mouse, Vector<float> position) = 0;
-
-            virtual void update(IDisplayLibrary& displayLib, float delta) = 0;
-
-            virtual void display(IDisplayLibrary& displayLib) = 0;
+    public:
+    /**
+     * @brief Destroy the IGameModule object
+     */
+        virtual ~IGameModule () = default;
+        /**
+         * @brief Initialize the game module
+         * @param displayLib Display library
+         */
+        virtual void init(IDisplayLibrary &displayLib) = 0;
+        /**
+         * @brief Stop the game module
+         */
+        virtual void stop() = 0;
+        /**
+         * brief update the game module
+         * @param delta Time since the last update
+         */
+        virtual void update(float delta) = 0;
+        /**
+         * @brief Display the game module
+         */
+        virtual void display() = 0;
     };
 }
-
 #endif /* !IGAMEMODULE_HPP_ */
 
