@@ -26,29 +26,27 @@ namespace arcade {
          * @param path Path to the sound file
          */
         SoundInfos(std::string path):
-            path(std::move(path)), volume(0) {};
+            path(std::move(path)), volume(50), isPlaying(false) {};
         ~SoundInfos() = default;
         std::string path;
-        const float volume;
+        bool isPlaying;
+        float volume;
     };
     
     /**
      * @brief Music properties
      */
-    class MusicInfos
+    class MusicInfos : public SoundInfos
     {
     public:
         /**
          * @brief Construct a new Music Infos object
          * @param path Path to the music file
-        */
+         */
         MusicInfos(std::string path):
-            path(std::move(path)), isPlaying(false), volume(0) {};
+            SoundInfos(std::move(path)), loop(false) {};
         ~MusicInfos() = default;
-        std::string path;
         bool loop;
-        bool isPlaying;
-        const float volume;
     };
 
     /**
