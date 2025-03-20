@@ -24,7 +24,7 @@ int main(int ac, char **av)
         return 1;
     }
     try {
-        arcade::DynamicLibraryManager manager("./lib", true);
+        arcade::DynamicLibraryManager manager("../lib", true);
 
 
         const auto& libraries = manager.getAllLibraries();
@@ -34,7 +34,11 @@ int main(int ac, char **av)
             auto foundLibrary = manager.findLibrary(lib->getName());
             if (foundLibrary) {
                 std::cout << "Found library: " << foundLibrary->getName() << std::endl;
-                auto func = foundLibrary->getFunction<void(*)()>("myEntryPoint");
+                auto func = foundLibrary->getFunction<void(*)()>("entryPoint");
+                auto type = foundLibrary->getFunction<arcade::LibraryType(*)()>("entryPointType");
+                std::cout << "Type: " << static_cast<int>(type()) << std::endl;
+                auto name = foundLibrary->getFunction<std::string(*)()>("entryPointName");
+                std::cout << "Name: " << name() << std::endl;
                 func();
             } else {
                 std::cout << "Library not found: " << lib->getName() << std::endl;

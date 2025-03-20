@@ -11,6 +11,8 @@
 #include <string>
 #include "Arcade.hpp"
 #include <dlfcn.h>
+#include <memory>
+#include <stdexcept>
 
 
 /**
@@ -25,7 +27,7 @@ namespace arcade {
          * @param path Path to the library
          * @param type Type of the library
          */
-        DynamicLibraryObject(const std::string& path, LibraryType type);
+        DynamicLibraryObject(const std::string& path);
 
         /**
          * Destructor

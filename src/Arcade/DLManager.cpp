@@ -26,8 +26,7 @@ int arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, b
             if (loadDiscovered) {
                 try {
                     loadLibrary(entry.path().string());
-                } catch (const std::exception& e) {
-                    std::cerr << "Failed to load library: " << entry.path().string() << " (" << e.what() << ")" << std::endl;
+                } catch (const std::exception&) {
                 }
             }
             count++;
@@ -37,12 +36,9 @@ int arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, b
     return count;
 }
 
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& path, LibraryType type)
+std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& path)
 {
-    auto library = std::make_shared<DynamicLibraryObject>(path, type);
-
-    std::cout << "Loaded library: " << library->getName()
-              << " (Type: " << static_cast<int>(library->getType()) << ")" << std::endl;
+    auto library = std::make_shared<DynamicLibraryObject>(path);
     _libraries.push_back(library);
     return library;
 }
@@ -66,7 +62,6 @@ std::vector<std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibrar
             result.push_back(lib);
         }
     }
-
     return result;
 }
 
