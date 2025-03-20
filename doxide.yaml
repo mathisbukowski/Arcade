@@ -1,5 +1,5 @@
 title: Arcade
-description: 
+description: Epitech Arcade project
 files:
   - "*.hpp"
   - "**/*.hpp"

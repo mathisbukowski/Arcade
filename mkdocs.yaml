@@ -1,5 +1,5 @@
-site_name: Untitled
-site_description:  
+site_name: Arcade
+site_description: Epitech Arcade project
 theme:
   name: material
   custom_dir: docs/overrides
