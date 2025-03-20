@@ -12,26 +12,26 @@
 #include <string>
 
 /**
- * @brief Class to load dynamic libraries & encapsulate them
+ * Class to load dynamic libraries & encapsulate them
  */
 
 namespace arcade {
     class DynamicLibraryObject {
     public:
         /**
-         * @brief Constructor
+         * Constructor
          * @param path Path to the library
          * @param type Type of the library
          */
         DynamicLibraryObject(const std::string& path, LibraryType type);
 
         /**
-         * @brief Destructor
+         * Destructor
          */
         ~DynamicLibraryObject();
 
         /**
-         * @brief Get a function from the library
+         * Get a function from the library
          * @tparam FuncType Type of the function
          * @param symbolName Name of the symbol
          * @return Function pointer
@@ -46,13 +46,13 @@ namespace arcade {
         }
 
         /**
-         * @brief Get the name of the library
+         * Get the name of the library
          * @return Name of the library
          */
         std::string getName() const;
 
         /**
-         * @brief Get the type of the library
+         * Get the type of the library
          * @return Type of the library
          */
         LibraryType getType() const;
@@ -60,18 +60,18 @@ namespace arcade {
     private:
         
         /**
-         * @brief Handle to the library
+         * Handle to the library
          * @note The handle is automatically closed when the object is destroyed
          */
         std::unique_ptr<void, int(*)(void*)> _handle;
 
         /**
-         * @brief Name of the library
+         * Name of the library
          */
         std::string _name;
 
         /**
-         * @brief Type of the library
+         * Type of the library
          */
         LibraryType _type;
     };
