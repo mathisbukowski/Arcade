@@ -37,7 +37,7 @@ namespace arcade
 
         [[nodiscard]] float getX() const;
         [[nodiscard]] float getY() const;
-        [[nodiscard]] float isPressed() const;
+        [[nodiscard]] bool isPressed() const;
 
         void setX(float x);
         void setY(float y);
