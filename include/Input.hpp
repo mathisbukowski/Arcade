@@ -6,6 +6,7 @@
 */
 
 #include <unordered_map>
+#include "Vector.hpp"
 
 namespace arcade
 {
@@ -86,8 +87,7 @@ namespace arcade
          */
         void setPressed(bool pressed);
     private:
-        float _x;
-        float _y;
+        Vector<float> _position;
         bool _pressed;
     };
 }

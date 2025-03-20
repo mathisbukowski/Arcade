@@ -54,16 +54,6 @@ namespace arcade {
          * @return const Font&
          */
         [[nodiscard]] virtual const Font& getInformations() const = 0;
-        /**
-         * @brief Get the width of the font
-         * @return uint32_t
-         */
-        [[nodiscard]] virtual uint32_t getWidth() const = 0;
-        /**
-         * @brief Get the height of the font
-         * @return uint32_t
-         */
-        [[nodiscard]] virtual uint32_t getHeight() const = 0;
     };
 
 
