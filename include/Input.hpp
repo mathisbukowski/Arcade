@@ -54,40 +54,13 @@ namespace arcade
     public:
         Mouse() = default;
         ~Mouse() = default;
-
-        /**
-         * @brief Get the mouse position on the x-axis
-         * @return float
-         */
-        [[nodiscard]] float getX() const;
-        /**
-         * @brief Get the mouse position on the y-axis
-         * @return float
-         */
-        [[nodiscard]] float getY() const;
-        /**
-         * @brief Check if the mouse button is pressed
-         * @return true if the button is pressed, false otherwise
-         */
+        [[nodiscard]] Vector<float> getPos() const;
         [[nodiscard]] bool isPressed() const;
 
-        /**
-         * @brief Set the mouse position on the x-axis
-         * @param x Position
-         */
-        void setX(float x);
-        /**
-         * @brief Set the mouse position on the y-axis
-         * @param y Position
-         */
-        void setY(float y);
-        /**
-         * @brief Set the mouse button state
-         * @param pressed Button state
-         */
+        void setPos(Vector<float> newPos);
         void setPressed(bool pressed);
     private:
-        Vector<float> _position;
-        bool _pressed;
+        Vector<float> _position {0, 0};
+        bool _pressed = false;
     };
 }
