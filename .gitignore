@@ -10,3 +10,4 @@ cmake-build-release/
 arcade
 *.json
 site
+build/

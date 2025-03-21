@@ -34,14 +34,18 @@ int main(int ac, char **av)
             auto foundLibrary = manager.findLibrary(lib->getName());
             if (foundLibrary) {
                 std::cout << "Found library: " << foundLibrary->getName() << std::endl;
-                auto func = foundLibrary->getFunction<void(*)()>("myEntryPoint");
+                auto func = foundLibrary->getFunction<void(*)()>("entryPoint");
+                auto type = foundLibrary->getEntryPointType();
+                std::cout << "Type: " << type << std::endl;
+                auto name = foundLibrary->getEntryPointName();
+                std::cout << "Name: " << name << std::endl;
                 func();
             } else {
                 std::cout << "Library not found: " << lib->getName() << std::endl;
             }
         }
     
-        auto nextGameLibrary = manager.getNextLibrary(arcade::LibraryType::GAME);
+        auto nextGameLibrary = manager.getNextLibrary(arcade::LibType::GAME);
         if (nextGameLibrary) {
             std::cout << "Next game library: " << nextGameLibrary->getName() << std::endl;
         } else {

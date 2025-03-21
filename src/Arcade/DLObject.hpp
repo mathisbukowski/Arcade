@@ -11,6 +11,8 @@
 #include <string>
 #include "Arcade.hpp"
 #include <dlfcn.h>
+#include <memory>
+#include <stdexcept>
 
 
 /**
@@ -25,7 +27,7 @@ namespace arcade {
          * @param path Path to the library
          * @param type Type of the library
          */
-        DynamicLibraryObject(const std::string& path, LibraryType type);
+        DynamicLibraryObject(const std::string& path);
 
         /**
          * Destructor
@@ -57,13 +59,13 @@ namespace arcade {
          * Get the type of the library
          * @return Type of the library
          */
-        LibraryType getType() const;
+        LibType getType() const;
 
         /**
          * @brief Get the library type from entryPointType function
          * @return Library type from entryPointType or the default type if the function doesn't exist
          */
-        LibraryType getEntryPointType() const;
+        LibType getEntryPointType() const;
 
         /**
          * @brief Get the library name from entryPointName function
@@ -87,7 +89,7 @@ namespace arcade {
         /**
          * Type of the library
          */
-        LibraryType _type;
+        LibType _type;
     };
 }
 

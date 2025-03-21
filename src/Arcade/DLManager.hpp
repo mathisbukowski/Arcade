@@ -30,7 +30,7 @@ namespace arcade {
              * @param directory Directory to search for libraries
              * @param loadImmediately Whether to load libraries immediately
              */
-            DynamicLibraryManager(const std::string& directory = "./lib", bool loadImmediately = false);
+            DynamicLibraryManager(const std::string& directory, bool loadImmediately = false);
 
             /**
              * Scan a directory for libraries
@@ -46,7 +46,7 @@ namespace arcade {
              * @param type Type of the library
              * @return Shared pointer to the loaded library
              */
-            std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& path, LibraryType type = LibraryType::UNKNOWN);
+            std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& path);
 
             /**
              * Find a library by name
@@ -60,7 +60,7 @@ namespace arcade {
              * @param type Type of libraries to retrieve
              * @return Vector of libraries of the specified type
              */
-            std::vector<std::shared_ptr<DynamicLibraryObject>> getLibrariesByType(LibraryType type) const;
+            std::vector<std::shared_ptr<DynamicLibraryObject>> getLibrariesByType(LibType type) const;
 
             /**
              * Get all loaded libraries
@@ -75,7 +75,7 @@ namespace arcade {
              * @param type Type of library to get
              * @return Next library of specified type
              */
-            std::shared_ptr<DynamicLibraryObject> getNextLibrary(LibraryType type);
+            std::shared_ptr<DynamicLibraryObject> getNextLibrary(LibType type);
         private:
 
             /**
@@ -86,7 +86,7 @@ namespace arcade {
             /**
              * Type indices
              */
-            std::map<LibraryType, size_t> _typeIndices;
+            std::map<LibType, size_t> _typeIndices;
     };
 }
 
