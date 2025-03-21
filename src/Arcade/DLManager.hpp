@@ -30,7 +30,7 @@ namespace arcade {
              * @param directory Directory to search for libraries
              * @param loadImmediately Whether to load libraries immediately
              */
-            DynamicLibraryManager(const std::string& directory = "./lib", bool loadImmediately = false);
+            DynamicLibraryManager(const std::string& directory, bool loadImmediately = false);
 
             /**
              * Scan a directory for libraries
@@ -46,7 +46,7 @@ namespace arcade {
              * @param type Type of the library
              * @return Shared pointer to the loaded library
              */
-            std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& path, LibType type = LibType::UNKNOWN);
+            std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& path);
 
             /**
              * Find a library by name

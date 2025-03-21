@@ -14,13 +14,13 @@
  */
 namespace arcade {
     /**
-     * @enum LibraryType
+     * @enum LibType
      * Represents the types of dynamic libraries.
      */
     enum LibType {
         GAME,
         DISPLAY,
-        UNKNOWN
+        UNKNOWN,
     };
 }
 

@@ -6,10 +6,11 @@
 */
 
 #include "DLObject.hpp"
+#include <iostream>
 
 
-arcade::DynamicLibraryObject::DynamicLibraryObject(const std::string& path, LibType type)
-    : _handle(nullptr, &dlclose), _name(path), _type(type)
+arcade::DynamicLibraryObject::DynamicLibraryObject(const std::string& path)
+    : _handle(nullptr, &dlclose)
 {
     _handle.reset(dlopen(path.c_str(), RTLD_LAZY));
     if (!_handle)
@@ -19,11 +20,12 @@ arcade::DynamicLibraryObject::DynamicLibraryObject(const std::string& path, LibT
             if (detectedType != LibType::UNKNOWN) {
                 _type = detectedType;
             }
-                        std::string detectedName = getEntryPointName();
+            std::string detectedName = getEntryPointName();
             if (!detectedName.empty() && detectedName != path) {
                 _name = detectedName;
             }
-        } catch (const std::exception&) {
+        } catch (const std::exception& e) {
+            std::cerr << e.what() << path << std::endl;
         }
 }
 
