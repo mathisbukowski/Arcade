@@ -77,7 +77,7 @@ namespace arcade {
          * Handle to the library
          * @note The handle is automatically closed when the object is destroyed
          */
-        std::shared_ptr<void, int(*)(void*)> _handle;
+        std::unique_ptr<void, int(*)(void*)> _handle;
 
         /**
          * Name of the library
