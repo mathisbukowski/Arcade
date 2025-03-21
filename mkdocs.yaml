@@ -1,8 +1,9 @@
 site_name: Arcade
 site_description: Epitech Arcade project
+docs_dir: doc
 theme:
   name: material
-  custom_dir: docs/overrides
+  custom_dir: doc/overrides
   features:
     - navigation.indexes
   palette:

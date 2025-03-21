@@ -9,4 +9,5 @@ cmake-build-release/
 .vscode/
 arcade
 *.json
+site
 build/
