@@ -25,7 +25,7 @@ namespace arcade {
          * @param path Path to the library
          * @param type Type of the library
          */
-        DynamicLibraryObject(const std::string& path, LibraryType type);
+        DynamicLibraryObject(const std::string& path, LibType type);
 
         /**
          * Destructor
@@ -57,13 +57,13 @@ namespace arcade {
          * Get the type of the library
          * @return Type of the library
          */
-        LibraryType getType() const;
+        LibType getType() const;
 
         /**
          * @brief Get the library type from entryPointType function
          * @return Library type from entryPointType or the default type if the function doesn't exist
          */
-        LibraryType getEntryPointType() const;
+        LibType getEntryPointType() const;
 
         /**
          * @brief Get the library name from entryPointName function
@@ -77,7 +77,7 @@ namespace arcade {
          * Handle to the library
          * @note The handle is automatically closed when the object is destroyed
          */
-        std::unique_ptr<void, int(*)(void*)> _handle;
+        std::shared_ptr<void, int(*)(void*)> _handle;
 
         /**
          * Name of the library
@@ -87,7 +87,7 @@ namespace arcade {
         /**
          * Type of the library
          */
-        LibraryType _type;
+        LibType _type;
     };
 }
 
