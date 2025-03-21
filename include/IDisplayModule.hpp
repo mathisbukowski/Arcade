@@ -21,7 +21,44 @@ namespace arcade
     class WindowProperties
     {
     public:
-        std::size_t width;
+        /**
+         * @brief Get the width of the window
+         * @return std::size_t Width of the window
+         */
+        std::size_t getWidth() const { return width; }
+
+        /**
+         * @brief Set the width of the window
+         * @param newWidth New width of the window
+         */
+        void setWidth(std::size_t newWidth) { width = newWidth; }
+
+        /**
+         * @brief Get the height of the window
+         * @return std::size_t Height of the window
+         */
+        std::size_t getHeight() const { return height; }
+
+        /**
+         * @brief Set the height of the window
+         * @param newHeight New height of the window
+         */
+        void setHeight(std::size_t newHeight) { height = newHeight; }
+
+        /**
+         * @brief Get the title of the window
+         * @return const std::string& Title of the window
+         */
+        const std::string &getTitle() const { return title; }
+
+        /**
+         * @brief Set the title of the window
+         * @param newTitle New title of the window
+         */
+        void setTitle(const std::string &newTitle) { title = newTitle; }
+
+    private:
+        std::size_t width; 
         std::size_t height;
         std::string title;
     };

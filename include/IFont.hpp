@@ -35,6 +35,37 @@ namespace arcade {
          */
         ~Font() = default;
 
+        /**
+         * @brief Get the path to the font file
+         * @return const std::string&
+         */
+        [[nodiscard]] const std::string& getPath() const { return path; }
+
+        /**
+         * @brief Get the color of the font
+         * @return Color
+         */
+        [[nodiscard]] Color getColor() const { return color; }
+
+        /**
+         * @brief Set the color of the font
+         * @param newColor New color of the font
+         */
+        void setColor(Color newColor) { color = newColor; }
+
+        /**
+         * @brief Get the size of the font
+         * @return std::size_t
+         */
+        [[nodiscard]] std::size_t getSize() const { return size; }
+
+        /**
+         * @brief Set the size of the font
+         * @param newSize New size of the font
+         */
+        void setSize(std::size_t newSize) { size = newSize; }
+
+    private:
         std::string path;
         Color color;
         std::size_t size;

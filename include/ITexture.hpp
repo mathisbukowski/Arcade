@@ -30,6 +30,25 @@ namespace arcade {
      * @return Rect
      */
         Rect(Vector<float> position, const float width, const float height): position(position.getX(), position.getY()), width(width), height(height) {}
+        ~Rect() = default;
+
+        /**
+         * @brief Get the Position object
+         * @return Vector<float>
+         */
+        [[nodiscard]] Vector<float> getPosition() const;
+        /**
+         * @brief Get the Width object
+         * @return float
+         */
+        [[nodiscard]] float getWidth() const;
+        /**
+         * @brief Get the Height object
+         * @return float
+         */
+        [[nodiscard]] float getHeight() const;
+
+        private:
         Vector<float> position;
         float width;
         float height;
@@ -51,8 +70,26 @@ namespace arcade {
         TextureImg(std::string path, const std::optional<Rect> &rect = std::nullopt):
             path(std::move(path)), rect(rect) {};
         ~TextureImg() = default;
-        std::string path;
-        std::optional<Rect> rect;
+        /**
+         * @brief Get the Path object
+         * @return std::string
+         */
+        [[nodiscard]] std::string getPath() const;
+        /**
+         * @brief Get the Rect object
+         * @return std::optional<Rect>
+         */
+        [[nodiscard]] std::optional<Rect> getRect() const;
+
+        /**
+         * @brief Set the Rect object
+         * @param rect Rect properties
+         */
+        void setRect(const std::optional<Rect> &rect);
+
+        private:
+            std::string path;
+            std::optional<Rect> rect;
     };
 
     /**
@@ -69,8 +106,46 @@ namespace arcade {
      * @return TextureText
      */
         TextureText(std::string text = "", Color color = Color(0, 0, 0), const std::optional<Rect> &rect = std::nullopt):
-            text(std::move(text)), color (color), rect(rect) {}
+            text(std::move(text)), color(color), rect(rect) {}
         ~TextureText() = default;
+
+        /**
+         * @brief Get the Text object
+         * @return std::string
+         */
+        [[nodiscard]] std::string getText() const { return text; }
+
+        /**
+         * @brief Set the Text object
+         * @param text Text
+         */
+        void setText(const std::string &text) { this->text = text; }
+
+        /**
+         * @brief Get the Color object
+         * @return Color
+         */
+        [[nodiscard]] Color getColor() const { return color; }
+
+        /**
+         * @brief Set the Color object
+         * @param color Color
+         */
+        void setColor(const Color &color) { this->color = color; }
+
+        /**
+         * @brief Get the Rect object
+         * @return std::optional<Rect>
+         */
+        [[nodiscard]] std::optional<Rect> getRect() const { return rect; }
+
+        /**
+         * @brief Set the Rect object
+         * @param rect Rect properties
+         */
+        void setRect(const std::optional<Rect> &rect) { this->rect = rect; }
+
+    private:
         std::string text;
         Color color;
         std::optional<Rect> rect = std::nullopt;

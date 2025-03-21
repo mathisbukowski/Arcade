@@ -21,32 +21,74 @@ namespace arcade {
     class SoundInfos
     {
     public:
-        /**
-         * @brief Construct a new Sound Infos object
-         * @param path Path to the sound file
-         */
+    /**
+     * @brief Construct a new Sound Infos object
+     * @param path Path to the sound file
+     */
         SoundInfos(std::string path):
-            path(std::move(path)), volume(50), isPlaying(false) {};
+            _path(std::move(path)), _volume(50) {}
         ~SoundInfos() = default;
-        std::string path;
-        bool isPlaying;
-        float volume;
+
+        /**
+         * @brief Get the Path object
+         * @return std::string
+         */
+        [[nodiscard]] std::string getPath();
+        /**
+         * @brief Get the Volume object
+         * @return float
+         */
+        [[nodiscard]] float getVolume();
+        /**
+         * @brief sound is playing
+         * @return bool
+         */
+        [[nodiscard]] bool isPlaying();
+
+        /**
+         * @brief Set the Volume object
+         * @param newVolume New volume
+         */
+        void setVolume(float newVolume);
+        /**
+         * @brief Play the sound
+         */
+        virtual void play() = 0;
+
+    private:
+        std::string _path;
+        float _volume;
+        bool _playing = false;
     };
+
     
     /**
      * @brief Music properties
      */
-    class MusicInfos : public SoundInfos
+    class MusicInfos: public SoundInfos
     {
     public:
-        /**
-         * @brief Construct a new Music Infos object
-         * @param path Path to the music file
-         */
+      /**
+        * @brief Construct a new Music Infos object
+        * @param path Path to the music file
+        */
         MusicInfos(std::string path):
-            SoundInfos(std::move(path)), loop(false) {};
+            SoundInfos(std::move(path)) {}
         ~MusicInfos() = default;
-        bool loop;
+
+        /**
+         * @brief Get the Loop object
+         * @return bool
+         */
+        [[nodiscard]] bool isLooped();
+        /**
+         * @brief Set the Loop object
+         * @param loop Loop the music
+         */
+        void setLoop(bool loop);
+
+    private:
+        bool _loop = false;
     };
 
     /**

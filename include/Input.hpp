@@ -51,14 +51,37 @@ namespace arcade
      */
     class Mouse
     {
-    public:
-        Mouse() = default;
-        ~Mouse() = default;
-        [[nodiscard]] Vector<float> getPos() const;
-        [[nodiscard]] bool isPressed() const;
+    Mouse() = default;
+    ~Mouse() = default;
 
-        void setPos(Vector<float> newPos);
-        void setPressed(bool pressed);
+    /**
+     * @brief Retrieves the current position of the mouse.
+     * 
+     * @return A Vector<float> representing the current position of the mouse.
+     */
+    [[nodiscard]] Vector<float> getPos() const;
+
+    /**
+     * @brief Checks if the mouse button is currently pressed.
+     * 
+     * @return A boolean value indicating whether the mouse button is pressed.
+     */
+    [[nodiscard]] bool isPressed() const;
+
+    /**
+     * @brief Sets the position of the mouse.
+     * 
+     * @param newPos A Vector<float> representing the new position of the mouse.
+     */
+    void setPos(Vector<float> newPos);
+
+    /**
+     * @brief Sets the pressed state of the mouse button.
+     * 
+     * @param pressed A boolean value indicating whether the mouse button is pressed.
+     */
+    void setPressed(bool pressed);
+    
     private:
         Vector<float> _position {0, 0};
         bool _pressed = false;
