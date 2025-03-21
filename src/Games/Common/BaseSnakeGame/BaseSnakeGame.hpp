@@ -13,7 +13,6 @@
 #include <vector>
 #include <deque>
 #include <random>
-#include <memory>
 #include <optional>
 #include <functional>
 #include <stdexcept>
@@ -182,6 +181,10 @@ namespace arcade
         void handleBonusFoodCollision();
         void removeCollidedFood();
         void trySpawnBonusFood();
+
+        void updateBonusFood(float delta);
+        void updateTimeLimit(float delta);
+        void checkLevelCompletion();
 
         std::vector<Vector<float>> findEmptyCells();
         Vector<float> chooseRandomCell(const std::vector<Vector<float>>& cells);
