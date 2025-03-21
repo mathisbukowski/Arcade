@@ -37,7 +37,7 @@ int arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, b
     return count;
 }
 
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& path, LibraryType type)
+std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& path, LibType type)
 {
     auto library = std::make_shared<DynamicLibraryObject>(path, type);
 
@@ -57,7 +57,7 @@ std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::fin
     return (it != _libraries.end()) ? *it : nullptr;
 }
 
-std::vector<std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibraryManager::getLibrariesByType(LibraryType type) const
+std::vector<std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibraryManager::getLibrariesByType(LibType type) const
 {
     std::vector<std::shared_ptr<DynamicLibraryObject>> result;
 
@@ -70,7 +70,7 @@ std::vector<std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibrar
     return result;
 }
 
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getNextLibrary(LibraryType type)
+std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getNextLibrary(LibType type)
 {
     auto& index = _typeIndices[type];
     auto libraries = getLibrariesByType(type);
