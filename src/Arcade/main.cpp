@@ -45,7 +45,7 @@ int main(int ac, char **av)
             }
         }
     
-        auto nextGameLibrary = manager.getNextLibrary(arcade::LibraryType::GAME);
+        auto nextGameLibrary = manager.getNextLibrary(arcade::LibType::GAME);
         if (nextGameLibrary) {
             std::cout << "Next game library: " << nextGameLibrary->getName() << std::endl;
         } else {

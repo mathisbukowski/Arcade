@@ -14,16 +14,14 @@
  */
 namespace arcade {
     /**
-     * @enum LibraryType
+     * @enum LibType
      * Represents the types of dynamic libraries.
      */
-    enum class LibraryType {
-        GAME, /**< Game library */
-        DISPLAY, /**< Graphic library */
-        UNKNOWN /**< Unknown type */
+    enum LibType {
+        GAME,
+        DISPLAY,
+        UNKNOWN,
     };
-    class DynamicLibraryObject;
-    class DynamicLibraryManager;
 }
 
 #endif /* !ARCADE_HPP_ */

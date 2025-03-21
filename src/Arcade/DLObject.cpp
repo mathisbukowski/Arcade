@@ -16,8 +16,8 @@ arcade::DynamicLibraryObject::DynamicLibraryObject(const std::string& path)
     if (!_handle)
         throw std::runtime_error("Failed to load library: " + path);
     try {
-            LibraryType detectedType = getEntryPointType();
-            if (detectedType != LibraryType::UNKNOWN) {
+        LibType detectedType = getEntryPointType();
+            if (detectedType != LibType::UNKNOWN) {
                 _type = detectedType;
             }
             std::string detectedName = getEntryPointName();
@@ -40,14 +40,14 @@ std::string arcade::DynamicLibraryObject::getName() const
     return _name;
 }
 
-arcade::LibraryType arcade::DynamicLibraryObject::getType() const
+arcade::LibType arcade::DynamicLibraryObject::getType() const
 {
     return _type;
 }
 
-arcade::LibraryType arcade::DynamicLibraryObject::getEntryPointType() const
+arcade::LibType arcade::DynamicLibraryObject::getEntryPointType() const
 {
-    using EntryPointTypeFunc = LibraryType (*)();
+    using EntryPointTypeFunc = LibType (*)();
 
     dlerror();
 

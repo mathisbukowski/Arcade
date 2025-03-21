@@ -60,7 +60,7 @@ namespace arcade {
              * @param type Type of libraries to retrieve
              * @return Vector of libraries of the specified type
              */
-            std::vector<std::shared_ptr<DynamicLibraryObject>> getLibrariesByType(LibraryType type) const;
+            std::vector<std::shared_ptr<DynamicLibraryObject>> getLibrariesByType(LibType type) const;
 
             /**
              * Get all loaded libraries
@@ -75,7 +75,7 @@ namespace arcade {
              * @param type Type of library to get
              * @return Next library of specified type
              */
-            std::shared_ptr<DynamicLibraryObject> getNextLibrary(LibraryType type);
+            std::shared_ptr<DynamicLibraryObject> getNextLibrary(LibType type);
         private:
 
             /**
@@ -86,7 +86,7 @@ namespace arcade {
             /**
              * Type indices
              */
-            std::map<LibraryType, size_t> _typeIndices;
+            std::map<LibType, size_t> _typeIndices;
     };
 }
 
