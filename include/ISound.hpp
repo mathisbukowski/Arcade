@@ -33,23 +33,23 @@ namespace arcade {
          * @brief Get the Path object
          * @return std::string
          */
-        [[nodiscard]] std::string getPath();
+        [[nodiscard]] std::string getPath() { return _path; };
         /**
          * @brief Get the Volume object
          * @return float
          */
-        [[nodiscard]] float getVolume();
+        [[nodiscard]] float getVolume() { return _volume; };
         /**
          * @brief sound is playing
          * @return bool
          */
-        [[nodiscard]] bool isPlaying();
+        [[nodiscard]] bool isPlaying() { return _playing; };
 
         /**
          * @brief Set the Volume object
          * @param newVolume New volume
          */
-        void setVolume(float newVolume);
+        void setVolume(float newVolume) { _volume = newVolume; };
         /**
          * @brief Play the sound
          */
@@ -80,12 +80,12 @@ namespace arcade {
          * @brief Get the Loop object
          * @return bool
          */
-        [[nodiscard]] bool isLooped();
+        [[nodiscard]] bool isLooped() { return _loop; };
         /**
          * @brief Set the Loop object
          * @param loop Loop the music
          */
-        void setLoop(bool loop);
+        void setLoop(bool loop) { _loop = loop; };
 
     private:
         bool _loop = false;

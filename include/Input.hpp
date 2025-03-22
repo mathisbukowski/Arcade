@@ -34,13 +34,13 @@ namespace arcade
          * @param keyCode Key code
          * @return true if the key is pressed, false otherwise
          */
-        bool isKeyPressed(KeyCode keyCode) const;
+        bool isKeyPressed(KeyCode code) const { return _keys.at(code);  };
         /**
          * @brief Set a key state
          * @param keyCode Key code
          * @param isPressed Key state
          */
-        void setKey(KeyCode keyCode, bool isPressed);
+        void setKey(KeyCode code, bool isPressed) { _keys[code] = isPressed; };
 
     private:
         std::unordered_map<KeyCode, bool> _keys;
@@ -59,28 +59,28 @@ namespace arcade
      * 
      * @return A Vector<float> representing the current position of the mouse.
      */
-    [[nodiscard]] Vector<float> getPos() const;
+    [[nodiscard]] Vector<float> getPos() const { return _position; };
 
     /**
      * @brief Checks if the mouse button is currently pressed.
      * 
      * @return A boolean value indicating whether the mouse button is pressed.
      */
-    [[nodiscard]] bool isPressed() const;
+    [[nodiscard]] bool isPressed() const { return _pressed; };
 
     /**
      * @brief Sets the position of the mouse.
      * 
      * @param newPos A Vector<float> representing the new position of the mouse.
      */
-    void setPos(Vector<float> newPos);
+    void setPos(Vector<float> newPos) { _position = newPos; };
 
     /**
      * @brief Sets the pressed state of the mouse button.
      * 
      * @param pressed A boolean value indicating whether the mouse button is pressed.
      */
-    void setPressed(bool pressed);
+    void setPressed(bool pressed) { _pressed = pressed; };
     
     private:
         Vector<float> _position {0, 0};
