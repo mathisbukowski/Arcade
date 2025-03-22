@@ -36,17 +36,17 @@ namespace arcade {
          * @brief Get the Position object
          * @return Vector<float>
          */
-        [[nodiscard]] Vector<float> getPosition() const;
+        [[nodiscard]] Vector<float> getPosition() const { return position; }
         /**
          * @brief Get the Width object
          * @return float
          */
-        [[nodiscard]] float getWidth() const;
+        [[nodiscard]] float getWidth() const { return width; }
         /**
          * @brief Get the Height object
          * @return float
          */
-        [[nodiscard]] float getHeight() const;
+        [[nodiscard]] float getHeight() const { return height; }
 
         private:
         Vector<float> position;
@@ -74,18 +74,18 @@ namespace arcade {
          * @brief Get the Path object
          * @return std::string
          */
-        [[nodiscard]] std::string getPath() const;
+        [[nodiscard]] std::string getPath() const { return path; }
         /**
          * @brief Get the Rect object
          * @return std::optional<Rect>
          */
-        [[nodiscard]] std::optional<Rect> getRect() const;
+        [[nodiscard]] std::optional<Rect> getRect() const { return rect; }
 
         /**
          * @brief Set the Rect object
          * @param rect Rect properties
          */
-        void setRect(const std::optional<Rect> &rect);
+        void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
 
         private:
             std::string path;
@@ -119,7 +119,7 @@ namespace arcade {
          * @brief Set the Text object
          * @param text Text
          */
-        void setText(const std::string &text) { this->text = text; }
+        void setText(const std::string &newText) { text = newText; }
 
         /**
          * @brief Get the Color object
@@ -131,7 +131,7 @@ namespace arcade {
          * @brief Set the Color object
          * @param color Color
          */
-        void setColor(const Color &color) { this->color = color; }
+        void setColor(const Color &newColor) { color = newColor; }
 
         /**
          * @brief Get the Rect object
@@ -143,7 +143,7 @@ namespace arcade {
          * @brief Set the Rect object
          * @param rect Rect properties
          */
-        void setRect(const std::optional<Rect> &rect) { this->rect = rect; }
+        void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
 
     private:
         std::string text;
