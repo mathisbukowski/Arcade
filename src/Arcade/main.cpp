@@ -26,31 +26,17 @@ int main(int ac, char **av)
     try {
         arcade::DynamicLibraryManager manager("./lib", true);
 
+        auto usedLib = manager.loadLibrary(av[1]);
 
-        const auto& libraries = manager.getAllLibraries();
-        std::cout << "Loaded libraries:" << std::endl;
-        for (const auto& lib : libraries) {
-            std::cout << "- " << lib->getName() << " (Type: " << static_cast<int>(lib->getType()) << ")" << std::endl;
-            auto foundLibrary = manager.findLibrary(lib->getName());
-            if (foundLibrary) {
-                std::cout << "Found library: " << foundLibrary->getName() << std::endl;
-                auto func = foundLibrary->getFunction<void(*)()>("entryPoint");
-                auto type = foundLibrary->getEntryPointType();
-                std::cout << "Type: " << type << std::endl;
-                auto name = foundLibrary->getEntryPointName();
-                std::cout << "Name: " << name << std::endl;
-                func();
-            } else {
-                std::cout << "Library not found: " << lib->getName() << std::endl;
-            }
+        std::cout << "Library name: " << usedLib->getName() << std::endl;
+        std::cout << "Library type: " << usedLib->getType() << std::endl;
+        manager.setNextGraphicLib(usedLib->getType());
+        auto nextLib = manager.getCurrentGraphicLib();
+        if (nextLib) {
+            std::cout << "Next library: " << nextLib->getName() << std::endl;
         }
-    
-        auto nextGameLibrary = manager.getNextLibrary(arcade::LibType::GAME);
-        if (nextGameLibrary) {
-            std::cout << "Next game library: " << nextGameLibrary->getName() << std::endl;
-        } else {
-            std::cout << "No game libraries available." << std::endl;
-        }
+        else
+            std::cout << "No next library" << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;

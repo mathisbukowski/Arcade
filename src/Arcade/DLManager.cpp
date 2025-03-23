@@ -12,69 +12,79 @@
 
 arcade::DynamicLibraryManager::DynamicLibraryManager(const std::string& directory, bool loadImmediately)
 {
-    if (!directory.empty()) {
+    if (!directory.empty())
         scanDirectory(directory, loadImmediately);
-    }
 }
 
-int arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, bool loadDiscovered)
+arcade::DynamicLibraryManager::~DynamicLibraryManager()
 {
-    int count = 0;
+    _libraries.clear();
+}
 
+void arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, bool loadDiscovered)
+{
     for (const auto& entry : std::filesystem::directory_iterator(directory)) {
         if (entry.is_regular_file() && entry.path().extension() == ".so") {
             if (loadDiscovered) {
                 try {
-                    loadLibrary(entry.path().string());
+                    auto newLibrary = std::make_shared<DynamicLibraryObject>(entry.path().string());
+                    auto newLibName = newLibrary->getName();
+                    std::cout << newLibrary->getType() << std::endl;
+                    if (!_libraries.contains(newLibName))
+                        _libraries.emplace(entry.path().string(), newLibrary);
                 } catch (const std::exception& e) {
                     std::cerr << "Failed to load library: " << entry.path().string() << " (" << e.what() << ")" << std::endl;
                 }
             }
-            count++;
         }
     }
-
-    return count;
 }
 
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& path)
+std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& name) const
 {
-    auto library = std::make_shared<DynamicLibraryObject>(path);
-    _libraries.push_back(library);
-    return library;
-}
-
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::findLibrary(const std::string& name) const
-{
-    auto it = std::find_if(_libraries.begin(), _libraries.end(),
-        [&name](const std::shared_ptr<DynamicLibraryObject>& lib) {
-            return lib->getName() == name;
-        });
-
-    return (it != _libraries.end()) ? *it : nullptr;
-}
-
-std::vector<std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibraryManager::getLibrariesByType(LibType type) const
-{
-    std::vector<std::shared_ptr<DynamicLibraryObject>> result;
-
-    for (const auto& lib : _libraries) {
-        if (lib->getType() == type) {
-            result.push_back(lib);
-        }
-    }
-    return result;
-}
-
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getNextLibrary(LibType type)
-{
-    auto& index = _typeIndices[type];
-    auto libraries = getLibrariesByType(type);
-
-    if (libraries.empty())
+    auto libraryToLoad = _libraries.find(name);
+    if (libraryToLoad == _libraries.end())
         return nullptr;
+    return libraryToLoad->second;
+}
 
-    auto library = libraries[index];
-    index = (index + 1) % libraries.size();
-    return library;
+std::map<std::string, std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibraryManager::getAllLibrariesByType(LibType type) const
+{
+    std::map<std::string, std::shared_ptr<DynamicLibraryObject>> filteredLibraries;
+
+    for (const auto& library : _libraries) {
+        if (library.second->getType() == type)
+            filteredLibraries.emplace(library.first, library.second);
+    }
+    return filteredLibraries;
+}
+
+void arcade::DynamicLibraryManager::setNextGameLib(LibType type)
+{
+    auto currentLib = std::find_if(_libraries.begin(), _libraries.end(), [this](const auto& lib) {
+        return lib.second == getCurrentGameLib();
+    });
+    if (currentLib == _libraries.end())
+        return;
+    auto nextLib = std::find_if(currentLib, _libraries.end(), [type](const auto& lib) {
+        return lib.second->getType() == type;
+    });
+    if (nextLib == _libraries.end())
+        return;
+    this->setCurrentGameLib(nextLib->second);
+}
+
+void arcade::DynamicLibraryManager::setNextGraphicLib(LibType type)
+{
+    auto currentLib = std::find_if(_libraries.begin(), _libraries.end(), [this](const auto& lib) {
+        return lib.second == getCurrentGraphicLib();
+    });
+    if (currentLib == _libraries.end())
+        return;
+    auto nextLib = std::find_if(currentLib, _libraries.end(), [type](const auto& lib) {
+        return lib.second->getType() == type;
+    });
+    if (nextLib == _libraries.end())
+        return;
+    this->setCurrentGraphicLib(nextLib->second);
 }

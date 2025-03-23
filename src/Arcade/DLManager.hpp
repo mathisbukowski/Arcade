@@ -33,12 +33,15 @@ namespace arcade {
             DynamicLibraryManager(const std::string& directory, bool loadImmediately = false);
 
             /**
+             * Destructor
+             */
+            ~DynamicLibraryManager();
+            /**
              * Scan a directory for libraries
              * @param directory Directory path
-             * @param loadDiscovered Whether to load discovered libraries
-             * @return Number of libraries found
+             * @param loadDiscovered Whether to load discovered librariesx
              */
-            int scanDirectory(const std::string& directory, bool loadDiscovered = true);
+            void scanDirectory(const std::string& directory, bool loadDiscovered = true);
 
             /**
              * Load a specific library
@@ -46,47 +49,33 @@ namespace arcade {
              * @param type Type of the library
              * @return Shared pointer to the loaded library
              */
-            std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& path);
+            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& name) const;
 
-            /**
-             * Find a library by name
-             * @param name Name of the library
-             * @return Shared pointer to the library if found, nullptr otherwise
-             */
-            std::shared_ptr<DynamicLibraryObject> findLibrary(const std::string& name) const;
+            [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibraries() const { return _libraries; }
 
-            /**
-             * Get all libraries of a specific type
-             * @param type Type of libraries to retrieve
-             * @return Vector of libraries of the specified type
-             */
-            std::vector<std::shared_ptr<DynamicLibraryObject>> getLibrariesByType(LibType type) const;
+            [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibrariesByType(LibType type) const;
 
-            /**
-             * Get all loaded libraries
-             * @return Vector of all loaded libraries
-             */
-            const std::vector<std::shared_ptr<DynamicLibraryObject>>& getAllLibraries() const {
-                return _libraries;
-            }
+            void setNextGameLib(LibType type);
 
-            /**
-             * Get the next library of a specific type
-             * @param type Type of library to get
-             * @return Next library of specified type
-             */
-            std::shared_ptr<DynamicLibraryObject> getNextLibrary(LibType type);
+            void setNextGraphicLib(LibType type);
+
+            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGraphicLib() const { return _currentGameLib; }
+
+            void setCurrentGraphicLib(const std::shared_ptr<DynamicLibraryObject>& current_graphic_lib){ _currentGraphicLib = current_graphic_lib;}
+
+            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGameLib() const { return _currentGameLib; }
+
+            void setCurrentGameLib(const std::shared_ptr<DynamicLibraryObject>& current_game_lib) { _currentGameLib = current_game_lib; }
         private:
 
             /**
              * Loaded libraries
              */
-            std::vector<std::shared_ptr<DynamicLibraryObject>> _libraries;
+            std::map<std::string, std::shared_ptr<DynamicLibraryObject>> _libraries;
 
-            /**
-             * Type indices
-             */
-            std::map<LibType, size_t> _typeIndices;
+            std::shared_ptr<DynamicLibraryObject> _currentGraphicLib;
+
+            std::shared_ptr<DynamicLibraryObject> _currentGameLib;
     };
 }
 
