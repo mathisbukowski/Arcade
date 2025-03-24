@@ -18,25 +18,14 @@ int main(int ac, char **av)
         return 1;
     }
 
-    std::filesystem::path libPath = std::filesystem::current_path() / av[1];
-    if (!std::filesystem::exists(libPath)) {
-        std::cerr << "Library not found: " << libPath << std::endl;
-        return 1;
-    }
+    std::string libName = av[1];
     try {
-        arcade::DynamicLibraryManager manager("./lib", true);
+        arcade::DynamicLibraryManager manager(libName);
 
-        auto usedLib = manager.loadLibrary(av[1]);
+        std::shared_ptr<arcade::DynamicLibraryObject> coucou = manager.getCurrentGraphicLib();
 
-        std::cout << "Library name: " << usedLib->getName() << std::endl;
-        std::cout << "Library type: " << usedLib->getType() << std::endl;
-        manager.setNextGraphicLib(usedLib->getType());
-        auto nextLib = manager.getCurrentGraphicLib();
-        if (nextLib) {
-            std::cout << "Next library: " << nextLib->getName() << std::endl;
-        }
-        else
-            std::cout << "No next library" << std::endl;
+        std::cout << coucou->getName() << std::endl;
+
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;

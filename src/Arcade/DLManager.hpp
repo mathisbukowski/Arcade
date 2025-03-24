@@ -30,7 +30,7 @@ namespace arcade {
              * @param directory Directory to search for libraries
              * @param loadImmediately Whether to load libraries immediately
              */
-            DynamicLibraryManager(const std::string& directory, bool loadImmediately = false);
+            DynamicLibraryManager(const std::string& libToLoad);
 
             /**
              * Destructor
@@ -41,7 +41,7 @@ namespace arcade {
              * @param directory Directory path
              * @param loadDiscovered Whether to load discovered librariesx
              */
-            void scanDirectory(const std::string& directory, bool loadDiscovered = true);
+            void scanDirectory(const std::string& libToLoad);
 
             /**
              * Load a specific library
@@ -49,23 +49,19 @@ namespace arcade {
              * @param type Type of the library
              * @return Shared pointer to the loaded library
              */
-            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> loadLibrary(const std::string& name) const;
+            void loadLibrary(const std::string& name);
 
             [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibraries() const { return _libraries; }
 
             [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibrariesByType(LibType type) const;
 
-            void setNextGameLib(LibType type);
+            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGraphicLib() const;
 
-            void setNextGraphicLib(LibType type);
+            void setCurrentGraphicLib(const std::shared_ptr<DynamicLibraryObject>& current_graphic_lib);
 
-            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGraphicLib() const { return _currentGameLib; }
+            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGameLib() const;
 
-            void setCurrentGraphicLib(const std::shared_ptr<DynamicLibraryObject>& current_graphic_lib){ _currentGraphicLib = current_graphic_lib;}
-
-            [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGameLib() const { return _currentGameLib; }
-
-            void setCurrentGameLib(const std::shared_ptr<DynamicLibraryObject>& current_game_lib) { _currentGameLib = current_game_lib; }
+            void setCurrentGameLib(const std::shared_ptr<DynamicLibraryObject>& current_game_lib);
         private:
 
             /**
