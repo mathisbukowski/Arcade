@@ -12,7 +12,7 @@ The Arcade Main header is where we find out the namespace and all tools who are 
 We find in it the `enum` for the `LibraryType` : 
 ```cpp
     enum  LibraryType {
-        GRAPHIC_LIB, // When it is a graphical dynamic lib like SFML
+        GRAPHIC_LIB, // When it is a graphical dynamic lib like Sdl
         GAME, // When it is a game dynamic lib like Snake
         UNKNOWN // When we don't know
     };

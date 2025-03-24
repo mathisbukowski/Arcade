@@ -2,13 +2,13 @@
 ** EPITECH PROJECT, 2024
 ** arcade
 ** File description:
-** ncurses.hpp
+** Sdl.hpp
 */
 
-#ifndef ARCADE_NCURSES_HPP
-    #define ARCADE_NCURSES_HPP
+#ifndef ARCADE_SDL_HPP
+    #define ARCADE_SDL_HPP
 
-    #include <ncurses.h>
+    #include <SDL2/SDL.h>
     #include <iostream>
     #include <vector>
     #include <map>
@@ -20,11 +20,11 @@
 
 namespace arcade
 {
-    class Ncurses : public IDisplayModule
+    class Sdl : public IDisplayModule
     {
     public:
-        Ncurses();
-        ~Ncurses();
+        Sdl();
+        ~Sdl();
         void init() override;
         void stop() override;
         const std::string &getName() const override;
@@ -40,7 +40,8 @@ namespace arcade
 
     private:
         std::string _name;
-        WINDOW *_window;
+        SDL_Window *_window;
+        SDL_Renderer *_renderer;
         Keyboard _keyboard;
         Mouse _mouse;
         std::map<std::string, std::shared_ptr<ITexture>> _textures;
@@ -50,4 +51,4 @@ namespace arcade
 extern "C" void *initDisplay();
 extern "C" void destroyDisplay(void *display);
 
-#endif //ARCADE_NCURSES_HPP
+#endif //ARCADE_SDL_HPP
