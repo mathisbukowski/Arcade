@@ -51,36 +51,37 @@ namespace arcade
      */
     class Mouse
     {
-    Mouse() = default;
-    ~Mouse() = default;
+    public:
+        Mouse() = default;
+        ~Mouse() = default;
 
-    /**
-     * @brief Retrieves the current position of the mouse.
-     * 
-     * @return A Vector<float> representing the current position of the mouse.
-     */
-    [[nodiscard]] Vector<float> getPos() const { return _position; };
+        /**
+         * @brief Retrieves the current position of the mouse.
+         *
+         * @return A Vector<float> representing the current position of the mouse.
+         */
+        [[nodiscard]] Vector<float> getPos() const { return _position; };
 
-    /**
-     * @brief Checks if the mouse button is currently pressed.
-     * 
-     * @return A boolean value indicating whether the mouse button is pressed.
-     */
-    [[nodiscard]] bool isPressed() const { return _pressed; };
+        /**
+         * @brief Checks if the mouse button is currently pressed.
+         *
+         * @return A boolean value indicating whether the mouse button is pressed.
+         */
+        [[nodiscard]] bool isPressed() const { return _pressed; };
 
-    /**
-     * @brief Sets the position of the mouse.
-     * 
-     * @param newPos A Vector<float> representing the new position of the mouse.
-     */
-    void setPos(Vector<float> newPos) { _position = newPos; };
+        /**
+         * @brief Sets the position of the mouse.
+         *
+         * @param newPos A Vector<float> representing the new position of the mouse.
+         */
+        void setPos(Vector<float> newPos) { _position = newPos; };
 
-    /**
-     * @brief Sets the pressed state of the mouse button.
-     * 
-     * @param pressed A boolean value indicating whether the mouse button is pressed.
-     */
-    void setPressed(bool pressed) { _pressed = pressed; };
+        /**
+         * @brief Sets the pressed state of the mouse button.
+         *
+         * @param pressed A boolean value indicating whether the mouse button is pressed.
+         */
+        void setPressed(bool pressed) { _pressed = pressed; };
     
     private:
         Vector<float> _position {0, 0};
