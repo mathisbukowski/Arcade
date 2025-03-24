@@ -28,27 +28,20 @@ void arcade::DynamicLibraryManager::scanDirectory(const std::string& libToLoad)
     std::filesystem::path lib(libToLoad);
     std::filesystem::path dirToLoad = lib.parent_path();
 
-    if (!std::filesystem::exists(dirToLoad) || !std::filesystem::is_directory(dirToLoad)) {
-        std::cerr << "Error: Directory " << dirToLoad << " does not exist or is not accessible." << std::endl;
-        return;
-    }
+    if (!std::filesystem::exists(dirToLoad) || !std::filesystem::is_directory(dirToLoad))
+        throw std::runtime_error("No such directory: " + dirToLoad.string());
     for (const auto& entry : std::filesystem::directory_iterator(dirToLoad)) {
         if (entry.path().extension() == ".so") {
             auto newLib = std::make_shared<DynamicLibraryObject>(entry.path().string());
             if (!newLib) {
-                std::cerr << "Error: Failed to load library " << entry.path().string() << std::endl;
+                std::cout << "Error: Failed to load library " << entry.path().string() << std::endl;
                 continue;
             }
             _libraries.emplace(entry.path().string(), newLib);
             auto newType = newLib->getType();
-            if (entry.path().string() == libToLoad) {
-                if (newType == GAME)
-                    this->setCurrentGameLib(newLib);
-                else if (newType == DISPLAY)
-                    this->setCurrentGraphicLib(newLib);
-                else
-                    std::cerr << "Warning: Unknown library type for " << entry.path().string() << std::endl;
-            }
+            if (entry.path().string() == libToLoad && newType == GAME)
+                throw std::runtime_error("'" + libToLoad + "' not a graphical library");
+            this->setCurrentGraphicLib(newLib);
         }
     }
 }
