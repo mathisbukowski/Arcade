@@ -56,7 +56,7 @@ arcade::LibType arcade::DynamicLibraryObject::getEntryPointType() const
 
     if (error || !symbol) {
         std::cerr << "Warning: entryPointType not found in library. Using default type." << std::endl;
-        return _type;
+        return UNKNOWN;
     }
 
     auto entryPointFunc = reinterpret_cast<EntryPointTypeFunc>(symbol);

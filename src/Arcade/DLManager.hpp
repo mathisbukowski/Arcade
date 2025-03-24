@@ -62,6 +62,12 @@ namespace arcade {
             [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGameLib() const;
 
             void setCurrentGameLib(const std::shared_ptr<DynamicLibraryObject>& current_game_lib);
+
+            void initGameLib();
+
+            void setNextGame();
+
+            void setNextGraphicLib();
         private:
 
             /**

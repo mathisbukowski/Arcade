@@ -9,6 +9,8 @@
 #include <filesystem>
 #include <algorithm>
 #include <iostream>
+#include <random>
+#include <ctime>
 
 arcade::DynamicLibraryManager::DynamicLibraryManager(const std::string& libToLoad)
 {
@@ -46,9 +48,16 @@ void arcade::DynamicLibraryManager::scanDirectory(const std::string& libToLoad)
     }
 }
 
-void arcade::DynamicLibraryManager::loadLibrary(const std::string& name)
+void arcade::DynamicLibraryManager::initGameLib()
 {
-    (void)name;
+    auto gameLibs = getAllLibrariesByType(GAME);
+    if (gameLibs.empty()) {
+        throw std::runtime_error("No game libraries found");
+    }
+    std::srand(std::time(nullptr));
+    int randomIndex = std::rand() % gameLibs.size();
+    auto it = std::next(gameLibs.begin(), randomIndex);
+    setCurrentGameLib(it->second);
 }
 
 std::map<std::string, std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibraryManager::getAllLibrariesByType(LibType type) const
@@ -77,3 +86,42 @@ void arcade::DynamicLibraryManager::setCurrentGraphicLib(const std::shared_ptr<D
 std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getCurrentGraphicLib() const {
     return _currentGraphicLib;
 }
+
+void arcade::DynamicLibraryManager::setNextGraphicLib()
+{
+    auto graphicLibs = getAllLibrariesByType(DISPLAY);
+    if (graphicLibs.empty())
+        throw std::runtime_error("No graphic libraries found");
+    auto currentLib = getCurrentGraphicLib();
+    auto it = graphicLibs.find(currentLib->getName());
+    if (it == graphicLibs.end()) {
+        setCurrentGraphicLib(graphicLibs.begin()->second);
+    } else {
+        it++;
+        if (it == graphicLibs.end()) {
+            setCurrentGraphicLib(graphicLibs.begin()->second);
+        } else {
+            setCurrentGraphicLib(it->second);
+        }
+    }
+}
+
+void arcade::DynamicLibraryManager::setNextGame()
+{
+    auto graphicLibs = getAllLibrariesByType(GAME);
+    if (graphicLibs.empty())
+        throw std::runtime_error("No graphic libraries found");
+    auto currentLib = getCurrentGameLib();
+    auto it = graphicLibs.find(currentLib->getName());
+    if (it == graphicLibs.end()) {
+        setCurrentGameLib(graphicLibs.begin()->second);
+    } else {
+        it++;
+        if (it == graphicLibs.end()) {
+            setCurrentGameLib(graphicLibs.begin()->second);
+        } else {
+            setCurrentGameLib(it->second);
+        }
+    }
+}
+
