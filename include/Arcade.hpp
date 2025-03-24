@@ -22,6 +22,8 @@ namespace arcade {
         DISPLAY,
         UNKNOWN,
     };
+    class IDisplayLibrary;
+    class IGame;
 }
 
 #endif /* !ARCADE_HPP_ */
