@@ -11,19 +11,22 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "SdlFontManager.hpp"
+
 // TEXTURE MANAGER
-std::shared_ptr<arcade::SDLTexture> arcade::SDLTextureManager::get(const std::string& name)
+std::shared_ptr<arcade::ITexture> arcade::SDLTextureManager::get(const std::string& name) const
 {
-    if (!_textures.contains(name))
+    auto it = _textures.find(name);
+    if (it == _textures.end())
         return nullptr;
-    return _textures.at(name);
+    return it->second;
 }
 
-int arcade::SDLTextureManager::load(const std::string& name, std::shared_ptr<SDLTexture> newTexture)
+int arcade::SDLTextureManager::load(const std::string& name, std::shared_ptr<arcade::ITexture> newTexture)
 {
-    if (_textures.contains(name))
+    if (_textures.find(name) != _textures.end())
         return -1;
-    _textures[name] = std::move(newTexture);
+    _textures.emplace(name, std::move(newTexture));
     return 0;
 }
 
@@ -42,7 +45,7 @@ int arcade::SDLTexture::load(const MyTexture& textureInfos, std::shared_ptr<SDL_
             return -1;
     } else if (std::holds_alternative<TextureText>(textureInfos)) {
         auto texture = std::get<TextureText>(textureInfos);
-        // TODO: handle font loading
+
         std::shared_ptr<SDL_Surface> surface(TTF_RenderText_Solid(nullptr, texture.getText().c_str(), {texture.getColor().getR(), texture.getColor().getG(), texture.getColor().getB(), texture.getColor().getOpacity()}));
         if (!surface)
             return -1;

@@ -19,6 +19,8 @@
     #include "src/SdlDisplayModule.hpp"
     #include "Vector.hpp"
     #include "Arcade.hpp"
+#include "src/SdlFontManager.hpp"
+#include "src/SdlTextureManager.hpp"
 
 namespace arcade
 {
@@ -40,17 +42,17 @@ namespace arcade
          * Get the Display object
          * @return IDisplayModule&
          */
-         IDisplayModule &getDisplay() override { return this->_display; };
+         IDisplayModule &getDisplay() override { return this->_display; }
          /**
          * Get the Texture Manager object
          * @return ITextureManager&
          */
-         virtual ITextureManager &getTextures();
+         ITextureManager &getTextures() override {return this->_textures;}
         /**
          * Get the Font Manager object
          * @return IFontManager&
          */
-        virtual IFontManager &getFonts();
+        IFontManager &getFonts() override { return this->_fonts; }
         /**
          * Get the Sound Manager object
          * @return ISoundManager&
@@ -59,6 +61,8 @@ namespace arcade
 
     private:
         SDLDisplayModule _display;
+        SDLFontManager _fonts;
+        SDLTextureManager _textures;
     };
 }
 
