@@ -9,72 +9,119 @@
 #include <filesystem>
 #include <algorithm>
 #include <iostream>
+#include <random>
+#include <ctime>
 
-arcade::DynamicLibraryManager::DynamicLibraryManager(const std::string& directory, bool loadImmediately)
+arcade::DynamicLibraryManager::DynamicLibraryManager(const std::string& libToLoad)
 {
-    if (!directory.empty()) {
-        scanDirectory(directory, loadImmediately);
-    }
+    _currentGameLib = nullptr;
+    _currentGraphicLib = nullptr;
+    if (!libToLoad.empty())
+        this->scanDirectory(libToLoad);
 }
 
-int arcade::DynamicLibraryManager::scanDirectory(const std::string& directory, bool loadDiscovered)
+arcade::DynamicLibraryManager::~DynamicLibraryManager()
 {
-    int count = 0;
+    _libraries.clear();
+}
 
-    for (const auto& entry : std::filesystem::directory_iterator(directory)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".so") {
-            if (loadDiscovered) {
-                try {
-                    loadLibrary(entry.path().string());
-                } catch (const std::exception& e) {
-                    std::cerr << "Failed to load library: " << entry.path().string() << " (" << e.what() << ")" << std::endl;
-                }
+void arcade::DynamicLibraryManager::scanDirectory(const std::string& libToLoad)
+{
+    std::filesystem::path lib(libToLoad);
+    std::filesystem::path dirToLoad = lib.parent_path();
+
+    if (!std::filesystem::exists(dirToLoad) || !std::filesystem::is_directory(dirToLoad))
+        throw std::runtime_error("No such directory: " + dirToLoad.string());
+    for (const auto& entry : std::filesystem::directory_iterator(dirToLoad)) {
+        if (entry.path().extension() == ".so") {
+            auto newLib = std::make_shared<DynamicLibraryObject>(entry.path().string());
+            if (!newLib) {
+                std::cout << "Error: Failed to load library " << entry.path().string() << std::endl;
+                continue;
             }
-            count++;
+            _libraries.emplace(entry.path().string(), newLib);
+            auto newType = newLib->getType();
+            if (entry.path().string() == libToLoad && newType == GAME)
+                throw std::runtime_error("'" + libToLoad + "' not a graphical library");
+            this->setCurrentGraphicLib(newLib);
         }
     }
-
-    return count;
 }
 
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::loadLibrary(const std::string& path)
+void arcade::DynamicLibraryManager::initGameLib()
 {
-    auto library = std::make_shared<DynamicLibraryObject>(path);
-    _libraries.push_back(library);
-    return library;
+    auto gameLibs = getAllLibrariesByType(GAME);
+    if (gameLibs.empty()) {
+        throw std::runtime_error("No game libraries found");
+    }
+    std::srand(std::time(nullptr));
+    int randomIndex = std::rand() % gameLibs.size();
+    auto it = std::next(gameLibs.begin(), randomIndex);
+    setCurrentGameLib(it->second);
 }
 
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::findLibrary(const std::string& name) const
+std::map<std::string, std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibraryManager::getAllLibrariesByType(LibType type) const
 {
-    auto it = std::find_if(_libraries.begin(), _libraries.end(),
-        [&name](const std::shared_ptr<DynamicLibraryObject>& lib) {
-            return lib->getName() == name;
-        });
+    std::map<std::string, std::shared_ptr<DynamicLibraryObject>> filteredLibraries;
 
-    return (it != _libraries.end()) ? *it : nullptr;
+    std::copy_if(_libraries.begin(), _libraries.end(), std::inserter(filteredLibraries, filteredLibraries.end()),
+        [type](const auto& library) { return library.second->getType() == type; });
+
+    return filteredLibraries;
 }
 
-std::vector<std::shared_ptr<arcade::DynamicLibraryObject>> arcade::DynamicLibraryManager::getLibrariesByType(LibType type) const
-{
-    std::vector<std::shared_ptr<DynamicLibraryObject>> result;
 
-    for (const auto& lib : _libraries) {
-        if (lib->getType() == type) {
-            result.push_back(lib);
+void arcade::DynamicLibraryManager::setCurrentGameLib(const std::shared_ptr<DynamicLibraryObject>& current_game_lib) {
+    _currentGameLib = current_game_lib;
+}
+
+std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getCurrentGameLib() const {
+    return _currentGameLib;
+}
+
+void arcade::DynamicLibraryManager::setCurrentGraphicLib(const std::shared_ptr<DynamicLibraryObject>& current_graphic_lib) {
+    _currentGraphicLib = current_graphic_lib;
+}
+
+std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getCurrentGraphicLib() const {
+    return _currentGraphicLib;
+}
+
+void arcade::DynamicLibraryManager::setNextGraphicLib()
+{
+    auto graphicLibs = getAllLibrariesByType(DISPLAY);
+    if (graphicLibs.empty())
+        throw std::runtime_error("No graphic libraries found");
+    auto currentLib = getCurrentGraphicLib();
+    auto it = graphicLibs.find(currentLib->getName());
+    if (it == graphicLibs.end()) {
+        setCurrentGraphicLib(graphicLibs.begin()->second);
+    } else {
+        it++;
+        if (it == graphicLibs.end()) {
+            setCurrentGraphicLib(graphicLibs.begin()->second);
+        } else {
+            setCurrentGraphicLib(it->second);
         }
     }
-    return result;
 }
 
-std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getNextLibrary(LibType type)
+void arcade::DynamicLibraryManager::setNextGame()
 {
-    auto& index = _typeIndices[type];
-    auto libraries = getLibrariesByType(type);
-
-    if (libraries.empty())
-        return nullptr;
-
-    auto library = libraries[index];
-    index = (index + 1) % libraries.size();
-    return library;
+    auto graphicLibs = getAllLibrariesByType(GAME);
+    if (graphicLibs.empty())
+        throw std::runtime_error("No graphic libraries found");
+    auto currentLib = getCurrentGameLib();
+    auto it = graphicLibs.find(currentLib->getName());
+    if (it == graphicLibs.end()) {
+        setCurrentGameLib(graphicLibs.begin()->second);
+    } else {
+        it++;
+        if (it == graphicLibs.end()) {
+            setCurrentGameLib(graphicLibs.begin()->second);
+        } else {
+            setCurrentGameLib(it->second);
+        }
+    }
 }
+
