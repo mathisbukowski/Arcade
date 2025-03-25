@@ -87,12 +87,14 @@ arcade::Mouse &arcade::Sdl::getMouse()
     return _mouse;
 }
 
-extern "C" void *initDisplay()
-{
-    return new arcade::Sdl();
-}
-
-extern "C" void destroyDisplay(void *display)
-{
-    delete reinterpret_cast<arcade::Sdl *>(display);
+extern "C" {
+    arcade::IDisplayLibrary* entryPoint() {
+        return new arcade::Sdl();
+    }
+    arcade::LibType entryPointType() {
+        return arcade::DISPLAY;
+    }
+    const char* entryPointName() {
+        return "SDL";
+    }
 }

@@ -92,17 +92,14 @@ arcade::Mouse &arcade::Ncurses::getMouse()
     return _mouse;
 }
 
-extern "C" void *initDisplay()
-{
-    initscr();
-    noecho();
-    curs_set(0);
-    keypad(stdscr, TRUE);
-    return new arcade::Ncurses();
-}
-
-extern "C" void destroyDisplay(void *display)
-{
-    delete static_cast<arcade::Ncurses *>(display);
-    endwin();
+extern "C" {
+    arcade::IDisplayLibrary* entryPoint() {
+        return new arcade::Ncurses();
+    }
+    arcade::LibType entryPointType() {
+        return arcade::DISPLAY;
+    }
+    const char* entryPointName() {
+        return "NCURSES";
+    }
 }

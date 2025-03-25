@@ -17,13 +17,14 @@
     #include "IDisplayModule.hpp"
     #include "IDisplayLibrary.hpp"
     #include "Vector.hpp"
+    #include "Arcade.hpp"
 
 namespace arcade
 {
     /**
      * Ncurses class to handle the Ncurses library for the display
      */
-    class Ncurses : public IDisplayModule
+    class Ncurses : public IDisplayModule, public IDisplayLibrary
     {
     public:
         /**
@@ -91,6 +92,26 @@ namespace arcade
          * @return Mouse
          */
         Mouse &getMouse() override;
+        /**
+         * Get the Display object
+         * @return IDisplayModule&
+         */
+        IDisplayModule &getDisplay() override;
+        /**
+        * Get the Texture Manager object
+        * @return ITextureManager&
+        */
+        ITextureManager &getTextures() override;
+        /**
+         * Get the Font Manager object
+         * @return IFontManager&
+         */
+        IFontManager &getFonts() override;
+        /**
+         * Get the Sound Manager object
+         * @return ISoundManager&
+         */
+        ISoundManager &getSounds() override;
 
     private:
         std::string _name;
@@ -100,16 +121,5 @@ namespace arcade
         std::map<std::string, std::shared_ptr<ITexture>> _textures;
     };
 }
-
-/**
- * Initialize the display
- * @return void*
- */
-extern "C" void *initDisplay();
-/**
- * Destroy the display
- * @param display Display
- */
-extern "C" void destroyDisplay(void *display);
 
 #endif //ARCADE_NCURSES_HPP

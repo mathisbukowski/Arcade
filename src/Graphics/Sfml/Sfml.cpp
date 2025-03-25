@@ -101,12 +101,14 @@ arcade::Mouse &arcade::Sfml::getMouse()
     return _mouse;
 }
 
-extern "C" void *initDisplay()
-{
-    return new arcade::Sfml();
-}
-
-extern "C" void destroyDisplay(void *display)
-{
-    delete static_cast<arcade::Sfml *>(display);
+extern "C" {
+    arcade::IDisplayLibrary* entryPoint() {
+        return new arcade::Sfml();
+    }
+    arcade::LibType entryPointType() {
+        return arcade::DISPLAY;
+    }
+    const char* entryPointName() {
+        return "SFML";
+    }
 }
