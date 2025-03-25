@@ -68,7 +68,7 @@ namespace arcade {
      * @return TextureImg
      */
         TextureImg(std::string path, const std::optional<Rect> &rect = std::nullopt):
-            path(std::move(path)), rect(rect) {};
+            path(std::move(path)), rect(rect) {}
         ~TextureImg() = default;
         /**
          * Get the Path object
