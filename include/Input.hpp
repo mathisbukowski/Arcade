@@ -44,7 +44,7 @@ namespace arcade
         /**
         * Clear all pressed keys
         */
-        void clearPressedKeys() { _keys.clear(); };
+        void clearPressedKeys() { _keys.clear(); }
 
     private:
         std::unordered_map<KeyCode, bool> _keys;
@@ -63,28 +63,28 @@ namespace arcade
      * 
      * @return A Vector<float> representing the current position of the mouse.
      */
-    [[nodiscard]] Vector<float> getPos() const { return _position; };
+    [[nodiscard]] Vector<float> getPos() const { return _position; }
 
     /**
      * Checks if the mouse button is currently pressed.
      * 
      * @return A boolean value indicating whether the mouse button is pressed.
      */
-    [[nodiscard]] bool isPressed() const { return _pressed; };
+    [[nodiscard]] bool isPressed() const { return _pressed; }
 
     /**
      * Sets the position of the mouse.
      * 
      * @param newPos A Vector<float> representing the new position of the mouse.
      */
-    void setPos(Vector<float> newPos) { _position = newPos; };
+    void setPos(Vector<float> newPos) { _position = newPos; }
 
     /**
      * Sets the pressed state of the mouse button.
      * 
      * @param pressed A boolean value indicating whether the mouse button is pressed.
      */
-    void setPressed(bool pressed) { _pressed = pressed; };
+    void setPressed(bool pressed) { _pressed = pressed; }
     
     private:
         Vector<float> _position {0, 0};
