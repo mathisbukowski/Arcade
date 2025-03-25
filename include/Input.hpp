@@ -41,6 +41,10 @@ namespace arcade
          * @param isPressed Key state
          */
         void setKey(KeyCode code, bool isPressed) { _keys[code] = isPressed; };
+        /**
+        * Clear all pressed keys
+        */
+        void clearPressedKeys() { _keys.clear(); };
 
     private:
         std::unordered_map<KeyCode, bool> _keys;
