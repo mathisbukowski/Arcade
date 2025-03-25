@@ -12,6 +12,273 @@
 
 namespace arcade {
 
+BaseSnakeGame::GameState::GameState() :
+    currentDirection(Direction::Right),
+    nextDirection(Direction::Right),
+    score(0),
+    gameOver(false),
+    moveTimer(0.0f),
+    moveInterval(0.2f),
+    bonusFoodTimer(0.0f),
+    bonusFoodDuration(5.0f),
+    level(1),
+    timeRemaining(60.0f),
+    mode(GameMode::Snake)
+{
+}
+
+const std::deque<Vector<float>>& BaseSnakeGame::GameState::getSegments() const
+{
+    return segments;
+}
+
+Direction BaseSnakeGame::GameState::getCurrentDirection() const
+{
+    return currentDirection;
+}
+
+Direction BaseSnakeGame::GameState::getNextDirection() const
+{
+    return nextDirection;
+}
+
+const std::vector<Vector<float>>& BaseSnakeGame::GameState::getBonusFoods() const
+{
+    return bonusFoods;
+}
+
+const std::vector<std::vector<CellType>>& BaseSnakeGame::GameState::getGrid() const
+{
+    return grid;
+}
+
+int BaseSnakeGame::GameState::getScore() const
+{
+    return score;
+}
+
+bool BaseSnakeGame::GameState::isGameOver() const
+{
+    return gameOver;
+}
+
+float BaseSnakeGame::GameState::getMoveTimer() const
+{
+    return moveTimer;
+}
+
+float BaseSnakeGame::GameState::getMoveInterval() const
+{
+    return moveInterval;
+}
+
+float BaseSnakeGame::GameState::getBonusFoodTimer() const
+{
+    return bonusFoodTimer;
+}
+
+float BaseSnakeGame::GameState::getBonusFoodDuration() const
+{
+    return bonusFoodDuration;
+}
+
+int BaseSnakeGame::GameState::getLevel() const
+{
+    return level;
+}
+
+float BaseSnakeGame::GameState::getTimeRemaining() const
+{
+    return timeRemaining;
+}
+
+const std::string& BaseSnakeGame::GameState::getPlayerName() const
+{
+    return playerName;
+}
+
+GameMode BaseSnakeGame::GameState::getMode() const
+{
+    return mode;
+}
+
+void BaseSnakeGame::GameState::setCurrentDirection(Direction dir)
+{
+    currentDirection = dir;
+}
+
+void BaseSnakeGame::GameState::setNextDirection(Direction dir)
+{
+    nextDirection = dir;
+}
+
+void BaseSnakeGame::GameState::setScore(int newScore)
+{
+    score = newScore;
+}
+
+void BaseSnakeGame::GameState::setGameOver(bool over)
+{
+    gameOver = over;
+}
+
+void BaseSnakeGame::GameState::setMoveTimer(float timer)
+{
+    moveTimer = timer;
+}
+
+void BaseSnakeGame::GameState::setMoveInterval(float interval)
+{
+    moveInterval = interval;
+}
+
+void BaseSnakeGame::GameState::setBonusFoodTimer(float timer)
+{
+    bonusFoodTimer = timer;
+}
+
+void BaseSnakeGame::GameState::setBonusFoodDuration(float duration)
+{
+    bonusFoodDuration = duration;
+}
+
+void BaseSnakeGame::GameState::setLevel(int newLevel)
+{
+    level = newLevel;
+}
+
+void BaseSnakeGame::GameState::setTimeRemaining(float time)
+{
+    timeRemaining = time;
+}
+
+void BaseSnakeGame::GameState::setPlayerName(const std::string& name)
+{
+    playerName = name;
+}
+
+void BaseSnakeGame::GameState::setMode(GameMode newMode)
+{
+    mode = newMode;
+}
+
+void BaseSnakeGame::GameState::addSegment(const Vector<float>& segment)
+{
+    segments.push_back(segment);
+}
+
+void BaseSnakeGame::GameState::prependSegment(const Vector<float>& segment)
+{
+    segments.push_front(segment);
+}
+
+void BaseSnakeGame::GameState::removeLastSegment()
+{
+    if (!segments.empty())
+        segments.pop_back();
+}
+
+void BaseSnakeGame::GameState::clearSegments()
+{
+    segments.clear();
+}
+
+void BaseSnakeGame::GameState::addFood(const Vector<float>& food)
+{
+    foods.push_back(food);
+}
+
+void BaseSnakeGame::GameState::removeFood(size_t index)
+{
+    if (index < foods.size())
+        foods.erase(foods.begin() + index);
+}
+
+const std::vector<Vector<float>>& BaseSnakeGame::GameState::getFoods() const
+{
+    return foods;
+}
+
+void BaseSnakeGame::GameState::clearFoods()
+{
+    foods.clear();
+}
+
+void BaseSnakeGame::GameState::addBonusFood(const Vector<float>& food)
+{
+    bonusFoods.push_back(food);
+}
+
+void BaseSnakeGame::GameState::removeBonusFood(size_t index)
+{
+    if (index < bonusFoods.size())
+        bonusFoods.erase(bonusFoods.begin() + index);
+}
+
+void BaseSnakeGame::GameState::clearBonusFoods()
+{
+    bonusFoods.clear();
+}
+
+void BaseSnakeGame::GameState::resizeGrid(size_t height, size_t width)
+{
+    grid.resize(height, std::vector<CellType>(width, CellType::Empty));
+}
+
+void BaseSnakeGame::GameState::setCellType(size_t y, size_t x, CellType type)
+{
+    if (y < grid.size() && x < grid[y].size())
+        grid[y][x] = type;
+}
+
+Vector<float> BaseSnakeGame::GameState::getHead() const
+{
+    return segments.empty() ? Vector<float>(0, 0) : segments.front();
+}
+
+Vector<float> BaseSnakeGame::GameState::getTail() const
+{
+    return segments.empty() ? Vector<float>(0, 0) : segments.back();
+}
+
+size_t BaseSnakeGame::GameState::getLength() const
+{
+    return segments.size();
+}
+
+bool BaseSnakeGame::GameState::hasFoods() const
+{
+    return !foods.empty();
+}
+
+bool BaseSnakeGame::GameState::hasBonusFoods() const
+{
+    return !bonusFoods.empty();
+}
+
+void BaseSnakeGame::GameState::incrementScore(int points)
+{
+    score += points;
+}
+
+void BaseSnakeGame::GameState::decrementTimeRemaining(float delta)
+{
+    timeRemaining -= delta;
+    if (timeRemaining < 0)
+        timeRemaining = 0;
+}
+
+IDisplayLibrary& BaseSnakeGame::getDisplayLibrary() const {
+    if (!displayLib.has_value()) {
+        throw std::runtime_error("Display library not initialized");
+    }
+    return displayLib->get();
+}
+
+bool BaseSnakeGame::hasDisplayLibrary() const noexcept {
+    return displayLib.has_value();
+}
+
 BaseSnakeGame::BaseSnakeGame(GameMode mode)
     : displayLib(std::nullopt),
       rng(std::random_device()()),
