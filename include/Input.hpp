@@ -11,7 +11,7 @@
 namespace arcade
 {
     /**
-     * @brief Keyboard input
+     * Keyboard input
      */
     class Keyboard
     {
@@ -20,7 +20,7 @@ namespace arcade
         ~Keyboard() = default;
 
         /**
-         * @brief Key codes
+         * Key codes
          */
         enum KeyCode
         {
@@ -30,13 +30,13 @@ namespace arcade
         };
         static KeyCode keyCode;
         /**
-         * @brief Check if a key is pressed
+         * Check if a key is pressed
          * @param keyCode Key code
          * @return true if the key is pressed, false otherwise
          */
         bool isKeyPressed(KeyCode code) const { return _keys.at(code);  };
         /**
-         * @brief Set a key state
+         * Set a key state
          * @param keyCode Key code
          * @param isPressed Key state
          */
@@ -47,7 +47,7 @@ namespace arcade
     };
 
     /**
-     * @brief Mouse input
+     * Mouse input
      */
     class Mouse
     {
@@ -55,28 +55,28 @@ namespace arcade
     ~Mouse() = default;
 
     /**
-     * @brief Retrieves the current position of the mouse.
+     * Retrieves the current position of the mouse.
      * 
      * @return A Vector<float> representing the current position of the mouse.
      */
     [[nodiscard]] Vector<float> getPos() const { return _position; };
 
     /**
-     * @brief Checks if the mouse button is currently pressed.
+     * Checks if the mouse button is currently pressed.
      * 
      * @return A boolean value indicating whether the mouse button is pressed.
      */
     [[nodiscard]] bool isPressed() const { return _pressed; };
 
     /**
-     * @brief Sets the position of the mouse.
+     * Sets the position of the mouse.
      * 
      * @param newPos A Vector<float> representing the new position of the mouse.
      */
     void setPos(Vector<float> newPos) { _position = newPos; };
 
     /**
-     * @brief Sets the pressed state of the mouse button.
+     * Sets the pressed state of the mouse button.
      * 
      * @param pressed A boolean value indicating whether the mouse button is pressed.
      */

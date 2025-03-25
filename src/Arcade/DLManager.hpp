@@ -42,31 +42,53 @@ namespace arcade {
              * @param loadDiscovered Whether to load discovered librariesx
              */
             void scanDirectory(const std::string& libToLoad);
-
             /**
-             * Load a specific library
-             * @param path Path to the library
-             * @param type Type of the library
-             * @return Shared pointer to the loaded library
+             * Get all loaded libraries
+             * @return _libraries
              */
-            void loadLibrary(const std::string& name);
-
             [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibraries() const { return _libraries; }
 
+            /**
+             * Get all libraries of a specific type
+             * @return std::map<std::string, std::shared_ptr<DynamicLibraryObject>>
+             */
             [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibrariesByType(LibType type) const;
 
+            /**
+             * Get current graphic library
+             * @return std::shared_ptr<DynamicLibraryObject>
+             */
             [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGraphicLib() const;
 
+            /**
+             * Set current graphic library
+             * @param current_graphic_lib New graphic library
+             */
             void setCurrentGraphicLib(const std::shared_ptr<DynamicLibraryObject>& current_graphic_lib);
 
+            /**
+             * Get current game library
+             * @return std::shared_ptr<DynamicLibraryObject>
+             */
             [[nodiscard]] std::shared_ptr<DynamicLibraryObject> getCurrentGameLib() const;
 
+            /**
+             * Set current game library
+             * @param current_game_lib New game library
+             */
             void setCurrentGameLib(const std::shared_ptr<DynamicLibraryObject>& current_game_lib);
 
+            /**
+             * Initialize the game library
+             */
             void initGameLib();
-
+            /**
+             * Set next game library
+             */
             void setNextGame();
-
+            /**
+             * Set next graphic library
+             */
             void setNextGraphicLib();
         private:
 

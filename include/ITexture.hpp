@@ -18,12 +18,12 @@
 
 namespace arcade {
     /**
-     * @brief Rect properties
+     * Rect properties
      */
     class Rect {
     public:
     /**
-     * @brief Construct a new Rect object
+     * Construct a new Rect object
      * @param position Position
      * @param width Width
      * @param height Height
@@ -33,17 +33,17 @@ namespace arcade {
         ~Rect() = default;
 
         /**
-         * @brief Get the Position object
+         * Get the Position object
          * @return Vector<float>
          */
         [[nodiscard]] Vector<float> getPosition() const { return position; }
         /**
-         * @brief Get the Width object
+         * Get the Width object
          * @return float
          */
         [[nodiscard]] float getWidth() const { return width; }
         /**
-         * @brief Get the Height object
+         * Get the Height object
          * @return float
          */
         [[nodiscard]] float getHeight() const { return height; }
@@ -56,13 +56,13 @@ namespace arcade {
 
 
     /**
-     * @brief TextureImg properties
+     * TextureImg properties
      */
     class TextureImg
     {
     public:
     /**
-     * @brief Construct a new Texture Img object
+     * Construct a new Texture Img object
      * @param path Path to the image file
      * @param rect Rect properties
      * @return TextureImg
@@ -71,18 +71,18 @@ namespace arcade {
             path(std::move(path)), rect(rect) {};
         ~TextureImg() = default;
         /**
-         * @brief Get the Path object
+         * Get the Path object
          * @return std::string
          */
         [[nodiscard]] std::string getPath() const { return path; }
         /**
-         * @brief Get the Rect object
+         * Get the Rect object
          * @return std::optional<Rect>
          */
         [[nodiscard]] std::optional<Rect> getRect() const { return rect; }
 
         /**
-         * @brief Set the Rect object
+         * Set the Rect object
          * @param rect Rect properties
          */
         void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
@@ -93,13 +93,13 @@ namespace arcade {
     };
 
     /**
-     * @brief TextureText properties
+     * TextureText properties
      */
     class TextureText
     {
     public:
     /**
-     * @brief Construct a new Texture Text object
+     * Construct a new Texture Text object
      * @param text Text
      * @param color Color of the text
      * @param rect Rect properties
@@ -110,37 +110,37 @@ namespace arcade {
         ~TextureText() = default;
 
         /**
-         * @brief Get the Text object
+         * Get the Text object
          * @return std::string
          */
         [[nodiscard]] std::string getText() const { return text; }
 
         /**
-         * @brief Set the Text object
+         * Set the Text object
          * @param text Text
          */
         void setText(const std::string &newText) { text = newText; }
 
         /**
-         * @brief Get the Color object
+         * Get the Color object
          * @return Color
          */
         [[nodiscard]] Color getColor() const { return color; }
 
         /**
-         * @brief Set the Color object
+         * Set the Color object
          * @param color Color
          */
         void setColor(const Color &newColor) { color = newColor; }
 
         /**
-         * @brief Get the Rect object
+         * Get the Rect object
          * @return std::optional<Rect>
          */
         [[nodiscard]] std::optional<Rect> getRect() const { return rect; }
 
         /**
-         * @brief Set the Rect object
+         * Set the Rect object
          * @param rect Rect properties
          */
         void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
@@ -152,50 +152,50 @@ namespace arcade {
     };
 
     /**
-     * @brief MyTexture type
+     * MyTexture type
      * Contains TextureImg or TextureText
      */
 
     using MyTexture = std::variant<TextureImg, TextureText>;
 
     /**
-     * @brief Interface for the texture
+     * Interface for the texture
      */
     class ITexture {
     public:
         virtual ~ITexture() = default;
         /**
-         * @brief Get the texture informations
+         * Get the texture informations
          * @return const MyTexture&
          */
         [[nodiscard]] virtual const MyTexture& getInformations() const = 0;
         /**
-         * @brief Get the width of the texture
+         * Get the width of the texture
          * @return uint32_t
          */
         [[nodiscard]] virtual uint32_t getWidth() const = 0;
         /**
-         * @brief Get the height of the texture
+         * Get the height of the texture
          * @return uint32_t
          */
         [[nodiscard]] virtual uint32_t getHeight() const = 0;
     };
 
     /**
-     * @brief Interface for the texture manager
+     * Interface for the texture manager
      */
     class ITextureManager {
     public:
         virtual ~ITextureManager() = default;
         /**
-         * @brief Load a texture
+         * Load a texture
          * @param name Name of the texture
          * @param texture Texture
          * @return int
          */
         [[nodiscard]] virtual int load(const std::string& name, const MyTexture texture) const = 0;
         /**
-         * @brief Get a texture
+         * Get a texture
          * @param name Name of the texture
          * @return std::shared_ptr<ITexture>
          */
