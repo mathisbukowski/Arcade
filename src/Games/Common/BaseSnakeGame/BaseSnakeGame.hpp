@@ -15,7 +15,6 @@
 #include <random>
 #include <optional>
 #include <functional>
-#include <stdexcept>
 #include <string>
 
 namespace arcade
@@ -51,94 +50,59 @@ namespace arcade
     protected:
         class GameState {
         public:
-            GameState() :
-                currentDirection(Direction::Right),
-                nextDirection(Direction::Right),
-                score(0),
-                gameOver(false),
-                moveTimer(0.0f),
-                moveInterval(0.2f),
-                bonusFoodTimer(0.0f),
-                bonusFoodDuration(5.0f),
-                level(1),
-                timeRemaining(60.0f),
-                mode(GameMode::Snake) {}
+            GameState();
 
-            const std::deque<Vector<float>>& getSegments() const { return segments; }
-            Direction getCurrentDirection() const { return currentDirection; }
-            Direction getNextDirection() const { return nextDirection; }
-            const std::vector<Vector<float>>& getBonusFoods() const { return bonusFoods; }
-            const std::vector<std::vector<CellType>>& getGrid() const { return grid; }
-            int getScore() const { return score; }
-            bool isGameOver() const { return gameOver; }
-            float getMoveTimer() const { return moveTimer; }
-            float getMoveInterval() const { return moveInterval; }
-            float getBonusFoodTimer() const { return bonusFoodTimer; }
-            float getBonusFoodDuration() const { return bonusFoodDuration; }
-            int getLevel() const { return level; }
-            float getTimeRemaining() const { return timeRemaining; }
-            const std::string& getPlayerName() const { return playerName; }
-            GameMode getMode() const { return mode; }
+            const std::deque<Vector<float>>& getSegments() const;
+            Direction getCurrentDirection() const;
+            Direction getNextDirection() const;
+            const std::vector<Vector<float>>& getBonusFoods() const;
+            const std::vector<std::vector<CellType>>& getGrid() const;
+            int getScore() const;
+            bool isGameOver() const;
+            float getMoveTimer() const;
+            float getMoveInterval() const;
+            float getBonusFoodTimer() const;
+            float getBonusFoodDuration() const;
+            int getLevel() const;
+            float getTimeRemaining() const;
+            const std::string& getPlayerName() const;
+            GameMode getMode() const;
 
-            void setCurrentDirection(Direction dir) { currentDirection = dir; }
-            void setNextDirection(Direction dir) { nextDirection = dir; }
-            void setScore(int newScore) { score = newScore; }
-            void setGameOver(bool over) { gameOver = over; }
-            void setMoveTimer(float timer) { moveTimer = timer; }
-            void setMoveInterval(float interval) { moveInterval = interval; }
-            void setBonusFoodTimer(float timer) { bonusFoodTimer = timer; }
-            void setBonusFoodDuration(float duration) { bonusFoodDuration = duration; }
-            void setLevel(int newLevel) { level = newLevel; }
-            void setTimeRemaining(float time) { timeRemaining = time; }
-            void setPlayerName(const std::string& name) { playerName = name; }
-            void setMode(GameMode newMode) { mode = newMode; }
+            void setCurrentDirection(Direction dir);
+            void setNextDirection(Direction dir);
+            void setScore(int newScore);
+            void setGameOver(bool over);
+            void setMoveTimer(float timer);
+            void setMoveInterval(float interval);
+            void setBonusFoodTimer(float timer);
+            void setBonusFoodDuration(float duration);
+            void setLevel(int newLevel);
+            void setTimeRemaining(float time);
+            void setPlayerName(const std::string& name);
+            void setMode(GameMode newMode);
 
-            void addSegment(const Vector<float>& segment) { segments.push_back(segment); }
-            void prependSegment(const Vector<float>& segment) { segments.push_front(segment); }
-            void removeLastSegment() { if (!segments.empty()) segments.pop_back(); }
-            void clearSegments() { segments.clear(); }
+            void addSegment(const Vector<float>& segment);
+            void prependSegment(const Vector<float>& segment);
+            void removeLastSegment();
+            void clearSegments();
 
-            void addFood(const Vector<float>& food) { foods.push_back(food); }
-            void removeFood(size_t index) { if (index < foods.size()) foods.erase(foods.begin() + index); }
-            const std::vector<Vector<float>>& getFoods() const { return foods; }
-            void clearFoods() { foods.clear(); }
-            void addBonusFood(const Vector<float>& food) { bonusFoods.push_back(food); }
-            void removeBonusFood(size_t index) {
-                if (index < bonusFoods.size())
-                    bonusFoods.erase(bonusFoods.begin() + index);
-            }
-            void clearBonusFoods() { bonusFoods.clear(); }
-            void resizeGrid(size_t height, size_t width) {
-                grid.resize(height, std::vector<CellType>(width, CellType::Empty));
-            }
-            void setCellType(size_t y, size_t x, CellType type) {
-                if (y < grid.size() && x < grid[y].size())
-                    grid[y][x] = type;
-            }
+            void addFood(const Vector<float>& food);
+            void removeFood(size_t index);
+            const std::vector<Vector<float>>& getFoods() const;
+            void clearFoods();
+            void addBonusFood(const Vector<float>& food);
+            void removeBonusFood(size_t index);
+            void clearBonusFoods();
+            void resizeGrid(size_t height, size_t width);
+            void setCellType(size_t y, size_t x, CellType type);
 
-            Vector<float> getHead() const {
-                return segments.empty() ? Vector<float>(0, 0) : segments.front();
-            }
-            Vector<float> getTail() const {
-                return segments.empty() ? Vector<float>(0, 0) : segments.back();
-            }
-            size_t getLength() const {
-                return segments.size();
-            }
-            bool hasFoods() const {
-                return !foods.empty();
-            }
-            bool hasBonusFoods() const {
-                return !bonusFoods.empty();
-            }
-            void incrementScore(int points) {
-                score += points;
-            }
-            void decrementTimeRemaining(float delta) {
-                timeRemaining -= delta;
-                if (timeRemaining < 0)
-                    timeRemaining = 0;
-            }
+            Vector<float> getHead() const;
+            Vector<float> getTail() const;
+            size_t getLength() const;
+            bool hasFoods() const;
+            bool hasBonusFoods() const;
+            void incrementScore(int points);
+            void decrementTimeRemaining(float delta);
         private:
             std::deque<Vector<float>> segments;
             Direction currentDirection;
@@ -198,16 +162,8 @@ namespace arcade
         void drawGameOver(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
 
     protected:
-        [[nodiscard]] IDisplayLibrary& getDisplayLibrary() const {
-            if (!displayLib.has_value()) {
-                throw std::runtime_error("Display library not initialized");
-            }
-            return displayLib->get();
-        }
-
-        [[nodiscard]] bool hasDisplayLibrary() const noexcept {
-            return displayLib.has_value();
-        }
+        [[nodiscard]] IDisplayLibrary& getDisplayLibrary() const;
+        [[nodiscard]] bool hasDisplayLibrary() const noexcept;
 
         GameState state;
         std::mt19937 rng;
