@@ -31,11 +31,11 @@ namespace arcade
         /**
          * Construct a new Sdl object
          */
-        SdlLibrary() = default;
+        SdlLibrary();
         /**
          * Destroy the Sdl object
          */
-        virtual ~SdlLibrary() = default;
+        ~SdlLibrary();
         /**
          * Get the Display object
          * @return IDisplayModule&

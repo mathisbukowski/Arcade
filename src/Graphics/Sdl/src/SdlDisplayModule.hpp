@@ -8,17 +8,19 @@
 #ifndef SDLDISPLAYMODULE_HPP
 #define SDLDISPLAYMODULE_HPP
 
-#include "Arcade.hpp"
+#include <SDL2/SDL_render.h>
+
 #include "IDisplayModule.hpp"
 
 namespace arcade {
     class SDLDisplayModule : public IDisplayModule {
+    public:
         SDLDisplayModule(const std::string &name = "SDL2");
         ~SDLDisplayModule() override;
         /**
          * Initialize the SDL library
          */
-        void init() override;
+        void init(const std::string& title, size_t width, size_t height) override;
         /**
          * Stop the SDL library
          */
@@ -27,12 +29,12 @@ namespace arcade {
          * Get the name of the library
          * @return const std::string
          */
-        [[nodiscard]] const std::string &getName() const override;
+        [[nodiscard]] const std::string &getName() const override { return _name; }
         /**
          * Set up the window properties
          * @param properties WindowProperties
          */
-        void setupWindowProperties(WindowProperties &properties) override;
+        void setupWindowProperties(WindowProperties &properties) override { _windowProperties = properties; }
         /**
          * Open the window
          */
@@ -55,7 +57,7 @@ namespace arcade {
          * Check if the window is open
          * @return bool
          */
-        bool isWindowOpen() override;
+        bool isWindowOpen() override { return _isOpen; }
         /**
          * Draw a texture on the window
          * @param texture Texture to draw
@@ -72,7 +74,14 @@ namespace arcade {
          * @return Mouse
          */
         [[nodiscard]] Mouse &getMouse() override;
+
+        [[nodiscard]] std::shared_ptr<SDL_Renderer> getRenderer() const {return _renderer;}
+        [[nodiscard]] std::shared_ptr<SDL_Window> getWindow() const { return _window; }
+        [[nodiscard]] WindowProperties getWindowProperties() const { return _windowProperties; }
+
     private:
+        std::shared_ptr<SDL_Renderer> _renderer = nullptr;
+        std::shared_ptr<SDL_Window> _window = nullptr;
         WindowProperties _windowProperties;
         std::string _name;
         bool _isOpen;
