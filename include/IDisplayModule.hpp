@@ -86,7 +86,7 @@ namespace arcade
          */
         [[nodiscard]] virtual const std::string &getName() const = 0;
         /**
-         * Get the window properties
+         * Set the window properties
          * @param windowProperties width, height and title of the window
          */
         virtual void setupWindowProperties(WindowProperties &windowProperties) = 0;
