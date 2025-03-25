@@ -62,13 +62,13 @@ namespace arcade {
         LibType getType() const;
 
         /**
-         * @brief Get the library type from entryPointType function
+         * Get the library type from entryPointType function
          * @return Library type from entryPointType or the default type if the function doesn't exist
          */
         LibType getEntryPointType() const;
 
         /**
-         * @brief Get the library name from entryPointName function
+         * Get the library name from entryPointName function
          * @return Library name from entryPointName or the default name if the function doesn't exist
          */
         std::string getEntryPointName();

@@ -34,13 +34,17 @@ namespace arcade
          * @param keyCode Key code
          * @return true if the key is pressed, false otherwise
          */
-        bool isKeyPressed(KeyCode code) const { return _keys.at(code);  };
+        bool isKeyPressed(KeyCode code) const { return _keys.at(code);  }
         /**
          * Set a key state
          * @param keyCode Key code
          * @param isPressed Key state
          */
-        void setKey(KeyCode code, bool isPressed) { _keys[code] = isPressed; };
+        void setKey(KeyCode code, bool isPressed) { _keys[code] = isPressed; }
+        /**
+        * Clear all pressed keys
+        */
+        void clearPressedKeys() { _keys.clear(); };
 
     private:
         std::unordered_map<KeyCode, bool> _keys;
