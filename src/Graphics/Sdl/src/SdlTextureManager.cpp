@@ -56,5 +56,6 @@ int arcade::SDLTexture::load(const MyTexture& textureInfos, std::shared_ptr<SDL_
         if (!_texture)
             return -1;
     }
+    return 0;
 }
 

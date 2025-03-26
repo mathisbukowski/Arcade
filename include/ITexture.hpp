@@ -179,6 +179,14 @@ namespace arcade {
          * @return uint32_t
          */
         [[nodiscard]] virtual uint32_t getHeight() const = 0;
+        /**
+         * Set the width of the texture
+         */
+        virtual void setWidth(std::uint32_t newWidth) = 0;
+        /**
+         * Set the height of the texture
+         */
+        virtual void setHeight(std::uint32_t newHeight) = 0;
     };
 
     /**

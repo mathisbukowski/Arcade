@@ -29,8 +29,8 @@ namespace arcade {
         void setHeight(std::uint32_t newHeight) { _height = newHeight; }
         void setWidth(std::uint32_t newWidth) { _width = newWidth; }
     private:
-        std::uint32_t _width;
-        std::uint32_t _height;
+        std::uint32_t _width = 0;
+        std::uint32_t _height = 0;
         std::shared_ptr<SDL_Texture> _texture = nullptr;
         MyTexture _textureInformations;
     };
