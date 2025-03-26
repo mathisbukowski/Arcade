@@ -20,12 +20,14 @@
 namespace arcade {
     class SDLTexture : public ITexture {
     public:
-        SDLTexture(std::uint32_t width, std::uint32_t height, const MyTexture& texture) : _width(width), _height(height), _textureInformations(texture) {};
+        SDLTexture();
         ~SDLTexture() = default;
         int load(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer);
         const MyTexture &getInformations() const override { return _textureInformations; }
         std::uint32_t getWidth() const override { return _width; }
         std::uint32_t getHeight() const override { return _height; }
+        void setHeight(std::uint32_t newHeight) { _height = newHeight; }
+        void setWidth(std::uint32_t newWidth) { _width = newWidth; }
     private:
         std::uint32_t _width;
         std::uint32_t _height;
