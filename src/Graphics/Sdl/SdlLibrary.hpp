@@ -20,6 +20,7 @@
     #include "Vector.hpp"
     #include "Arcade.hpp"
 #include "src/SdlFontManager.hpp"
+#include "src/SdlSoundManager.hpp"
 #include "src/SdlTextureManager.hpp"
 
 namespace arcade
@@ -57,12 +58,13 @@ namespace arcade
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        virtual ISoundManager &getSounds();
+        // virtual ISoundManager &getSounds() override { return this->_sounds; }
 
     private:
         SDLDisplayModule _display;
         SDLFontManager _fonts;
         SDLTextureManager _textures;
+        // SDLSoundManager _sounds;
     };
 }
 

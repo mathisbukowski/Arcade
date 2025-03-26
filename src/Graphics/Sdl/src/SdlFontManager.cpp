@@ -10,11 +10,12 @@
 
 // Font Manager
 
-int arcade::SDLFontManager::load(const std::string& name, std::shared_ptr<IFont> newFont)
+int arcade::SDLFontManager::load(const std::string& name, const Font &newFont)
 {
+    auto font = std::make_shared<SDLFont>(newFont);
     if (_fonts.find(name) != _fonts.end())
         return -1;
-    _fonts.emplace(name, std::move(newFont));
+    _fonts.emplace(name, font);
     return 0;
 }
 

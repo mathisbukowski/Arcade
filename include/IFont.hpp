@@ -103,7 +103,7 @@ namespace arcade {
          * @param texture Font properties
          * @return int
          */
-        [[nodiscard]] virtual int load(const std::string& name, std::shared_ptr<IFont> texture) = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const Font& texture) = 0;
         /**
          * Get a font
          * @param name Name of the font

@@ -37,8 +37,8 @@ namespace arcade {
     public:
         SDLTextureManager(std::shared_ptr<SDL_Renderer> renderer) : _renderer(std::move(renderer)) {}
         ~SDLTextureManager() = default;
-        virtual int load(const std::string& name, std::shared_ptr<ITexture> newTexture) override;
-        virtual std::shared_ptr<ITexture> get(const std::string& name) const override;
+        int load(const std::string& name, const MyTexture& newTexture) override;
+        std::shared_ptr<ITexture> get(const std::string& name) const override;
     private:
         std::shared_ptr<SDL_Renderer> _renderer;
         std::map<std::string, std::shared_ptr<SDLTexture>> _textures;

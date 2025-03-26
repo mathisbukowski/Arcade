@@ -30,8 +30,8 @@ namespace arcade {
     public:
         SDLFontManager(std::shared_ptr<SDL_Renderer> renderer) : _renderer(std::move(renderer)) {};
         ~SDLFontManager() = default;
-        virtual int load(const std::string& name, std::shared_ptr<IFont> texture) override;
-        virtual std::shared_ptr<IFont> get(const std::string& name) const override;
+        int load(const std::string& name, const Font& texture) override;
+        std::shared_ptr<IFont> get(const std::string& name) const override;
 
     private:
         std::shared_ptr<SDL_Renderer> _renderer;

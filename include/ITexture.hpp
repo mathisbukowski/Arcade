@@ -193,7 +193,7 @@ namespace arcade {
          * @param newTexture new texture
          * @return int
          */
-        [[nodiscard]] virtual int load(const std::string& name, std::shared_ptr<ITexture> newTexture) = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const MyTexture& newTexture) = 0;
         /**
          * Get a texture
          * @param name Name of the texture

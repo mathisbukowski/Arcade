@@ -22,11 +22,13 @@ std::shared_ptr<arcade::ITexture> arcade::SDLTextureManager::get(const std::stri
     return it->second;
 }
 
-int arcade::SDLTextureManager::load(const std::string& name, std::shared_ptr<arcade::ITexture> newTexture)
+int arcade::SDLTextureManager::load(const std::string& name, const MyTexture& newTexture)
 {
+    auto texture = std::make_shared<SDLTexture>(0, 0, newTexture);
+    texture->load(newTexture, _renderer);
     if (_textures.find(name) != _textures.end())
         return -1;
-    _textures.emplace(name, std::move(newTexture));
+    _textures.emplace(name, texture);
     return 0;
 }
 

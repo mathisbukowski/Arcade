@@ -139,7 +139,7 @@ namespace arcade {
          * @param sound Sound properties
          * @return int
          */
-        [[nodiscard]] virtual int load(const std::string& name, MySound sound) = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const MySound& sound) = 0;
 
         /**
          * Get a sound
