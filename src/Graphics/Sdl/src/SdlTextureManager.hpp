@@ -24,8 +24,8 @@ namespace arcade {
         ~SDLTexture() = default;
         int load(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer);
         const MyTexture &getInformations() const override { return _textureInformations; }
-        std::uint32_t getWidth() const override { return _width; }
-        std::uint32_t getHeight() const override { return _height; }
+        [[nodiscard]] std::uint32_t getWidth() const override { return _width; }
+        [[nodiscard]] std::uint32_t getHeight() const override { return _height; }
         void setHeight(std::uint32_t newHeight) { _height = newHeight; }
         void setWidth(std::uint32_t newWidth) { _width = newWidth; }
     private:
@@ -38,9 +38,9 @@ namespace arcade {
     class SDLTextureManager : public ITextureManager {
     public:
         SDLTextureManager(std::shared_ptr<SDL_Renderer> renderer) : _renderer(std::move(renderer)) {}
-        ~SDLTextureManager() = default;
+        ~SDLTextureManager() override = default;
         int load(const std::string& name, const MyTexture& newTexture) override;
-        std::shared_ptr<ITexture> get(const std::string& name) const override;
+        [[nodiscard]] std::shared_ptr<ITexture> get(const std::string& name) const override;
     private:
         std::shared_ptr<SDL_Renderer> _renderer;
         std::map<std::string, std::shared_ptr<SDLTexture>> _textures;
