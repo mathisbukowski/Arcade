@@ -55,26 +55,17 @@ namespace arcade {
     };
 
 
-    /**
-     * TextureImg properties
-     */
-    class TextureImg
-    {
+    class TextureBase {
     public:
-    /**
-     * Construct a new Texture Img object
-     * @param path Path to the image file
-     * @param rect Rect properties
-     * @return TextureImg
-     */
-        TextureImg(std::string path, const std::optional<Rect> &rect = std::nullopt):
-            path(std::move(path)), rect(rect) {}
-        ~TextureImg() = default;
         /**
-         * Get the Path object
-         * @return std::string
+         * Constructor for TextureBase
+         * @param rect Rect properties
          */
-        [[nodiscard]] std::string getPath() const { return path; }
+        explicit TextureBase(const std::optional<Rect> &rect = std::nullopt)
+            : rect(rect), _width(0), _height(0) {}
+
+        virtual ~TextureBase() = default;
+
         /**
          * Get the Rect object
          * @return std::optional<Rect>
@@ -87,27 +78,72 @@ namespace arcade {
          */
         void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
 
-        private:
-            std::string path;
-            std::optional<Rect> rect;
+        /**
+         * Get the Width object
+         * @return uint32_t
+         */
+        [[nodiscard]] uint32_t getWidth() const { return _width; }
+
+        /**
+         * Set the Width object
+         * @param width Width
+         */
+        void setWidth(uint32_t newWidth) { _width = newWidth; }
+
+        /**
+         * Get the Height object
+         * @return uint32_t
+         */
+        [[nodiscard]] uint32_t getHeight() const { return _height; }
+
+        /**
+         * Set the Height object
+         * @param height Height
+         */
+        void setHeight(uint32_t newHeight) { _height = newHeight; }
+
+    private:
+        std::optional<Rect> rect;
+        uint32_t _width;
+        uint32_t _height;
     };
 
     /**
-     * TextureText properties
+     * Class for textured images
      */
-    class TextureText
-    {
+    class TextureImg : public TextureBase {
     public:
+        /**
+         * Constructor for TextureImg
+         * @param path Path to the image file
+         * @param rect Rect properties
+         */
+        explicit TextureImg(std::string path, const std::optional<Rect> &rect = std::nullopt)
+            : TextureBase(rect), path(std::move(path)) {}
+
+        /**
+         * Get the Path object
+         * @return std::string
+         */
+        [[nodiscard]] std::string getPath() const { return path; }
+
+    private:
+        std::string path;
+    };
+
     /**
-     * Construct a new Texture Text object
-     * @param text Text
-     * @param color Color of the text
-     * @param rect Rect properties
-     * @return TextureText
+     * Class for textured text
      */
-        TextureText(std::string text = "", Color color = Color(0, 0, 0), const std::optional<Rect> &rect = std::nullopt):
-            text(std::move(text)), color(color), rect(rect) {}
-        ~TextureText() = default;
+    class TextureText : public TextureBase {
+    public:
+        /**
+         * Constructor for TextureText
+         * @param text Text
+         * @param color Color of the text
+         * @param rect Rect properties
+         */
+        explicit TextureText(std::string text = "", Color color = Color(0, 0, 0), const std::optional<Rect> &rect = std::nullopt)
+            : TextureBase(rect), text(std::move(text)), color(color) {}
 
         /**
          * Get the Text object
@@ -133,29 +169,15 @@ namespace arcade {
          */
         void setColor(const Color &newColor) { color = newColor; }
 
-        /**
-         * Get the Rect object
-         * @return std::optional<Rect>
-         */
-        [[nodiscard]] std::optional<Rect> getRect() const { return rect; }
-
-        /**
-         * Set the Rect object
-         * @param rect Rect properties
-         */
-        void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
-
     private:
         std::string text;
         Color color;
-        std::optional<Rect> rect = std::nullopt;
     };
 
     /**
      * MyTexture type
      * Contains TextureImg or TextureText
      */
-
     using MyTexture = std::variant<TextureImg, TextureText>;
 
     /**
@@ -169,16 +191,6 @@ namespace arcade {
          * @return const MyTexture&
          */
         [[nodiscard]] virtual const MyTexture& getInformations() const = 0;
-        /**
-         * Get the width of the texture
-         * @return uint32_t
-         */
-        [[nodiscard]] virtual uint32_t getWidth() const = 0;
-        /**
-         * Get the height of the texture
-         * @return uint32_t
-         */
-        [[nodiscard]] virtual uint32_t getHeight() const = 0;
     };
 
     /**
@@ -190,10 +202,10 @@ namespace arcade {
         /**
          * Load a texture
          * @param name Name of the texture
-         * @param texture Texture
+         * @param newTexture new texture
          * @return int
          */
-        [[nodiscard]] virtual int load(const std::string& name, const MyTexture texture) const = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const MyTexture& newTexture) = 0;
         /**
          * Get a texture
          * @param name Name of the texture
