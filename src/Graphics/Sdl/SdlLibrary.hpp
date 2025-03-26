@@ -58,13 +58,12 @@ namespace arcade
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        // virtual ISoundManager &getSounds() override { return this->_sounds; }
+        virtual ISoundManager &getSounds() override;
 
     private:
         SDLDisplayModule _display;
         SDLFontManager _fonts;
         SDLTextureManager _textures;
-        // SDLSoundManager _sounds;
     };
 }
 

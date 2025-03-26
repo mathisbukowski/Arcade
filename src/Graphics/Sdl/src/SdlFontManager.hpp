@@ -20,7 +20,7 @@ namespace arcade {
     public:
         SDLFont(const Font &informations): _font(nullptr), _fontInformations(informations) {};
         ~SDLFont() = default;
-        const Font &getFontInformations() const { return _fontInformations; }
+        [[nodiscard]] const Font &getInformations() const override { return _fontInformations; }
     private:
         std::shared_ptr<TTF_Font> _font;
         Font _fontInformations;
@@ -29,7 +29,7 @@ namespace arcade {
     class SDLFontManager : public IFontManager {
     public:
         SDLFontManager(std::shared_ptr<SDL_Renderer> renderer) : _renderer(std::move(renderer)) {};
-        ~SDLFontManager() = default;
+        ~SDLFontManager() override = default;
         int load(const std::string& name, const Font& texture) override;
         std::shared_ptr<IFont> get(const std::string& name) const override;
 
