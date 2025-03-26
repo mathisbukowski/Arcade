@@ -44,7 +44,7 @@ jobs:
           fi
       - name: "Verify Librairies Presence"
         run: |
-          if [ -f "lib/arcade_sdl2.so"]; then
+          if [ -f "lib/arcade_sdl2.so" ]; then
             echo "SDL2 Library exists."
           else
             echo "SDL2 Library doesn't exist."
