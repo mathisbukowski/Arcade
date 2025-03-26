@@ -16,34 +16,43 @@ on:
       - '.github/workflows/**'
 
 jobs:
-#   check_program_compilation:
-#     runs-on: ubuntu-latest
-#     container:
-#       image: epitechcontent/epitest-docker:latest
-#     steps:
-#       - name: "Checkout Code"
-#         uses: actions/checkout@v4
+  check_program_compilation:
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker:latest
+    steps:
+      - name: "Checkout Code"
+        uses: actions/checkout@v4
 
-#       - name: "Create Build Directory"
-#         run: mkdir -p build
+      - name: "Create Build Directory"
+        run: mkdir -p build
 
-#       - name: "Compile the Program with CMake and Make"
-#         run: |
-#           cd build
-#           cmake ..
-#           make
-#         timeout-minutes: 2
+      - name: "Compile the Program with CMake and Make"
+        run: |
+          cd build
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+          cmake --build .
+        timeout-minutes: 2
 
-#       - name: "Verify Executable Permissions and Presence"
-#         run: |
-#           if [ -f "build/nanotekspice" ] && [ -x "build/nanotekspice" ]; then
-#               echo "nanotekspice exists and is executable."
-#           else
-#               echo "nanotekspice does not exist or is not executable."
-#               exit 1
-#           fi
+      - name: "Verify Executable Permissions and Presence"
+        run: |
+          if [ -f "arcade" ] && [ -x "arcade" ]; then
+              echo "arcade exists and is executable."
+          else
+              echo "arcade does not exist or is not executable."
+              exit 1
+          fi
+      - name: "Verify Librairies Presence"
+        run: |
+          if [ -f "lib/arcade_sdl2.so"]; then
+            echo "SDL2 Library exists."
+          else
+            echo "SDL2 Library doesn't exist."
+            exit 1
+          fi
 
   push_to_mirror:
+    needs: check_program_compilation
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:

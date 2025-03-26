@@ -27,3 +27,4 @@ set_target_properties(arcade_sdl2 PROPERTIES PREFIX "")
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Arcade ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
+target_compile_options(arcade_sdl2 PRIVATE -fno-gnu-unique)
