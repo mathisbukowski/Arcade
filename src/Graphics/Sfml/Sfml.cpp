@@ -2,113 +2,121 @@
 ** EPITECH PROJECT, 2024
 ** arcade
 ** File description:
-** Sfml.cpp
+** SFML implementation for arcade
 */
 
 #include "Sfml.hpp"
+#include <iostream>
+#include <filesystem>
 
-arcade::Sfml::Sfml()
-{
-    _name = "sfml";
-    _window = nullptr;
-    _keyboard = Keyboard();
-    _mouse = Mouse();
-    _textures = std::map<std::string, std::shared_ptr<ITexture>>();
-}
+namespace arcade {
 
-arcade::Sfml::~Sfml()
+SFMLTexture::SFMLTexture(const MyTexture& textureInfo) : _info(textureInfo)
 {
-}
-
-void arcade::Sfml::init()
-{
-    _window = new sf::RenderWindow(sf::VideoMode(800, 600), "Arcade");
-}
-
-void arcade::Sfml::stop()
-{
-    _window->close();
-}
-
-const std::string &arcade::Sfml::getName() const
-{
-    return _name;
-}
-
-void arcade::Sfml::setupWindowProperties(WindowProperties &properties)
-{
-    properties.setWidth(800);
-    properties.setHeight(600);
-    properties.setTitle("Arcade");
-}
-
-void arcade::Sfml::openWindow()
-{
-    _window->create(sf::VideoMode(800, 600), "Arcade");
-}
-
-void arcade::Sfml::closeWindow()
-{
-    _window->close();
-}
-
-void arcade::Sfml::clearWindow(Color color)
-{
-    _window->clear(sf::Color(color.getR(), color.getG(), color.getB(), color.getOpacity()));
-}
-
-void arcade::Sfml::updateWindow(float delta)
-{
-    _window->display();
-}
-
-bool arcade::Sfml::isWindowOpen()
-{
-    return _window->isOpen();
-}
-
-void arcade::Sfml::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
-{
-    auto textureInfo = texture->getInformations();
     if (std::holds_alternative<TextureImg>(textureInfo)) {
-        auto textureImg = std::get<TextureImg>(textureInfo);
-        sf::Texture sfTexture;
-        sfTexture.loadFromFile(textureImg.getPath());
-        sf::Sprite sprite(sfTexture);
-        sprite.setPosition(position.getX(), position.getY());
-        _window->draw(sprite);
+        loadFromImage(std::get<TextureImg>(textureInfo));
     } else {
-        auto textureText = std::get<TextureText>(textureInfo);
-        sf::Font font;
-        font.loadFromFile("assets/font.ttf");
-        sf::Text text;
-        text.setFont(font);
-        text.setString(textureText.getText());
-        text.setCharacterSize(24);
-        text.setFillColor(sf::Color(textureText.getColor().getR(), textureText.getColor().getG(), textureText.getColor().getB(), textureText.getColor().getOpacity()));
-        text.setPosition(position.getX(), position.getY());
-        _window->draw(text);
+        loadFromText(std::get<TextureText>(textureInfo));
     }
 }
 
-arcade::Keyboard &arcade::Sfml::getKeyboard()
+void SFMLTexture::loadFromImage(const TextureImg& textureImg)
 {
-    return _keyboard;
+    if (!std::filesystem::exists(textureImg.getPath())) {
+        createDefaultSprite();
+        std::cerr << "Texture file not found: " << textureImg.getPath() << std::endl;
+        return;
+    }
+    if (!_texture.loadFromFile(textureImg.getPath())) {
+        createDefaultSprite();
+        std::cerr << "Failed to load texture: " << textureImg.getPath() << std::endl;
+        return;
+    }
+    sf::Sprite sprite;
+    sprite.setTexture(_texture);
+    _drawable = sprite;
+    auto& mutableImg = const_cast<TextureImg&>(std::get<TextureImg>(_info));
+    mutableImg.setWidth(_texture.getSize().x);
+    mutableImg.setHeight(_texture.getSize().y);
 }
 
-arcade::Mouse &arcade::Sfml::getMouse()
+void SFMLTexture::loadFromText(const TextureText& textureText)
 {
-    return _mouse;
+    sf::Text text;
+    sf::Font font;
+
+    if (!loadFontForText(font)) {
+        createDefaultSprite();
+        return;
+    }
+    text.setFont(font);
+    text.setString(textureText.getText());
+    text.setFillColor(sf::Color(
+        textureText.getColor().getR(),
+        textureText.getColor().getG(),
+        textureText.getColor().getB(),
+        textureText.getColor().getOpacity()
+    ));
+    if (textureText.getRect().has_value()) {
+        auto rect = textureText.getRect().value();
+        text.setPosition(rect.getPosition().getX(), rect.getPosition().getY());
+    }
+    _drawable = text;
+    auto& mutableText = const_cast<TextureText&>(std::get<TextureText>(_info));
+    mutableText.setWidth(text.getLocalBounds().width);
+    mutableText.setHeight(text.getLocalBounds().height);
 }
 
-extern "C" {
-    arcade::IDisplayLibrary* entryPoint() {
-        return new arcade::Sfml();
+bool SFMLTexture::loadFontForText(sf::Font& font)
+{
+    const std::vector<std::string> possibleFonts = {
+        "assets/fonts/PixelFont.ttf"
+    };
+    for (const auto& fontPath : possibleFonts) {
+        if (std::filesystem::exists(fontPath) && font.loadFromFile(fontPath))
+            return true;
     }
-    arcade::LibType entryPointType() {
-        return arcade::DISPLAY;
+    std::cerr << "Failed to load any font, text rendering might not work" << std::endl;
+    return false;
+}
+
+void SFMLTexture::createDefaultSprite()
+{
+    sf::Sprite sprite;
+    _texture.create(32, 32);
+    std::vector<sf::Uint8> pixels(32 * 32 * 4, 255);
+    _texture.update(pixels.data());
+    sprite.setTexture(_texture);
+    _drawable = sprite;
+
+    if (std::holds_alternative<TextureImg>(_info)) {
+        auto& mutableImg = const_cast<TextureImg&>(std::get<TextureImg>(_info));
+        mutableImg.setWidth(32);
+        mutableImg.setHeight(32);
+    } else {
+        auto& mutableText = const_cast<TextureText&>(std::get<TextureText>(_info));
+        mutableText.setWidth(32);
+        mutableText.setHeight(32);
     }
-    const char* entryPointName() {
-        return "SFML";
-    }
+}
+
+const MyTexture& SFMLTexture::getInformations() const
+{
+    return _info;
+}
+
+sf::Sprite& SFMLTexture::getSprite()
+{
+    return std::get<sf::Sprite>(_drawable);
+}
+
+sf::Text& SFMLTexture::getText()
+{
+    return std::get<sf::Text>(_drawable);
+}
+
+bool SFMLTexture::isText() const
+{
+    return std::holds_alternative<sf::Text>(_drawable);
+}
 }

@@ -48,6 +48,10 @@ public:
     bool isText() const;
 
 private:
+    void loadFromImage(const TextureImg& textureImg);
+    void loadFromText(const TextureText& textureText);
+    bool loadFontForText(sf::Font& font);
+    void createDefaultSprite();
     MyTexture _info;
     std::variant<sf::Sprite, sf::Text> _drawable;
     sf::Texture _texture;
