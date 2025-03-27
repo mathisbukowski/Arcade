@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
+** EPITECH PROJECT, 2025
 ** arcade
 ** File description:
 ** Sfml.hpp
@@ -42,8 +42,6 @@ public:
     ~SFMLTexture() override = default;
 
     const MyTexture& getInformations() const override;
-    uint32_t getWidth() const override;
-    uint32_t getHeight() const override;
 
     sf::Sprite& getSprite();
     sf::Text& getText();
@@ -53,8 +51,6 @@ private:
     MyTexture _info;
     std::variant<sf::Sprite, sf::Text> _drawable;
     sf::Texture _texture;
-    mutable uint32_t _width = 0;
-    mutable uint32_t _height = 0;
 };
 
 /**
@@ -99,7 +95,7 @@ public:
     SFMLTextureManager();
     ~SFMLTextureManager() override = default;
 
-    int load(const std::string& name, const MyTexture texture) const override;
+    int load(const std::string& name, const MyTexture& newTexture) override;
     std::shared_ptr<ITexture> get(const std::string& name) const override;
 
 private:
