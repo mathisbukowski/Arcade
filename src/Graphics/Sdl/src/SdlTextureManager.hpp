@@ -24,13 +24,7 @@ namespace arcade {
         ~SDLTexture() = default;
         int load(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer);
         const MyTexture &getInformations() const override { return _textureInformations; }
-        [[nodiscard]] std::uint32_t getWidth() const override { return _width; }
-        [[nodiscard]] std::uint32_t getHeight() const override { return _height; }
-        void setHeight(std::uint32_t newHeight) { _height = newHeight; }
-        void setWidth(std::uint32_t newWidth) { _width = newWidth; }
     private:
-        std::uint32_t _width = 0;
-        std::uint32_t _height = 0;
         std::shared_ptr<SDL_Texture> _texture = nullptr;
         MyTexture _textureInformations;
     };

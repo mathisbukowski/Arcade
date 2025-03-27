@@ -10,6 +10,7 @@
 #include <utility>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <iostream>
 
 #include "SdlFontManager.hpp"
 
@@ -36,26 +37,35 @@ int arcade::SDLTextureManager::load(const std::string& name, const MyTexture& ne
 
 int arcade::SDLTexture::load(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer)
 {
-    if (_texture) {
-        SDL_DestroyTexture(_texture.get());
-        _texture = nullptr;
-    }
-    if (std::holds_alternative<TextureImg>(textureInfos)) {
-        auto texture = std::get<TextureImg>(textureInfos);
-        _texture = std::shared_ptr<SDL_Texture>(SDL_CreateTexture(renderer.get(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, this->getWidth(), this->getHeight()), SDL_DestroyTexture);
-        if (!_texture)
-            return -1;
-    } else if (std::holds_alternative<TextureText>(textureInfos)) {
-        auto texture = std::get<TextureText>(textureInfos);
+    this->_textureInformations = textureInfos;
 
-        std::shared_ptr<SDL_Surface> surface(TTF_RenderText_Solid(nullptr, texture.getText().c_str(), {texture.getColor().getR(), texture.getColor().getG(), texture.getColor().getB(), texture.getColor().getOpacity()}));
-        if (!surface)
+    if (std::holds_alternative<TextureImg>(this->_textureInformations)) {
+        const TextureImg& textureImg = std::get<TextureImg>(this->_textureInformations);
+        std::shared_ptr<SDL_Surface> surface(SDL_LoadBMP(textureImg.getPath().c_str()), SDL_FreeSurface);
+        if (!surface) {
+            std::cerr << "Failed to load image: " << textureImg.getPath() << " - " << SDL_GetError() << std::endl;
             return -1;
-        _texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(renderer.get(), surface.get()), SDL_DestroyTexture);
-        SDL_FreeSurface(surface.get());
-        if (!_texture)
+        }
+        this->_texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(renderer.get(), surface.get()), SDL_DestroyTexture);
+        if (!this->_texture) {
+            std::cerr << "Failed to create texture from surface: " << SDL_GetError() << std::endl;
             return -1;
+        }
+        std::shared_ptr<uint32_t> format = std::make_shared<uint32_t>(0);
+        std::shared_ptr<int> width = std::make_shared<int>(0);
+        std::shared_ptr<int> height = std::make_shared<int>(0);
+        std::shared_ptr<int> access = std::make_shared<int>(0);
+
+        SDL_QueryTexture(this->_texture.get(), format.get(), access.get(), width.get(), height.get());
+
+        this->_textureInformations.emplace<TextureImg>(TextureImg(
+            textureImg.getPath(),
+            textureImg.getRect()
+        ));
+        std::get<TextureImg>(this->_textureInformations).setWidth(width.operator*());
+        std::get<TextureImg>(this->_textureInformations).setHeight(height.operator*());
+        return 0;
+    } else if (std::holds_alternative<TextureText>(this->_textureInformations)) {
     }
-    return 0;
 }
 
