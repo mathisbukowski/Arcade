@@ -70,7 +70,8 @@ void SFMLTexture::loadFromText(const TextureText& textureText)
 bool SFMLTexture::loadFontForText(sf::Font& font)
 {
     const std::vector<std::string> possibleFonts = {
-        "assets/fonts/PixelFont.ttf"
+        "assets/fonts/PixelFont.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
     };
     for (const auto& fontPath : possibleFonts) {
         if (std::filesystem::exists(fontPath) && font.loadFromFile(fontPath))
@@ -118,5 +119,42 @@ sf::Text& SFMLTexture::getText()
 bool SFMLTexture::isText() const
 {
     return std::holds_alternative<sf::Text>(_drawable);
+}
+
+SFMLFont::SFMLFont(const Font& fontInfo) : _info(fontInfo)
+{
+    if (std::filesystem::exists(fontInfo.getPath())) {
+        if (!_font.loadFromFile(fontInfo.getPath())) {
+            std::cerr << "Failed to load font: " << fontInfo.getPath() << std::endl;
+            loadFallbackFont();
+        }
+    } else {
+        std::cerr << "Font file not found: " << fontInfo.getPath() << std::endl;
+        loadFallbackFont();
+    }
+}
+
+void SFMLFont::loadFallbackFont()
+{
+    const std::vector<std::string> possibleFonts = {
+        "assets/fonts/PixelFont.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+    };
+
+    for (const auto& fontPath : possibleFonts) {
+        if (std::filesystem::exists(fontPath) && _font.loadFromFile(fontPath)) {
+            return;
+        }
+    }
+}
+
+const Font& SFMLFont::getInformations() const
+{
+    return _info;
+}
+
+sf::Font& SFMLFont::getFont()
+{
+    return _font;
 }
 }

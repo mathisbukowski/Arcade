@@ -69,6 +69,7 @@ public:
     sf::Font& getFont();
 
 private:
+    void loadFallbackFont();
     Font _info;
     sf::Font _font;
 };
