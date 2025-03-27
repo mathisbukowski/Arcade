@@ -42,7 +42,7 @@ jobs:
               echo "arcade does not exist or is not executable."
               exit 1
           fi
-      - name: "Verify Librairies Presence"
+      - name: "Verify Libraries Presence"
         run: |
           if [ -f "lib/arcade_sdl2.so" ]; then
             echo "SDL2 Library exists."
