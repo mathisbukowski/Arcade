@@ -14,6 +14,8 @@
 #include <memory>
 #include <map>
 #include <variant>
+#include <filesystem>
+#include <stdexcept>
 #include "IDisplayLibrary.hpp"
 #include "IDisplayModule.hpp"
 #include "ITexture.hpp"
@@ -42,7 +44,6 @@ public:
     ~SFMLTexture() override = default;
 
     const MyTexture& getInformations() const override;
-
     sf::Sprite& getSprite();
     sf::Text& getText();
     bool isText() const;
@@ -50,11 +51,13 @@ public:
 private:
     void loadFromImage(const TextureImg& textureImg);
     void loadFromText(const TextureText& textureText);
-    bool loadFontForText(sf::Font& font);
-    void createDefaultSprite();
+
+    void createErrorTexture();
+
     MyTexture _info;
     std::variant<sf::Sprite, sf::Text> _drawable;
     sf::Texture _texture;
+    std::shared_ptr<sf::Font> _font;
 };
 
 /**
@@ -69,7 +72,6 @@ public:
     sf::Font& getFont();
 
 private:
-    void loadFallbackFont();
     Font _info;
     sf::Font _font;
 };
@@ -87,8 +89,10 @@ public:
     void stop();
 
 private:
+    void loadSound(const SoundInfos& soundInfos);
+    void loadMusic(const MusicInfos& musicInfos);
     MySound _info;
-    std::variant<sf::Sound, sf::Music> _sound;
+    std::variant<sf::Sound, std::unique_ptr<sf::Music>> _sound;
     sf::SoundBuffer _buffer;
 };
 
@@ -97,7 +101,7 @@ private:
  */
 class SFMLTextureManager : public ITextureManager {
 public:
-    SFMLTextureManager();
+    SFMLTextureManager() noexcept = default;  // Simplified constructor
     ~SFMLTextureManager() override = default;
 
     int load(const std::string& name, const MyTexture& newTexture) override;
@@ -105,7 +109,6 @@ public:
 
 private:
     mutable std::map<std::string, std::shared_ptr<SFMLTexture>> _textures;
-    mutable sf::Font _defaultFont;
 };
 
 /**
@@ -113,7 +116,7 @@ private:
  */
 class SFMLFontManager : public IFontManager {
 public:
-    SFMLFontManager();
+    SFMLFontManager() noexcept = default;
     ~SFMLFontManager() override = default;
 
     int load(const std::string& name, const Font font) const override;
@@ -128,12 +131,12 @@ private:
  */
 class SFMLSoundManager : public ISoundManager {
 public:
-    SFMLSoundManager();
+    SFMLSoundManager() noexcept = default;
     ~SFMLSoundManager() override = default;
 
     void playSound(const std::string& name, const float volume) override;
     void stopSound(const std::string& name) override;
-    int load(const std::string& name, const MySound sound) const override;
+    int load(const std::string& name, MySound sound) const override;
     std::shared_ptr<ISound> get(const std::string& name) const override;
 
 private:
@@ -164,6 +167,9 @@ public:
     void processEvents();
 
 private:
+    void handleEvent(const sf::Event& event);
+    void handleKeyEvent(const sf::Event::KeyEvent& keyEvent, bool isPressed);
+    Keyboard::KeyCode mapSfmlKeyToArcade(sf::Keyboard::Key sfmlKey);
     std::string _name;
     sf::RenderWindow* _window;
     Keyboard _keyboard;
