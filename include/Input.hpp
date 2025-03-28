@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include "Vector.hpp"
 
+#pragma once
+
 namespace arcade
 {
     /**
@@ -34,7 +36,10 @@ namespace arcade
          * @param keyCode Key code
          * @return true if the key is pressed, false otherwise
          */
-        bool isKeyPressed(KeyCode code) const { return _keys.at(code);  }
+         bool isKeyPressed(KeyCode code) const {
+             auto it = _keys.find(code);
+             return (it != _keys.end()) ? it->second : false;
+         }
         /**
          * Set a key state
          * @param keyCode Key code
