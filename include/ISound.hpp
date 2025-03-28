@@ -32,7 +32,7 @@ namespace arcade {
          * Get the path of the sound file
          * @return std::string
          */
-        [[nodiscard]] std::string getPath() { return _path; }
+        [[nodiscard]] std::string getPath() const { return _path; }
 
         /**
          * Get the volume level
