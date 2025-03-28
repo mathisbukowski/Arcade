@@ -25,6 +25,7 @@ namespace arcade {
         int load(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer);
         const MyTexture &getInformations() const override { return _textureInformations; }
     private:
+        SDL_Rect _rect = {0, 0, 0, 0};
         std::shared_ptr<SDL_Texture> _texture = nullptr;
         MyTexture _textureInformations;
     };

@@ -6,9 +6,19 @@
 */
 
 #include "SdlFontManager.hpp"
-
+#include <iostream>
 
 // Font Manager
+
+int arcade::SDLFont::createFont(const Font &informations)
+{
+    _font = std::shared_ptr<TTF_Font>(TTF_OpenFont(informations.getPath().c_str(), informations.getSize()), TTF_CloseFont);
+    if (!_font) {
+        std::cerr << "Failed to load font: " << informations.getPath() << " - " << TTF_GetError() << std::endl;
+        return -1;
+    }
+    return 0;
+}
 
 int arcade::SDLFontManager::load(const std::string& name, const Font &newFont)
 {

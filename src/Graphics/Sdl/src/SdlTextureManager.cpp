@@ -10,6 +10,7 @@
 #include <utility>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 
 #include "SdlFontManager.hpp"
@@ -41,31 +42,24 @@ int arcade::SDLTexture::load(const MyTexture& textureInfos, std::shared_ptr<SDL_
 
     if (std::holds_alternative<TextureImg>(this->_textureInformations)) {
         const TextureImg& textureImg = std::get<TextureImg>(this->_textureInformations);
-        std::shared_ptr<SDL_Surface> surface(SDL_LoadBMP(textureImg.getPath().c_str()), SDL_FreeSurface);
-        if (!surface) {
-            std::cerr << "Failed to load image: " << textureImg.getPath() << " - " << SDL_GetError() << std::endl;
-            return -1;
-        }
-        this->_texture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(renderer.get(), surface.get()), SDL_DestroyTexture);
+        this->_texture.reset(IMG_LoadTexture(renderer.get(), textureImg.getPath().c_str()));
         if (!this->_texture) {
-            std::cerr << "Failed to create texture from surface: " << SDL_GetError() << std::endl;
+            std::cerr << "Failed to load texture: " << textureImg.getPath() << " - " << IMG_GetError() << std::endl;
             return -1;
         }
-        std::shared_ptr<uint32_t> format = std::make_shared<uint32_t>(0);
-        std::shared_ptr<int> width = std::make_shared<int>(0);
-        std::shared_ptr<int> height = std::make_shared<int>(0);
-        std::shared_ptr<int> access = std::make_shared<int>(0);
-
-        SDL_QueryTexture(this->_texture.get(), format.get(), access.get(), width.get(), height.get());
-
-        this->_textureInformations.emplace<TextureImg>(TextureImg(
-            textureImg.getPath(),
-            textureImg.getRect()
-        ));
-        std::get<TextureImg>(this->_textureInformations).setWidth(width.operator*());
-        std::get<TextureImg>(this->_textureInformations).setHeight(height.operator*());
+        if (textureImg.getRect().has_value()) {
+            this->_rect.x = static_cast<int>(textureImg.getRect().value().getPosition().getX());
+            this->_rect.y = static_cast<int>(textureImg.getRect().value().getPosition().getY());
+            this->_rect.w = static_cast<int>(textureImg.getRect().value().getWidth());
+            this->_rect.h = static_cast<int>(textureImg.getRect().value().getHeight());
+        } else {
+            SDL_QueryTexture(this->_texture.get(), nullptr, nullptr, &this->_rect.w, &this->_rect.h);
+        }
         return 0;
     } else if (std::holds_alternative<TextureText>(this->_textureInformations)) {
+        const TextureText& textureText = std::get<TextureText>(this->_textureInformations);
+        
+        return 0;
     }
 }
 

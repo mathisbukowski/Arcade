@@ -8,6 +8,8 @@
 #ifndef ITEXTURE_HPP_
 #define ITEXTURE_HPP_
 
+#include <IFont.hpp>
+
 #include "Misc.hpp"
 #include <string>
 #include <memory>
@@ -169,9 +171,21 @@ namespace arcade {
          */
         void setColor(const Color &newColor) { color = newColor; }
 
+        /**
+         *  Get the std::shared_ptr<IFont> object
+         */
+        [[nodiscard]] std::shared_ptr<IFont> getFont() const { return font; }
+
+        /**
+         * Set the Font object
+         * @param std::shared_ptr<IFont> Font
+         */
+        void setFont(const std::shared_ptr<IFont> &newFont) { font = newFont; }
+
     private:
         std::string text;
         Color color;
+        std::shared_ptr<IFont> font;
     };
 
     /**
