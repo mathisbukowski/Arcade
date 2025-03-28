@@ -6,11 +6,11 @@
 */
 
 #include "SdlTextureManager.hpp"
-
 #include <utility>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_render.h>
 #include <iostream>
 
 #include "SdlFontManager.hpp"
@@ -42,7 +42,10 @@ int arcade::SDLTexture::load(const MyTexture& textureInfos, std::shared_ptr<SDL_
 
     if (std::holds_alternative<TextureImg>(this->_textureInformations)) {
         const TextureImg& textureImg = std::get<TextureImg>(this->_textureInformations);
-        this->_texture.reset(IMG_LoadTexture(renderer.get(), textureImg.getPath().c_str()));
+        this->_texture = std::shared_ptr<SDL_Texture>(
+            IMG_LoadTexture(renderer.get(), textureImg.getPath().c_str()),
+            SDL_DestroyTexture
+        );
         if (!this->_texture) {
             std::cerr << "Failed to load texture: " << textureImg.getPath() << " - " << IMG_GetError() << std::endl;
             return -1;
@@ -61,5 +64,6 @@ int arcade::SDLTexture::load(const MyTexture& textureInfos, std::shared_ptr<SDL_
         
         return 0;
     }
+    return  0;
 }
 
