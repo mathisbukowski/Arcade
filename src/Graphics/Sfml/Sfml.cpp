@@ -29,11 +29,9 @@ SFMLTexture::SFMLTexture(const MyTexture& textureInfo) : _info(textureInfo), _fo
 void SFMLTexture::loadFromImage(const TextureImg& textureImg)
 {
     if (!std::filesystem::exists(textureImg.getPath())) {
-        std::cerr << "Error: Texture file not found: " << textureImg.getPath() << std::endl;
         throw std::runtime_error("Texture file not found");
     }
     if (!_texture.loadFromFile(textureImg.getPath())) {
-        std::cerr << "Error: Failed to load texture: " << textureImg.getPath() << std::endl;
         throw std::runtime_error("Failed to load texture");
     }
     sf::Sprite sprite;
@@ -47,12 +45,10 @@ void SFMLTexture::loadFromImage(const TextureImg& textureImg)
 void SFMLTexture::loadFromText(const TextureText& textureText)
 {
     if (!std::filesystem::exists("assets/fonts/PixelFont.ttf")) {
-        std::cerr << "Error: Font file not found: assets/fonts/PixelFont.ttf" << std::endl;
         throw std::runtime_error("Font file not found");
     }
 
     if (!_font->loadFromFile("assets/fonts/PixelFont.ttf")) {
-        std::cerr << "Error: Failed to load font assets/fonts/PixelFont.ttf" << std::endl;
         throw std::runtime_error("Failed to load required font");
     }
 
@@ -143,12 +139,10 @@ SFMLFont::SFMLFont(const Font& fontInfo) : _info(fontInfo)
 {
     try {
         if (!std::filesystem::exists(fontInfo.getPath())) {
-            std::cerr << "Error: Font file not found: " << fontInfo.getPath() << std::endl;
             throw std::runtime_error("Font file not found");
         }
 
         if (!_font.loadFromFile(fontInfo.getPath())) {
-            std::cerr << "Error: Failed to load font: " << fontInfo.getPath() << std::endl;
             throw std::runtime_error("Failed to load font");
         }
     } catch (const std::exception& e) {
@@ -182,12 +176,10 @@ SFMLSound::SFMLSound(const MySound& soundInfo) : _info(soundInfo)
 void SFMLSound::loadSound(const SoundInfos& soundInfos)
 {
     if (!std::filesystem::exists(soundInfos.getPath())) {
-        std::cerr << "Sound file not found: " << soundInfos.getPath() << std::endl;
         throw std::runtime_error("Sound file not found");
     }
 
     if (!_buffer.loadFromFile(soundInfos.getPath())) {
-        std::cerr << "Failed to load sound: " << soundInfos.getPath() << std::endl;
         throw std::runtime_error("Failed to load sound");
     }
 
@@ -200,13 +192,11 @@ void SFMLSound::loadSound(const SoundInfos& soundInfos)
 void SFMLSound::loadMusic(const MusicInfos& musicInfos)
 {
     if (!std::filesystem::exists(musicInfos.getPath())) {
-        std::cerr << "Music file not found: " << musicInfos.getPath() << std::endl;
         throw std::runtime_error("Music file not found");
     }
 
     auto music = std::make_unique<sf::Music>();
     if (!music->openFromFile(musicInfos.getPath())) {
-        std::cerr << "Failed to load music: " << musicInfos.getPath() << std::endl;
         throw std::runtime_error("Failed to load music");
     }
 
@@ -272,7 +262,6 @@ std::shared_ptr<ITexture> SFMLTextureManager::get(const std::string& name) const
 
     if (it != _textures.end())
         return it->second;
-    std::cerr << "Error: Texture '" << name << "' not found" << std::endl;
     throw std::runtime_error("Texture not found: " + name);
 }
 
@@ -293,7 +282,6 @@ std::shared_ptr<IFont> SFMLFontManager::get(const std::string& name) const
 
     if (it != _fonts.end())
         return it->second;
-    std::cerr << "Error: Font '" << name << "' not found" << std::endl;
     throw std::runtime_error("Font not found: " + name);
 }
 
