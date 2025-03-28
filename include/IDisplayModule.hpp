@@ -27,42 +27,42 @@ namespace arcade
          * Get the width of the window
          * @return std::size_t Width of the window
          */
-        std::size_t getWidth() const { return width; }
+        std::size_t getWidth() const { return _width; }
 
         /**
          * Set the width of the window
          * @param newWidth New width of the window
          */
-        void setWidth(std::size_t newWidth) { width = newWidth; }
+        void setWidth(std::size_t newWidth) { _width = newWidth; }
 
         /**
          * Get the height of the window
          * @return std::size_t Height of the window
          */
-        std::size_t getHeight() const { return height; }
+        std::size_t getHeight() const { return _height; }
 
         /**
          * Set the height of the window
          * @param newHeight New height of the window
          */
-        void setHeight(std::size_t newHeight) { height = newHeight; }
+        void setHeight(std::size_t newHeight) { _height = newHeight; }
 
         /**
          * Get the title of the window
          * @return const std::string& Title of the window
          */
-        const std::string &getTitle() const { return title; }
+        const std::string &getTitle() const { return _title; }
 
         /**
          * Set the title of the window
          * @param newTitle New title of the window
          */
-        void setTitle(const std::string &newTitle) { title = newTitle; }
+        void setTitle(const std::string &newTitle) { _title = newTitle; }
 
     private:
-        std::size_t width; 
-        std::size_t height;
-        std::string title;
+        std::size_t _width;
+        std::size_t _height;
+        std::string _title;
     };
 
     /**
