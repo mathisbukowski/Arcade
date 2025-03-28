@@ -29,7 +29,7 @@ namespace arcade {
          * @param size Size of the font
          */
         Font(std::string path, Color color, std::size_t size = 12)
-            : path(std::move(path)), color(color), size(size) {}
+            : _path(std::move(path)), _color(color), _size(size) {}
         /**
          * Destroy the Font object
          */
@@ -39,36 +39,36 @@ namespace arcade {
          * Get the path to the font file
          * @return const std::string&
          */
-        [[nodiscard]] const std::string& getPath() const { return path; }
+        [[nodiscard]] const std::string& getPath() const { return _path; }
 
         /**
          * Get the color of the font
          * @return Color
          */
-        [[nodiscard]] Color getColor() const { return color; }
+        [[nodiscard]] Color getColor() const { return _color; }
 
         /**
          * Set the color of the font
          * @param newColor New color of the font
          */
-        void setColor(Color newColor) { color = newColor; }
+        void setColor(Color newColor) { _color = newColor; }
 
         /**
          * Get the size of the font
          * @return std::size_t
          */
-        [[nodiscard]] std::size_t getSize() const { return size; }
+        [[nodiscard]] std::size_t getSize() const { return _size; }
 
         /**
          * Set the size of the font
          * @param newSize New size of the font
          */
-        void setSize(std::size_t newSize) { size = newSize; }
+        void setSize(std::size_t newSize) { _size = newSize; }
 
     private:
-        std::string path;
-        Color color;
-        std::size_t size;
+        std::string _path;
+        Color _color;
+        std::size_t _size;
     };
 
     /**
