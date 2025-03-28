@@ -8,7 +8,8 @@
 #include <unordered_map>
 #include "Vector.hpp"
 
-#pragma once
+#ifndef INPUT_HPP_
+#define INPUT_HPP_
 
 namespace arcade
 {
@@ -97,3 +98,5 @@ namespace arcade
         bool _pressed = false;
     };
 }
+
+#endif /* !INPUT_HPP_ */
