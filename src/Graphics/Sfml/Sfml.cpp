@@ -6,6 +6,7 @@
 */
 
 #include "Sfml.hpp"
+#include "ISound.hpp"
 #include "SFML/Window/WindowStyle.hpp"
 #include <iostream>
 #include <filesystem>
@@ -160,17 +161,9 @@ sf::Font& SFMLFont::getFont()
     return _font;
 }
 
-SFMLSound::SFMLSound(const MySound& soundInfo) : _info(soundInfo)
+SFMLSound::SFMLSound(const SoundInfos &soundInfo) : _info(soundInfo)
 {
-    try {
-        if (std::holds_alternative<SoundInfos>(soundInfo)) {
-            loadSound(std::get<SoundInfos>(soundInfo));
-        } else {
-            loadMusic(std::get<MusicInfos>(soundInfo));
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Error creating sound: " << e.what() << std::endl;
-    }
+    loadSound(soundInfo);
 }
 
 void SFMLSound::loadSound(const SoundInfos& soundInfos)
@@ -189,7 +182,7 @@ void SFMLSound::loadSound(const SoundInfos& soundInfos)
     _sound = sound;
 }
 
-void SFMLSound::loadMusic(const MusicInfos& musicInfos)
+void SFMLSound::loadMusic(const SoundInfos& musicInfos)
 {
     if (!std::filesystem::exists(musicInfos.getPath())) {
         throw std::runtime_error("Music file not found");
@@ -205,7 +198,7 @@ void SFMLSound::loadMusic(const MusicInfos& musicInfos)
     _sound = std::move(music);
 }
 
-const MySound& SFMLSound::getInformations() const
+const SoundInfos& SFMLSound::getInformations() const
 {
     return _info;
 }
@@ -308,7 +301,7 @@ void SFMLSoundManager::stopSound(const std::string& name)
     }
 }
 
-int SFMLSoundManager::load(const std::string& name, MySound sound) const
+int SFMLSoundManager::load(const std::string& name, SoundInfos sound) const
 {
     try {
         _sounds[name] = std::make_shared<SFMLSound>(sound);
