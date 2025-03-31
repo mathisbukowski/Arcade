@@ -32,19 +32,40 @@ void arcade::DynamicLibraryManager::scanDirectory(const std::string& libToLoad)
 
     if (!std::filesystem::exists(dirToLoad) || !std::filesystem::is_directory(dirToLoad))
         throw std::runtime_error("No such directory: " + dirToLoad.string());
+
+    std::shared_ptr<DynamicLibraryObject> requestedLib = nullptr;
+
     for (const auto& entry : std::filesystem::directory_iterator(dirToLoad)) {
         if (entry.path().extension() == ".so") {
-            auto newLib = std::make_shared<DynamicLibraryObject>(entry.path().string());
-            if (!newLib) {
-                std::cout << "Error: Failed to load library " << entry.path().string() << std::endl;
-                continue;
+            try {
+                auto newLib = std::make_shared<DynamicLibraryObject>(entry.path().string());
+                if (!newLib) {
+                    std::cout << "Error: Failed to load library " << entry.path().string() << std::endl;
+                    continue;
+                }
+
+                _libraries.emplace(entry.path().string(), newLib);
+
+                if (entry.path().string() == libToLoad) {
+                    requestedLib = newLib;
+                }
+            } catch (const std::exception& e) {
+                std::cerr << "Error loading library " << entry.path().string() << ": " << e.what() << std::endl;
             }
-            _libraries.emplace(entry.path().string(), newLib);
-            auto newType = newLib->getType();
-            if (entry.path().string() == libToLoad && newType == GAME)
-                throw std::runtime_error("'" + libToLoad + "' not a graphical library");
-            this->setCurrentGraphicLib(newLib);
         }
+    }
+    if (requestedLib) {
+        auto type = requestedLib->getType();
+        if (type == GAME) {
+            throw std::runtime_error("'" + libToLoad + "' not a graphical library");
+        } else if (type == DISPLAY) {
+            setCurrentGraphicLib(requestedLib);
+            std::cout << "Set current graphic library to: " << requestedLib->getName() << std::endl;
+        } else {
+            throw std::runtime_error("'" + libToLoad + "' has unknown type");
+        }
+    } else {
+        throw std::runtime_error("Failed to load requested library: " + libToLoad);
     }
 }
 
@@ -76,6 +97,8 @@ void arcade::DynamicLibraryManager::setCurrentGameLib(const std::shared_ptr<Dyna
 }
 
 std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getCurrentGameLib() const {
+    if (!_currentGameLib)
+        std::cerr << "Warning: Current game library is null" << std::endl;
     return _currentGameLib;
 }
 
@@ -84,6 +107,8 @@ void arcade::DynamicLibraryManager::setCurrentGraphicLib(const std::shared_ptr<D
 }
 
 std::shared_ptr<arcade::DynamicLibraryObject> arcade::DynamicLibraryManager::getCurrentGraphicLib() const {
+    if (!_currentGraphicLib)
+        std::cerr << "Warning: Current graphic library is null" << std::endl;
     return _currentGraphicLib;
 }
 
@@ -124,4 +149,3 @@ void arcade::DynamicLibraryManager::setNextGame()
         }
     }
 }
-

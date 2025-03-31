@@ -6,6 +6,7 @@
 */
 
 #include "Sfml.hpp"
+#include "ISound.hpp"
 #include "SFML/Window/WindowStyle.hpp"
 #include <iostream>
 #include <filesystem>
@@ -160,17 +161,9 @@ sf::Font& SFMLFont::getFont()
     return _font;
 }
 
-SFMLSound::SFMLSound(const MySound& soundInfo) : _info(soundInfo)
+SFMLSound::SFMLSound(const SoundInfos &soundInfo) : _info(soundInfo)
 {
-    try {
-        if (std::holds_alternative<SoundInfos>(soundInfo)) {
-            loadSound(std::get<SoundInfos>(soundInfo));
-        } else {
-            loadMusic(std::get<MusicInfos>(soundInfo));
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Error creating sound: " << e.what() << std::endl;
-    }
+    loadSound(soundInfo);
 }
 
 void SFMLSound::loadSound(const SoundInfos& soundInfos)
@@ -189,7 +182,7 @@ void SFMLSound::loadSound(const SoundInfos& soundInfos)
     _sound = sound;
 }
 
-void SFMLSound::loadMusic(const MusicInfos& musicInfos)
+void SFMLSound::loadMusic(const SoundInfos& musicInfos)
 {
     if (!std::filesystem::exists(musicInfos.getPath())) {
         throw std::runtime_error("Music file not found");
@@ -205,7 +198,7 @@ void SFMLSound::loadMusic(const MusicInfos& musicInfos)
     _sound = std::move(music);
 }
 
-const MySound& SFMLSound::getInformations() const
+const SoundInfos& SFMLSound::getInformations() const
 {
     return _info;
 }
@@ -308,7 +301,7 @@ void SFMLSoundManager::stopSound(const std::string& name)
     }
 }
 
-int SFMLSoundManager::load(const std::string& name, MySound sound) const
+int SFMLSoundManager::load(const std::string& name, SoundInfos sound) const
 {
     try {
         _sounds[name] = std::make_shared<SFMLSound>(sound);
@@ -325,7 +318,6 @@ std::shared_ptr<ISound> SFMLSoundManager::get(const std::string& name) const
 
     if (it != _sounds.end())
         return it->second;
-    std::cerr << "Error: Sound '" << name << "' not found" << std::endl;
     throw std::runtime_error("Sound not found: " + name);
 }
 
@@ -352,8 +344,6 @@ SFMLDisplay::~SFMLDisplay()
 void SFMLDisplay::init()
 {
     try {
-        std::cout << "SFMLDisplay::init() - Creating window..." << std::endl;
-
         if (_window != nullptr) {
             _window->close();
             delete _window;
@@ -367,9 +357,6 @@ void SFMLDisplay::init()
         if (!_window)
             throw std::runtime_error("Failed to create SFML window");
         _window->setFramerateLimit(60);
-        std::cout << "SFMLDisplay::init() - Window created: "
-            << _window->getSize().x << "x" << _window->getSize().y
-            << ", isOpen: " << (_window->isOpen() ? "yes" : "no") << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Error in SFMLDisplay::init(): " << e.what() << std::endl;
         throw;
@@ -563,6 +550,7 @@ Keyboard::KeyCode SFMLDisplay::mapSfmlKeyToArcade(sf::Keyboard::Key sfmlKey)
         {sf::Keyboard::X, Keyboard::KeyCode::X},
         {sf::Keyboard::Y, Keyboard::KeyCode::Y},
         {sf::Keyboard::Z, Keyboard::KeyCode::Z},
+        {sf::Keyboard::Return, Keyboard::KeyCode::ENTER},
         {sf::Keyboard::Num1, Keyboard::KeyCode::KEY_1},
         {sf::Keyboard::Num2, Keyboard::KeyCode::KEY_2},
         {sf::Keyboard::Num3, Keyboard::KeyCode::KEY_3},

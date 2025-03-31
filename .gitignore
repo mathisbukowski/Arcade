@@ -8,6 +8,8 @@ cmake-build-release/
 *.c
 .vscode/
 arcade
+!arcade/
 *.json
 site
 build/
+.cache/
