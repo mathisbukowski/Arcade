@@ -44,7 +44,7 @@ jobs:
           fi
       - name: "Verify Graphic Libraries Presence"
         run: |
-          if [[ -f "lib/arcade_sdl2.so" ]] || [[ -f "lib/arcade_sfml.so" ]]; then
+          if [[ -f lib/arcade_sdl2.so && -f lib/arcade_sfml.so ]]; then
             echo "All libraries exist."
           else
             echo "One or more libraries don't exist."
