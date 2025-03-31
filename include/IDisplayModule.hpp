@@ -21,6 +21,8 @@ namespace arcade
     class WindowProperties
     {
     public:
+        WindowProperties(const std::string& title, std::size_t width, std::size_t height): _width(width), _height(height), _title(title) {}
+        ~WindowProperties() = default;
         /**
          * Get the width of the window
          * @return std::size_t Width of the window
@@ -75,7 +77,7 @@ namespace arcade
         /**
          * Initialize the display module
          */
-        virtual void init() = 0;
+        virtual void init(const std::string& title, size_t width, size_t height) = 0;
         /**
          * Stop the display module
          */
@@ -86,7 +88,7 @@ namespace arcade
          */
         [[nodiscard]] virtual const std::string &getName() const = 0;
         /**
-         * Get the window properties
+         * Set the window properties
          * @param windowProperties width, height and title of the window
          */
         virtual void setupWindowProperties(WindowProperties &windowProperties) = 0;
