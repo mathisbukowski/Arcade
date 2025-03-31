@@ -45,7 +45,7 @@ jobs:
       - name: "Verify Graphic Libraries Presence"
         run: |
           for lib in lib/arcade_sdl2.so lib/arcade_sfml.so; do
-              if [[ ! -f "$lib" ]]; then
+              if [ ! -f "$lib" ]; then
                 echo "Missing library: $lib"
                 exit 1
               fi
