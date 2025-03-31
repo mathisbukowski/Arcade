@@ -28,7 +28,7 @@ namespace arcade
         enum KeyCode
         {
             A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V,
-            W, X, Y, Z, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9,
+            W, X, Y, Z, ENTER, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9,
             UP, DOWN, LEFT, RIGHT, ESCAPE, UNKNOWN
         };
         static KeyCode keyCode;
