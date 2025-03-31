@@ -270,10 +270,11 @@ void BaseSnakeGame::GameState::decrementTimeRemaining(float delta)
 }
 
 IDisplayLibrary& BaseSnakeGame::getDisplayLibrary() const {
-    if (!displayLib.has_value()) {
+    if (!displayLib.has_value())
         throw std::runtime_error("Display library not initialized");
-    }
-    return displayLib->get();
+
+    IDisplayLibrary& lib = displayLib->get();
+    return lib;
 }
 
 bool BaseSnakeGame::hasDisplayLibrary() const noexcept {
@@ -302,9 +303,14 @@ BaseSnakeGame::BaseSnakeGame(GameMode mode)
 }
 
 void BaseSnakeGame::init(IDisplayLibrary &library) {
-    displayLib = library;
-    setupGame();
-    loadTextures();
+    try {
+        displayLib = library;
+        setupGame();
+        loadTextures();
+        loadSounds();
+    } catch (const std::exception& e) {
+        throw std::runtime_error("Failed to initialize game: " + std::string(e.what()));
+    }
 }
 
 void BaseSnakeGame::setupGame() {
@@ -352,6 +358,21 @@ void BaseSnakeGame::loadWallTexture(ITextureManager& textures) {
 
     if (wallId < 0)
         std::cerr << "Failed to load wall texture" << std::endl;
+}
+
+void BaseSnakeGame::loadSounds() {
+    if (!hasDisplayLibrary())
+        return;
+
+    try {
+        auto& sounds = getDisplayLibrary().getSounds();
+        sounds.load("game_over", SoundInfos("assets/sounds/game_over.wav"));
+        sounds.load("eat", SoundInfos("assets/sounds/eat.wav"));
+        sounds.load("level_complete", SoundInfos("assets/sounds/level_complete.wav"));
+        std::cout << "Sounds loaded successfully" << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error loading sounds: " << e.what() << std::endl;
+    }
 }
 
 void BaseSnakeGame::initGrid() {

@@ -81,17 +81,17 @@ private:
  */
 class SFMLSound : public ISound {
 public:
-    explicit SFMLSound(const MySound& soundInfo);
+    explicit SFMLSound(const ISound& soundInfo);
     ~SFMLSound() override = default;
 
-    const MySound& getInformations() const override;
+    const SoundInfos& getInformations() const override;
     void play(float volume);
     void stop();
 
 private:
     void loadSound(const SoundInfos& soundInfos);
-    void loadMusic(const MusicInfos& musicInfos);
-    MySound _info;
+    void loadMusic(const SoundInfos& musicInfos);
+    SoundInfos _info;
     std::variant<sf::Sound, std::unique_ptr<sf::Music>> _sound;
     sf::SoundBuffer _buffer;
 };
@@ -136,7 +136,7 @@ public:
 
     void playSound(const std::string& name, const float volume) override;
     void stopSound(const std::string& name) override;
-    int load(const std::string& name, MySound sound) const override;
+    int load(const std::string& name, SoundInfos sound) const;
     std::shared_ptr<ISound> get(const std::string& name) const override;
 
 private:
