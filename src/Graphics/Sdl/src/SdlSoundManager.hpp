@@ -17,13 +17,13 @@ namespace arcade {
     class SDLSound : public ISound {
     public:
         SDLSound();
-        [[nodiscard]] const MySound& getInformations() const override { return _soundInformations; }
+        [[nodiscard]] const SoundInfos& getInformations() const override { return _soundInformations; }
     private:
-        MySound _soundInformations;
+        SoundInfos _soundInformations;
     };
     class SDLSoundManager : public ISoundManager {
     public:
-        int load(const std::string& name, const MySound& sound) override;
+        int load(const std::string& name, const SoundInfos& sound) override;
         [[nodiscard]] std::shared_ptr<ISound> get(const std::string& name) const override;
     private:
         std::map<std::string, std::shared_ptr<SDLSound>> _sounds;

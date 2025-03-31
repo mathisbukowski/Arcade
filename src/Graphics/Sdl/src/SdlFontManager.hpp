@@ -22,6 +22,8 @@ namespace arcade {
         int createFont(const Font &informations);
         ~SDLFont() override = default;
         [[nodiscard]] const Font &getInformations() const override { return _fontInformations; }
+        [[nodiscard]] const std::shared_ptr<TTF_Font> &getFont() const { return _font; }
+        void setFont(const std::shared_ptr<TTF_Font> &font) { _font = font; };
     private:
         std::shared_ptr<TTF_Font> _font;
         Font _fontInformations;
@@ -29,16 +31,20 @@ namespace arcade {
 
     class SDLFontManager : public IFontManager {
     public:
-        SDLFontManager(std::shared_ptr<SDL_Renderer> renderer) : _renderer(std::move(renderer))
+        SDLFontManager()
         {
-            TTF_Init();
+            if (TTF_Init() == -1)
+                throw std::runtime_error("Failed to initialize TTF");
+            if (TTF_WasInit() == 0)
+                throw std::runtime_error("Failed to initialize TTF");
+            if (TTF_GetError() != nullptr)
+                throw std::runtime_error("Failed to initialize TTF");
         };
         ~SDLFontManager() override = default;
         int load(const std::string& name, const Font& newFont) override;
         [[nodiscard]] std::shared_ptr<IFont> get(const std::string& name) const override;
 
     private:
-        std::shared_ptr<SDL_Renderer> _renderer;
         std::map<std::string, std::shared_ptr<IFont>> _fonts;
     };
 }

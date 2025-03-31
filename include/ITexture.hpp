@@ -81,7 +81,7 @@ namespace arcade {
         explicit TextureBase(const std::optional<Rect> &rect = std::nullopt)
             : _rect(rect), _width(0), _height(0) {}
 
-        virtual ~TextureBase() = default;
+        virtual ~TextureBase();
 
         /**
          * Get the Rect object

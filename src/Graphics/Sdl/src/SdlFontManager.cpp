@@ -23,6 +23,8 @@ int arcade::SDLFont::createFont(const Font &informations)
 int arcade::SDLFontManager::load(const std::string& name, const Font &newFont)
 {
     auto font = std::make_shared<SDLFont>(newFont);
+    if (font->createFont(newFont) == -1)
+        return -1;
     if (_fonts.find(name) != _fonts.end())
         return -1;
     _fonts.emplace(name, font);

@@ -10,6 +10,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
 
+#include "SdlTextureManager.hpp"
+
 arcade::SDLDisplayModule::SDLDisplayModule(const std::string& name): _windowProperties("", 0, 0), _name(name), _isOpen(false) {}
 
 arcade::SDLDisplayModule::~SDLDisplayModule()
@@ -21,9 +23,10 @@ void arcade::SDLDisplayModule::init(const std::string& title, std::size_t width,
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
         throw std::runtime_error("Failed to initialize SDL");
-    _windowProperties = WindowProperties(title, width, height);
-    this->setupWindowProperties(_windowProperties);
-    auto window = SDL_CreateWindow(_windowProperties.getTitle().c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _windowProperties.getWidth(), _windowProperties.getHeight(), 0);
+    WindowProperties newWindownProperties = {title, width, height};
+    this->setupWindowProperties(newWindownProperties);
+    auto window = SDL_CreateWindow(_windowProperties.getTitle().c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+    static_cast<int>(_windowProperties.getWidth()), static_cast<int>(_windowProperties.getHeight()), 0);
     if (!window)
         throw std::runtime_error("Failed to create window");
     this->_window.reset(window, SDL_DestroyWindow);
@@ -67,4 +70,14 @@ void arcade::SDLDisplayModule::updateWindow(float delta)
         }
     }
     SDL_UpdateWindowSurface(window);
+}
+
+void arcade::SDLDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
+{
+    auto sdlTexture = std::dynamic_pointer_cast<SDLTexture>(texture);
+    if (!sdlTexture)
+        throw std::runtime_error("Invalid texture type");
+    SDL_Rect rect = sdlTexture->getRect();
+    SDL_RenderCopy(_renderer.get(), sdlTexture->getTexture().get(), nullptr, &rect);
+    SDL_RenderPresent(_renderer.get());
 }

@@ -21,7 +21,7 @@ namespace arcade
     class WindowProperties
     {
     public:
-        WindowProperties(const std::string& title, std::size_t width, std::size_t height): width(width), height(height), title(title) {}
+        WindowProperties(const std::string& title, std::size_t width, std::size_t height): _width(width), _height(height), _title(title) {}
         ~WindowProperties() = default;
         /**
          * Get the width of the window

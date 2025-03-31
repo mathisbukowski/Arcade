@@ -13,8 +13,10 @@
 #include <memory>
 #include <utility>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "ITexture.hpp"
+#include "SdlFontManager.hpp"
 
 
 namespace arcade {
@@ -22,8 +24,20 @@ namespace arcade {
     public:
         SDLTexture();
         ~SDLTexture() = default;
-        int load(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer);
+        int createTexture(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer);
+
         const MyTexture &getInformations() const override { return _textureInformations; }
+
+        void setInformations(const MyTexture& newTexture) { _textureInformations = newTexture; }
+
+        [[nodiscard]] std::shared_ptr<SDL_Texture> getTexture() const { return _texture; }
+
+        [[nodiscard]] SDL_Rect getRect() const { return _rect; }
+
+        void setRect(Rect rect) { _rect = {static_cast<int>(rect.getPosition().getY()), static_cast<int>(rect.getPosition().getY()), static_cast<int>(rect.getWidth()), static_cast<int>(rect.getHeight())}; }
+
+        void setTexture(std::shared_ptr<SDL_Texture> texture) { _texture = std::move(texture); }
+
     private:
         SDL_Rect _rect = {0, 0, 0, 0};
         std::shared_ptr<SDL_Texture> _texture = nullptr;
@@ -32,13 +46,14 @@ namespace arcade {
 
     class SDLTextureManager : public ITextureManager {
     public:
-        SDLTextureManager(std::shared_ptr<SDL_Renderer> renderer) : _renderer(std::move(renderer)) {}
+        SDLTextureManager(std::shared_ptr<SDL_Renderer> renderer, std::shared_ptr<SDLFontManager> fontManager) : _renderer(std::move(renderer)), _fontManager(fontManager) {}
         ~SDLTextureManager() override = default;
         int load(const std::string& name, const MyTexture& newTexture) override;
         [[nodiscard]] std::shared_ptr<ITexture> get(const std::string& name) const override;
     private:
         std::shared_ptr<SDL_Renderer> _renderer;
         std::map<std::string, std::shared_ptr<SDLTexture>> _textures;
+        std::shared_ptr<SDLFontManager> _fontManager;
     };
 };
 
