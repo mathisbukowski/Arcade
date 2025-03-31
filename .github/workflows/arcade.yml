@@ -42,14 +42,15 @@ jobs:
               echo "arcade does not exist or is not executable."
               exit 1
           fi
-      - name: "Verify Libraries Presence"
+      - name: "Verify Graphic Libraries Presence"
         run: |
-          if [ -f "lib/arcade_sdl2.so" ]; then
-            echo "SDL2 Library exists."
-          else
-            echo "SDL2 Library doesn't exist."
-            exit 1
-          fi
+          for lib in lib/arcade_sdl2.so lib/arcade_sfml.so; do
+              if [ ! -f "$lib" ]; then
+                echo "Missing library: $lib"
+                exit 1
+              fi
+          done
+          echo "All libraries exist."
 
   push_to_mirror:
     needs: check_program_compilation

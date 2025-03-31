@@ -67,7 +67,7 @@ void Core::initializeGraphicsLib(const std::string& path) {
         using EntryPointFunc = IDisplayLibrary* (*)();
         auto entryPointFunc = graphicLib->getFunction<EntryPointFunc>("entryPoint");
         _currentGraphicLib.reset(entryPointFunc());
-        _currentGraphicLib->getDisplay().init();
+        _currentGraphicLib->getDisplay().init("Arcade", 800, 600);
     } catch (const std::exception& e) {
         std::cerr << "Failed to initialize graphics library: " << e.what() << std::endl;
         throw;
@@ -355,7 +355,7 @@ void Core::switchGraphicsLib(const std::string& libName) {
             auto entryPointFunc = lib->getFunction<EntryPointFunc>("entryPoint");
 
             _currentGraphicLib.reset(entryPointFunc());
-            _currentGraphicLib->getDisplay().init();
+            _currentGraphicLib->getDisplay().init("Arcade", 800, 600);
             if (_state == GameState::GAME && _currentGame) {
                 _currentGame->stop();
                 _currentGame->init(*_currentGraphicLib);

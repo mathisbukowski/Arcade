@@ -81,7 +81,7 @@ private:
  */
 class SFMLSound : public ISound {
 public:
-    explicit SFMLSound(const ISound& soundInfo);
+    SFMLSound(const SoundInfos& soundInfo);
     ~SFMLSound() override = default;
 
     const SoundInfos& getInformations() const override;
@@ -119,7 +119,7 @@ public:
     SFMLFontManager() noexcept = default;
     ~SFMLFontManager() override = default;
 
-    int load(const std::string& name, const Font font) const override;
+    int load(const std::string& name, const Font& font) override;
     std::shared_ptr<IFont> get(const std::string& name) const override;
 
 private:
@@ -136,7 +136,7 @@ public:
 
     void playSound(const std::string& name, const float volume) override;
     void stopSound(const std::string& name) override;
-    int load(const std::string& name, SoundInfos sound) const;
+    int load(const std::string& name, const SoundInfos& sound) override;
     std::shared_ptr<ISound> get(const std::string& name) const override;
 
 private:
@@ -151,7 +151,7 @@ public:
     SFMLDisplay();
     ~SFMLDisplay() override;
 
-    void init() override;
+    void init(const std::string& title, size_t width, size_t height) override;
     void stop() override;
     const std::string& getName() const override;
     void setupWindowProperties(WindowProperties& properties) override;

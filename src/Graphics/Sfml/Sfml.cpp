@@ -258,7 +258,7 @@ std::shared_ptr<ITexture> SFMLTextureManager::get(const std::string& name) const
     throw std::runtime_error("Texture not found: " + name);
 }
 
-int SFMLFontManager::load(const std::string& name, const Font font) const
+int SFMLFontManager::load(const std::string& name, const Font& font)
 {
     try {
         _fonts[name] = std::make_shared<SFMLFont>(font);
@@ -301,7 +301,7 @@ void SFMLSoundManager::stopSound(const std::string& name)
     }
 }
 
-int SFMLSoundManager::load(const std::string& name, SoundInfos sound) const
+int SFMLSoundManager::load(const std::string& name, const SoundInfos& sound)
 {
     try {
         _sounds[name] = std::make_shared<SFMLSound>(sound);
@@ -321,12 +321,8 @@ std::shared_ptr<ISound> SFMLSoundManager::get(const std::string& name) const
     throw std::runtime_error("Sound not found: " + name);
 }
 
-SFMLDisplay::SFMLDisplay() : _name("SFML"), _window(nullptr)
-{
-    _properties.setWidth(800);
-    _properties.setHeight(600);
-    _properties.setTitle("Arcade - SFML");
-}
+SFMLDisplay::SFMLDisplay() : _name("SFML"), _window(nullptr), _properties(WindowProperties("", 0, 0))
+{}
 
 SFMLDisplay::~SFMLDisplay()
 {
@@ -341,7 +337,7 @@ SFMLDisplay::~SFMLDisplay()
     }
 }
 
-void SFMLDisplay::init()
+void SFMLDisplay::init(const std::string& title, size_t width, size_t height)
 {
     try {
         if (_window != nullptr) {
@@ -350,8 +346,8 @@ void SFMLDisplay::init()
             _window = nullptr;
         }
         _window = new sf::RenderWindow(
-            sf::VideoMode(_properties.getWidth(), _properties.getHeight()),
-            _properties.getTitle(),
+            sf::VideoMode(width, width),
+            title,
             sf::Style::Titlebar | sf::Style::Close
         );
         if (!_window)
@@ -394,7 +390,7 @@ void SFMLDisplay::openWindow()
 {
     try {
         if (_window == nullptr) {
-            init();
+            init(_properties.getTitle(), _properties.getWidth(), _properties.getHeight());
         } else if (!_window->isOpen()) {
             _window->create(
                 sf::VideoMode(_properties.getWidth(), _properties.getHeight()),
