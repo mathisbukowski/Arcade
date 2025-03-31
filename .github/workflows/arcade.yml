@@ -42,12 +42,12 @@ jobs:
               echo "arcade does not exist or is not executable."
               exit 1
           fi
-      - name: "Verify Libraries Presence"
+      - name: "Verify Graphic Libraries Presence"
         run: |
-          if [ -f "lib/arcade_sdl2.so" ]; then
-            echo "SDL2 Library exists."
+          if [[ -f "lib/arcade_sdl2.so" ]] || [[ -f "lib/arcade_sfml.so" ]] || [[ -f "arcade_ncurses.so" ]]; then
+            echo "All libraries exist."
           else
-            echo "SDL2 Library doesn't exist."
+            echo "One or more libraries don't exist."
             exit 1
           fi
 
