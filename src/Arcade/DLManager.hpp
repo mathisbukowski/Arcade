@@ -11,9 +11,7 @@
 #include <dlfcn.h>
 #include <string>
 #include <memory>
-#include <stdexcept>
 #include <map>
-#include <vector>
 #include "Arcade.hpp"
 #include "DLObject.hpp"
 
