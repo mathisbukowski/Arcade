@@ -138,6 +138,7 @@ namespace arcade
         void loadTextures();
         void loadBasicTextures(ITextureManager& textures);
         void loadWallTexture(ITextureManager& textures);
+        void loadSounds();
 
         void handleWallCollision();
         void handleSelfCollision();
