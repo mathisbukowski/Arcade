@@ -11,3 +11,4 @@ arcade
 *.json
 site
 build/
+.cache/
