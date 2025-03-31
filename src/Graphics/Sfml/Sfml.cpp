@@ -325,7 +325,6 @@ std::shared_ptr<ISound> SFMLSoundManager::get(const std::string& name) const
 
     if (it != _sounds.end())
         return it->second;
-    std::cerr << "Error: Sound '" << name << "' not found" << std::endl;
     throw std::runtime_error("Sound not found: " + name);
 }
 
@@ -352,8 +351,6 @@ SFMLDisplay::~SFMLDisplay()
 void SFMLDisplay::init()
 {
     try {
-        std::cout << "SFMLDisplay::init() - Creating window..." << std::endl;
-
         if (_window != nullptr) {
             _window->close();
             delete _window;
@@ -367,9 +364,6 @@ void SFMLDisplay::init()
         if (!_window)
             throw std::runtime_error("Failed to create SFML window");
         _window->setFramerateLimit(60);
-        std::cout << "SFMLDisplay::init() - Window created: "
-            << _window->getSize().x << "x" << _window->getSize().y
-            << ", isOpen: " << (_window->isOpen() ? "yes" : "no") << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Error in SFMLDisplay::init(): " << e.what() << std::endl;
         throw;
@@ -563,6 +557,7 @@ Keyboard::KeyCode SFMLDisplay::mapSfmlKeyToArcade(sf::Keyboard::Key sfmlKey)
         {sf::Keyboard::X, Keyboard::KeyCode::X},
         {sf::Keyboard::Y, Keyboard::KeyCode::Y},
         {sf::Keyboard::Z, Keyboard::KeyCode::Z},
+        {sf::Keyboard::Return, Keyboard::KeyCode::ENTER},
         {sf::Keyboard::Num1, Keyboard::KeyCode::KEY_1},
         {sf::Keyboard::Num2, Keyboard::KeyCode::KEY_2},
         {sf::Keyboard::Num3, Keyboard::KeyCode::KEY_3},
