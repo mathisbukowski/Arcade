@@ -24,6 +24,20 @@ add_library(arcade_sdl2 SHARED ${SDL_SRC} ${SDL_INC})
 target_include_directories(arcade_sdl2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Sdl ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_target_properties(arcade_sdl2 PROPERTIES PREFIX "")
 
+# Compile SFML Dynamic Lib
+file (GLOB_RECURSE SFML_SRC "src/Graphics/Sfml/*.cpp")
+file (GLOB_RECURSE SFML_INC "src/Graphics/Sfml/*.hpp")
+add_library(arcade_sfml SHARED ${SFML_SRC} ${SFML_INC})
+target_include_directories(arcade_sfml PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Sfml ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set_target_properties(arcade_sfml PROPERTIES PREFIX "")
+
+# Compile Ncurses Dynamic Lib
+file (GLOB_RECURSE NCURSES_SRC "src/Graphics/Ncurses/*.cpp")
+file (GLOB_RECURSE NCURSES_INC "src/Graphics/Ncurses/*.hpp")
+add_library(arcade_ncurses SHARED ${NCURSES_SRC} ${NCURSES_INC})
+target_include_directories(arcade_ncurses PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Ncurses ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set_target_properties(arcade_ncurses PROPERTIES PREFIX "")
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Arcade ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
