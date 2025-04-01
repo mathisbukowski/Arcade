@@ -24,7 +24,7 @@ std::shared_ptr<arcade::ITexture> arcade::SDLTextureManager::get(const std::stri
     return it->second;
 }
 
-int arcade::SDLTextureManager::load(const std::string& name, MyTexture& newTexture)
+int arcade::SDLTextureManager::load(const std::string& name, const MyTexture& newTexture)
 {
     auto texture = std::make_shared<SDLTexture>();
     texture->createTexture(newTexture, _renderer);
