@@ -24,7 +24,7 @@ std::shared_ptr<arcade::ITexture> arcade::SDLTextureManager::get(const std::stri
     return it->second;
 }
 
-int arcade::SDLTextureManager::load(const std::string& name, const MyTexture& newTexture)
+int arcade::SDLTextureManager::load(const std::string& name, MyTexture& newTexture)
 {
     auto texture = std::make_shared<SDLTexture>();
     texture->createTexture(newTexture, _renderer);
@@ -39,7 +39,6 @@ int arcade::SDLTextureManager::load(const std::string& name, const MyTexture& ne
 int arcade::SDLTexture::createTexture(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer)
 {
     this->_textureInformations = textureInfos;
-    this->_textureInformations = TextureImg("coucou", Rect(Vector<float>(0, 0), 0, 0));
 
     if (std::holds_alternative<TextureImg>(this->_textureInformations)) {
         const TextureImg& textureImg = std::get<TextureImg>(this->_textureInformations);
