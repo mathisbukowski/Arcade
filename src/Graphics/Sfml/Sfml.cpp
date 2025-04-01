@@ -13,7 +13,9 @@
 
 namespace arcade {
 
-SFMLTexture::SFMLTexture(const MyTexture& textureInfo) : _info(textureInfo), _font(std::make_shared<sf::Font>())
+SFMLTexture::SFMLTexture(MyTexture& textureInfo) : _info(textureInfo),
+                                                         _font(std::make_shared<sf::Font>()),
+    ITexture(textureInfo)
 {
     try {
         if (std::holds_alternative<TextureImg>(textureInfo)) {
@@ -238,7 +240,7 @@ void SFMLSound::stop()
     }
 }
 
-int SFMLTextureManager::load(const std::string& name, const MyTexture& newTexture)
+int SFMLTextureManager::load(const std::string& name, MyTexture& newTexture)
 {
     try {
         _textures[name] = std::make_shared<SFMLTexture>(newTexture);

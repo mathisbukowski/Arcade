@@ -28,7 +28,7 @@ namespace arcade {
 
         const MyTexture &getInformations() const override { return _textureInformations; }
 
-        void setInformations(const MyTexture& newTexture) { _textureInformations = newTexture; }
+        void set(MyTexture& newTexture) override { _textureInformations = newTexture; }
 
         [[nodiscard]] std::shared_ptr<SDL_Texture> getTexture() const { return _texture; }
 

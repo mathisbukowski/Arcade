@@ -99,14 +99,14 @@ void Core::displayMenu() {
     auto& textures = _currentGraphicLib->getTextures();
 
     display.clearWindow(Color(0, 0, 0));
-    TextureText titleText("ARCADE", Color(255, 255, 255));
+    auto titleText = MyTexture(TextureText("Arcade", Color(255, 255, 255)));
     textures.load("menu_title", titleText);
     display.drawTexture(textures.get("menu_title"), Vector<float>(300, 50));
     renderGameList(100, 150);
     renderGraphicsList(500, 150);
     renderScores(100, 350);
     renderPlayerNameInput(500, 400);
-    TextureText instructionsText("Controls: F1-Next Lib, F2-Next Game, F3-Restart, ESC-Exit", Color(200, 200, 200));
+    auto instructionsText = MyTexture(TextureText("Controls: F1-Next Lib, F2-Next Game, F3-Restart, ESC-Exit", Color(200, 200, 200)));
     textures.load("menu_instructions", instructionsText);
     display.drawTexture(textures.get("menu_instructions"), Vector<float>(150, 550));
     display.updateWindow(_deltaTime);
@@ -213,7 +213,7 @@ void Core::renderGameList(int x, int y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 
-    TextureText gamesTitle("Games:", Color(255, 255, 255));
+    auto gamesTitle = MyTexture(TextureText("Games:", Color(255, 255, 255)));
     textures.load("games_title", gamesTitle);
     display.drawTexture(textures.get("games_title"), Vector<float>(x, y));
 
@@ -242,7 +242,7 @@ void Core::renderGameList(int x, int y) {
             textColor = Color(200, 200, 200);
         }
         std::string displayName = isSelected ? "> " + name : "  " + name;
-        TextureText gameText(displayName, textColor);
+        auto gameText = MyTexture(TextureText(displayName, textColor));
         textures.load("game_" + std::to_string(index), gameText);
         display.drawTexture(textures.get("game_" + std::to_string(index)), Vector<float>(x, y + yOffset));
         yOffset += 25;
@@ -254,7 +254,7 @@ void Core::renderGraphicsList(int x, int y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 
-    TextureText graphicsTitle("Graphics:", Color(255, 255, 255));
+    auto graphicsTitle = MyTexture(TextureText("Graphics Libraries:", Color(255, 255, 255)));
     textures.load("graphics_title", graphicsTitle);
     display.drawTexture(textures.get("graphics_title"), Vector<float>(x, y));
 
@@ -262,7 +262,7 @@ void Core::renderGraphicsList(int x, int y) {
     int yOffset = 30;
 
     for (const auto& [name, lib] : graphicLibs) {
-        TextureText graphicText(name, Color(200, 200, 200));
+        auto graphicText = MyTexture(TextureText(name, Color(200, 200, 200)));
         textures.load("graphic_" + name, graphicText);
         display.drawTexture(textures.get("graphic_" + name), Vector<float>(x, y + yOffset));
         yOffset += 25;
@@ -273,7 +273,7 @@ void Core::renderScores(int x, int y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 
-    TextureText scoresTitle("High Scores:", Color(255, 255, 255));
+    auto scoresTitle = MyTexture(TextureText("Scores:", Color(255, 255, 255)));
     textures.load("scores_title", scoresTitle);
     display.drawTexture(textures.get("scores_title"), Vector<float>(x, y));
 
@@ -287,7 +287,7 @@ void Core::renderScores(int x, int y) {
         if (count >= 10) break;
 
         std::string scoreText = score.playerName + " - " + score.gameName + ": " + std::to_string(score.score);
-        TextureText scoreTextObj(scoreText, Color(200, 200, 200));
+        auto scoreTextObj = MyTexture(TextureText(scoreText, Color(200, 200, 200)));
         textures.load("score_" + std::to_string(count), scoreTextObj);
         display.drawTexture(textures.get("score_" + std::to_string(count)), Vector<float>(x, y + yOffset));
 
@@ -300,11 +300,11 @@ void Core::renderPlayerNameInput(int x, int y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 
-    TextureText nameTitle("Your Name:", Color(255, 255, 255));
+    auto nameTitle = MyTexture(TextureText("Your Name:", Color(255, 255, 255)));
     textures.load("name_title", nameTitle);
     display.drawTexture(textures.get("name_title"), Vector<float>(x, y));
 
-    TextureText nameText(_playerName + "_", Color(255, 255, 0));
+    auto nameText = MyTexture(TextureText(_playerName + "_", Color(255, 255, 0)));
     textures.load("player_name", nameText);
     display.drawTexture(textures.get("player_name"), Vector<float>(x, y + 30));
 }

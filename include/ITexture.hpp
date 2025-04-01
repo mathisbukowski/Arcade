@@ -216,7 +216,7 @@ namespace arcade {
         virtual void set(MyTexture &texture) = 0;
 
     protected:
-        explicit ITexture(MyTexture &texture) {};
+        explicit ITexture([[maybe_unused]]MyTexture &texture) {}
     };
 
     /**

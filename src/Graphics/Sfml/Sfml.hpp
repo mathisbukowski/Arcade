@@ -40,10 +40,11 @@ class SFMLSound;
  */
 class SFMLTexture : public ITexture {
 public:
-    explicit SFMLTexture(const MyTexture& textureInfo);
+    explicit SFMLTexture(MyTexture& textureInfo);
     ~SFMLTexture() override = default;
 
     const MyTexture& getInformations() const override;
+    void set(MyTexture& newTexture) override;
     sf::Sprite& getSprite();
     sf::Text& getText();
     bool isText() const;
@@ -104,7 +105,7 @@ public:
     SFMLTextureManager() noexcept = default;  // Simplified constructor
     ~SFMLTextureManager() override = default;
 
-    int load(const std::string& name, const MyTexture& newTexture) override;
+    int load(const std::string& name, MyTexture& newTexture) override;
     std::shared_ptr<ITexture> get(const std::string& name) const override;
 
 private:
