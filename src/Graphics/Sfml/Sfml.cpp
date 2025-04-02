@@ -251,6 +251,19 @@ int SFMLTextureManager::load(const std::string& name, const MyTexture& newTextur
     }
 }
 
+void SFMLTexture::set(MyTexture& newTexture)
+{
+    this->_info = newTexture;
+
+    if (std::holds_alternative<TextureImg>(newTexture)) {
+        loadFromImage(std::get<TextureImg>(newTexture));
+    } else if (std::holds_alternative<TextureText>(newTexture)) {
+        loadFromText(std::get<TextureText>(newTexture));
+    } else {
+        createErrorTexture();
+    }
+}
+
 std::shared_ptr<ITexture> SFMLTextureManager::get(const std::string& name) const
 {
     auto it = _textures.find(name);
