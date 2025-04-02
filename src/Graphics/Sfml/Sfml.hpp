@@ -44,6 +44,7 @@ public:
     ~SFMLTexture() override = default;
 
     const MyTexture& getInformations() const override;
+    void set(MyTexture& newTexture) override;
     sf::Sprite& getSprite();
     sf::Text& getText();
     bool isText() const;

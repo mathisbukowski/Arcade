@@ -216,7 +216,7 @@ namespace arcade {
         virtual void set(MyTexture &texture) = 0;
 
     protected:
-        explicit ITexture(MyTexture &texture) {};
+        explicit ITexture([[maybe_unused]]const MyTexture &texture) {};
     };
 
     /**
@@ -231,7 +231,7 @@ namespace arcade {
          * @param newTexture new texture
          * @return int
          */
-        [[nodiscard]] virtual int load(const std::string& name, MyTexture& newTexture) = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const MyTexture &newTexture) = 0;
         /**
          * Get a texture
          * @param name Name of the texture

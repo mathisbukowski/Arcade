@@ -13,7 +13,9 @@
 
 namespace arcade {
 
-SFMLTexture::SFMLTexture(const MyTexture& textureInfo) : _info(textureInfo), _font(std::make_shared<sf::Font>())
+SFMLTexture::SFMLTexture(const MyTexture& textureInfo) : _info(textureInfo),
+                                                         _font(std::make_shared<sf::Font>()),
+    ITexture(textureInfo)
 {
     try {
         if (std::holds_alternative<TextureImg>(textureInfo)) {
@@ -246,6 +248,19 @@ int SFMLTextureManager::load(const std::string& name, const MyTexture& newTextur
     } catch (const std::exception& e) {
         std::cerr << "Failed to load texture: " << e.what() << std::endl;
         return -1;
+    }
+}
+
+void SFMLTexture::set(MyTexture& newTexture)
+{
+    this->_info = newTexture;
+
+    if (std::holds_alternative<TextureImg>(newTexture)) {
+        loadFromImage(std::get<TextureImg>(newTexture));
+    } else if (std::holds_alternative<TextureText>(newTexture)) {
+        loadFromText(std::get<TextureText>(newTexture));
+    } else {
+        createErrorTexture();
     }
 }
 

@@ -57,18 +57,18 @@ public:
          * @param other Other vector
          * @return Vector object
          */
-        T operator+(const Vector<T>& other) const { return Vector(_x + other.getX(), _y + other.getY()); }
-        T operator-(const Vector<T>& other) const { return Vector(_x - other.getX(), _y - other.getY()); }
-        T operator*(const Vector<T>& other) const { return Vector(_x * other.getX(), _y * other.getY()); }
-        T operator/(const Vector<T>& other) const { return Vector(_x / other.getX(), _y / other.getY()); }
+        Vector<T> operator+(const Vector<T>& other) const { return Vector(_x + other.getX(), _y + other.getY()); }
+        Vector<T> operator-(const Vector<T>& other) const { return Vector(_x - other.getX(), _y - other.getY()); }
+        Vector<T> operator*(const Vector<T>& other) const { return Vector(_x * other.getX(), _y * other.getY()); }
+        Vector<T> operator/(const Vector<T>& other) const { return Vector(_x / other.getX(), _y / other.getY()); }
         bool operator==(const Vector<T>& other) const { return _x == other.getX() && _y == other.getY(); }
         bool operator!=(const Vector<T>& other) const { return _x != other.getX() || _y != other.getY(); }
         bool operator<(const Vector<T>& other) const { return _x < other.getX() && _y < other.getY(); }
         bool operator>(const Vector<T>& other) const { return _x > other.getX() && _y > other.getY(); }
         bool operator<=(const Vector<T>& other) const { return _x <= other.getX() && _y <= other.getY(); }
         bool operator>=(const Vector<T>& other) const { return _x >= other.getX() && _y >= other.getY(); }
-        T operator+=(const Vector<T>& other) { _x += other.getX(); _y += other.getY(); return *this; }
-        T operator-=(const Vector<T>& other) { _x -= other.getX(); _y -= other.getY(); return *this; }
+        Vector<T> operator+=(const Vector<T>& other) { _x += other.getX(); _y += other.getY(); return *this; }
+        Vector<T> operator-=(const Vector<T>& other) { _x -= other.getX(); _y -= other.getY(); return *this; }
 
 private:
     T _x; /**< X coordinate. */
