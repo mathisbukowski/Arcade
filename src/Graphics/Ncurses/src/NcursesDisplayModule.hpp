@@ -15,7 +15,7 @@
 namespace arcade {
     class NcursesDisplayModule : public IDisplayModule {
     public:
-        NcursesDisplayModule(const std::string &name = "SDL2");
+        NcursesDisplayModule(const std::string &name = "NCURSES");
         ~NcursesDisplayModule() override;
         /**
          * Initialize the SDL library
@@ -75,13 +75,23 @@ namespace arcade {
          */
         [[nodiscard]] Mouse &getMouse() override { return _mouse; }
 
-        [[nodiscard]] std::shared_ptr<WINDOW> getRenderer() const { return _renderer; }
-        [[nodiscard]] std::shared_ptr<WINDOW> getWindow() const { return _window; }
+        /**
+         * Get the window properties
+         * @return window properties
+         */
         [[nodiscard]] WindowProperties getWindowProperties() const { return _windowProperties; }
 
+        /**
+         * Process events
+         */
+        void processEvents();
+        /**
+         * Handle event
+         * @param event Event to handle
+         */
+        void handleEvent(int ch);
+
     private:
-        std::shared_ptr<WINDOW> _renderer = nullptr;
-        std::shared_ptr<WINDOW> _window = nullptr;
         WindowProperties _windowProperties;
         std::string _name;
         bool _isOpen;

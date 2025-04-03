@@ -6,6 +6,8 @@
 */
 
 #include "NcursesDisplayModule.hpp"
+
+#include <iostream>
 #include <ncurses.h>
 
 #include "NcursesTextureManager.hpp"
@@ -31,12 +33,16 @@ void arcade::NcursesDisplayModule::init(const std::string &title, size_t width, 
     curs_set(0);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
+    mousemask(ALL_MOUSE_EVENTS, nullptr);
     start_color();
 }
 
 void arcade::NcursesDisplayModule::stop()
 {
-    endwin();
+    if (_isOpen) {
+        endwin();
+        _isOpen = false;
+    }
 }
 
 void arcade::NcursesDisplayModule::openWindow()
@@ -53,9 +59,7 @@ void arcade::NcursesDisplayModule::clearWindow(Color color)
 {
     if (!can_change_color())
         throw std::runtime_error("Terminal does not support colors");
-    init_color(COLOR_BLACK, color.getR(), color.getG(), color.getB());
-    bkgd(COLOR_BLACK(color.getOpacity()));
-    refresh();
+    std::cout << "coucou" << std::endl;
 }
 
 void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
@@ -68,6 +72,7 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
         attron(COLOR_PAIR(textureText.getColor().getOpacity()));
         mvprintw(static_cast<int>(position.getY()), static_cast<int>(position.getX()), textureText.getText().c_str());
         attroff(COLOR_PAIR(textureText.getColor().getOpacity()));
+        refresh();
     } else
         throw std::runtime_error("Terminal does not support images");
 }
@@ -75,9 +80,62 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
 
 void arcade::NcursesDisplayModule::updateWindow(float delta)
 {
-    while (_isOpen) {
-        int ch = getch();
-        if (ch == 27)
-            _isOpen = false;
+    (void)delta;
+
+    try {
+        processEvents();
+    } catch (const std::exception& e) {
+        std::cerr << "Error in updateWindow: " << e.what() << std::endl;
+    }
+}
+
+void arcade::NcursesDisplayModule::processEvents()
+{
+    if (!_isOpen) return;
+
+    try {
+        int ch;
+        while ((ch = getch()) != ERR) {
+            handleEvent(ch);
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error in processEvents: " << e.what() << std::endl;
+    }
+}
+
+void arcade::NcursesDisplayModule::handleEvent(int ch)
+{
+    MEVENT event;
+
+    switch (ch) {
+        case KEY_UP:
+            _keyboard.setKey(arcade::Keyboard::KeyCode::UP, true);
+            break;
+        case KEY_DOWN:
+            _keyboard.setKey(arcade::Keyboard::KeyCode::DOWN, true);
+            break;
+        case KEY_LEFT:
+            _keyboard.setKey(arcade::Keyboard::KeyCode::LEFT, true);
+            break;
+        case KEY_RIGHT:
+            _keyboard.setKey(arcade::Keyboard::KeyCode::RIGHT, true);
+            break;
+        case 27:
+            _keyboard.setKey(arcade::Keyboard::KeyCode::ESCAPE, true);
+            break;
+        case '\n':
+            _keyboard.setKey(arcade::Keyboard::KeyCode::ENTER, true);
+            break;
+        case KEY_MOUSE:
+            if (getmouse(&event) == OK) {
+                if (event.bstate & BUTTON1_PRESSED) {
+                    _mouse.setPressed(true);
+                    _mouse.setPos(Vector<float>(event.x, event.y));
+                } else if (event.bstate & BUTTON1_RELEASED) {
+                    _mouse.setPressed(false);
+                }
+            }
+        default:
+            break;
     }
 }
