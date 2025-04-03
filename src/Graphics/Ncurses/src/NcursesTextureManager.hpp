@@ -16,9 +16,9 @@ namespace arcade {
 
     class NcursesTexture : public ITexture {
     public:
-        NcursesTexture(const MyTexture &texture) : _textureInformations(texture) {}
+        NcursesTexture(const MyTexture &texture) : _textureInformations(texture), ITexture(texture) {}
         [[nodiscard]] const MyTexture& getInformations() const override { return _textureInformations; }
-        void set(MyTexture& texture) override;
+        void set(MyTexture& texture) override {_textureInformations = texture;};
     private:
         MyTexture _textureInformations;
     };

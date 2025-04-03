@@ -24,5 +24,6 @@ std::shared_ptr<arcade::IFont> arcade::NcursesFontManager::get(const std::string
     auto it = _fonts.find(name);
     if (it != _fonts.end())
         return it->second;
-    std::cerr << "Font not found: " + name << std::endl;
+    std::cerr << "Font not found: " << name << std::endl;
+    return nullptr;
 }

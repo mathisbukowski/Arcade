@@ -15,6 +15,7 @@ std::shared_ptr<arcade::ISound> arcade::NcursesSoundManager::get(const std::stri
     if (it != _sounds.end())
         return it->second;
     std::cerr << "Sound not found: " << name << std::endl;
+    return nullptr;
 }
 
 int arcade::NcursesSoundManager::load(const std::string& name, const SoundInfos& sound)
