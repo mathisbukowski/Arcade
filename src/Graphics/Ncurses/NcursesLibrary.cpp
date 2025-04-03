@@ -8,17 +8,20 @@
 #include "NcursesLibrary.hpp"
 
 
-extern "C" arcade::IDisplayLibrary *entrypoint()
-{
-    return new arcade::NcursesLibrary();
-}
+extern "C" {
+    arcade::IDisplayLibrary* entryPoint() {
+        return new arcade::NcursesLibrary();
+    }
 
-extern "C" const char *entryPointName()
-{
-    return "SDL2";
-}
+    void destroy(arcade::IDisplayLibrary* library) {
+        delete library;
+    }
 
-extern "C" arcade::LibType entryPointType()
-{
-    return arcade::DISPLAY;
+    arcade::LibType entryPointType() {
+        return arcade::LibType::DISPLAY;
+    }
+
+    const char* entryPointName() {
+        return "NCURSES";
+    }
 }

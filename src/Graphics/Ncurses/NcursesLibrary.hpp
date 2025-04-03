@@ -19,6 +19,9 @@
 #include "src/NcursesDisplayModule.hpp"
 #include "Vector.hpp"
 #include "Arcade.hpp"
+#include "src/NcursesFontManager.hpp"
+#include "src/NcursesSoundManager.hpp"
+#include "src/NcursesTextureManager.hpp"
 
 namespace arcade
 {
@@ -45,20 +48,23 @@ namespace arcade
         * Get the Texture Manager object
         * @return ITextureManager&
         */
-        virtual ITextureManager &getTextures();
+        ITextureManager &getTextures() override { return this->_textures; }
         /**
          * Get the Font Manager object
          * @return IFontManager&
          */
-        virtual IFontManager &getFonts();
+        IFontManager &getFonts() override { return this->_fonts; }
         /**
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        virtual ISoundManager &getSounds();
+        ISoundManager &getSounds() override { return this->_sounds; }
 
     private:
         NcursesDisplayModule _display;
+        NcursesTextureManager _textures;
+        NcursesFontManager _fonts;
+        NcursesSoundManager _sounds;
     };
 }
 
