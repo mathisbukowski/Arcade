@@ -29,133 +29,172 @@ namespace arcade {
      * @param height Height
      * @return Rect
      */
-        Rect(Vector<float> position, const float width, const float height): position(position.getX(), position.getY()), width(width), height(height) {}
+        Rect(Vector<float> position, const float width, const float height): _position(position.getX(), position.getY()), _width(width), _height(height) {}
         ~Rect() = default;
 
         /**
          * Get the Position object
          * @return Vector<float>
          */
-        [[nodiscard]] Vector<float> getPosition() const { return position; }
+        [[nodiscard]] Vector<float> getPosition() const { return _position; }
         /**
          * Get the Width object
          * @return float
          */
-        [[nodiscard]] float getWidth() const { return width; }
+        [[nodiscard]] float getWidth() const { return _width; }
         /**
          * Get the Height object
          * @return float
          */
-        [[nodiscard]] float getHeight() const { return height; }
+        [[nodiscard]] float getHeight() const { return _height; }
+        /**
+         * Set the Position object
+         * @param position Position
+         */
+        void setPosition(const Vector<float> &newPosition) { _position = newPosition; }
+
+        /**
+         * Set the Width object
+         * @param width Width
+         */
+        void setWidth(float newWidth) { _width = newWidth; }
+
+        /**
+         * Set the Height object
+         * @param height Height
+         */
+        void setHeight(float newHeight) { _height = newHeight; }
 
         private:
-        Vector<float> position;
-        float width;
-        float height;
+        Vector<float> _position;
+        float _width;
+        float _height;
     };
 
 
-    /**
-     * TextureImg properties
-     */
-    class TextureImg
-    {
+    class TextureBase {
     public:
-    /**
-     * Construct a new Texture Img object
-     * @param path Path to the image file
-     * @param rect Rect properties
-     * @return TextureImg
-     */
-        TextureImg(std::string path, const std::optional<Rect> &rect = std::nullopt):
-            path(std::move(path)), rect(rect) {}
-        ~TextureImg() = default;
         /**
-         * Get the Path object
-         * @return std::string
+         * Constructor for TextureBase
+         * @param rect Rect properties
          */
-        [[nodiscard]] std::string getPath() const { return path; }
+        explicit TextureBase(const std::optional<Rect> &rect = std::nullopt)
+            : _rect(rect), _width(0), _height(0) {}
+
+        virtual ~TextureBase() = default;
+
         /**
          * Get the Rect object
          * @return std::optional<Rect>
          */
-        [[nodiscard]] std::optional<Rect> getRect() const { return rect; }
+        [[nodiscard]] std::optional<Rect> getRect() const { return _rect; }
 
         /**
          * Set the Rect object
          * @param rect Rect properties
          */
-        void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
+        void setRect(const std::optional<Rect> &newRect) { _rect = newRect; }
 
-        private:
-            std::string path;
-            std::optional<Rect> rect;
+        /**
+         * Get the Width object
+         * @return uint32_t
+         */
+        [[nodiscard]] uint32_t getWidth() const { return _width; }
+
+        /**
+         * Set the Width object
+         * @param width Width
+         */
+        void setWidth(uint32_t newWidth) { _width = newWidth; }
+
+        /**
+         * Get the Height object
+         * @return uint32_t
+         */
+        [[nodiscard]] uint32_t getHeight() const { return _height; }
+
+        /**
+         * Set the Height object
+         * @param height Height
+         */
+        void setHeight(uint32_t newHeight) { _height = newHeight; }
+
+    private:
+        std::optional<Rect> _rect;
+        uint32_t _width;
+        uint32_t _height;
     };
 
     /**
-     * TextureText properties
+     * Class for textured images
      */
-    class TextureText
-    {
+    class TextureImg : public TextureBase {
     public:
+        /**
+         * Constructor for TextureImg
+         * @param path Path to the image file
+         * @param rect Rect properties
+         */
+        explicit TextureImg(std::string path, const std::optional<Rect> &rect = std::nullopt)
+            : TextureBase(rect), _path(std::move(path)) {}
+
+        /**
+         * Get the Path object
+         * @return std::string
+         */
+        [[nodiscard]] std::string getPath() const { return _path; }
+
+    private:
+        std::string _path;
+    };
+
     /**
-     * Construct a new Texture Text object
-     * @param text Text
-     * @param color Color of the text
-     * @param rect Rect properties
-     * @return TextureText
+     * Class for textured text
      */
-        TextureText(std::string text = "", Color color = Color(0, 0, 0), const std::optional<Rect> &rect = std::nullopt):
-            text(std::move(text)), color(color), rect(rect) {}
-        ~TextureText() = default;
+    class TextureText : public TextureBase {
+    public:
+        /**
+         * Constructor for TextureText
+         * @param text Text
+         * @param color Color of the text
+         * @param rect Rect properties
+         */
+        explicit TextureText(std::string text = "", Color color = Color(0, 0, 0), const std::optional<Rect> &rect = std::nullopt)
+            : TextureBase(rect), _text(std::move(text)), _color(color) {}
 
         /**
          * Get the Text object
          * @return std::string
          */
-        [[nodiscard]] std::string getText() const { return text; }
+        [[nodiscard]] std::string getText() const { return _text; }
 
         /**
          * Set the Text object
          * @param text Text
          */
-        void setText(const std::string &newText) { text = newText; }
+        void setText(const std::string &newText) { _text = newText; }
 
         /**
          * Get the Color object
          * @return Color
          */
-        [[nodiscard]] Color getColor() const { return color; }
+        [[nodiscard]] Color getColor() const { return _color; }
 
         /**
          * Set the Color object
          * @param color Color
          */
-        void setColor(const Color &newColor) { color = newColor; }
-
-        /**
-         * Get the Rect object
-         * @return std::optional<Rect>
-         */
-        [[nodiscard]] std::optional<Rect> getRect() const { return rect; }
-
-        /**
-         * Set the Rect object
-         * @param rect Rect properties
-         */
-        void setRect(const std::optional<Rect> &newRect) { rect = newRect; }
+        void setColor(const Color &newColor) { _color = newColor; }
 
     private:
-        std::string text;
-        Color color;
-        std::optional<Rect> rect = std::nullopt;
+        std::string _text;
+        Color _color;
     };
 
     /**
      * MyTexture type
      * Contains TextureImg or TextureText
      */
-
     using MyTexture = std::variant<TextureImg, TextureText>;
 
     /**
@@ -165,20 +204,19 @@ namespace arcade {
     public:
         virtual ~ITexture() = default;
         /**
-         * Get the texture informations
+         * Get the texture infos
          * @return const MyTexture&
          */
         [[nodiscard]] virtual const MyTexture& getInformations() const = 0;
+
         /**
-         * Get the width of the texture
-         * @return uint32_t
+         * Set the texture infos
+         * @param texture
          */
-        [[nodiscard]] virtual uint32_t getWidth() const = 0;
-        /**
-         * Get the height of the texture
-         * @return uint32_t
-         */
-        [[nodiscard]] virtual uint32_t getHeight() const = 0;
+        virtual void set(MyTexture &texture) = 0;
+
+    protected:
+        explicit ITexture([[maybe_unused]]const MyTexture &texture) {};
     };
 
     /**
@@ -190,10 +228,10 @@ namespace arcade {
         /**
          * Load a texture
          * @param name Name of the texture
-         * @param texture Texture
+         * @param newTexture new texture
          * @return int
          */
-        [[nodiscard]] virtual int load(const std::string& name, const MyTexture texture) const = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const MyTexture &newTexture) = 0;
         /**
          * Get a texture
          * @param name Name of the texture

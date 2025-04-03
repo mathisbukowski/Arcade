@@ -9,6 +9,7 @@
 #include "ITexture.hpp"
 #include <algorithm>
 #include <iostream>
+#include <filesystem>
 
 namespace arcade {
 
@@ -269,10 +270,11 @@ void BaseSnakeGame::GameState::decrementTimeRemaining(float delta)
 }
 
 IDisplayLibrary& BaseSnakeGame::getDisplayLibrary() const {
-    if (!displayLib.has_value()) {
+    if (!displayLib.has_value())
         throw std::runtime_error("Display library not initialized");
-    }
-    return displayLib->get();
+
+    IDisplayLibrary& lib = displayLib->get();
+    return lib;
 }
 
 bool BaseSnakeGame::hasDisplayLibrary() const noexcept {
@@ -301,9 +303,14 @@ BaseSnakeGame::BaseSnakeGame(GameMode mode)
 }
 
 void BaseSnakeGame::init(IDisplayLibrary &library) {
-    displayLib = library;
-    setupGame();
-    loadTextures();
+    try {
+        displayLib = library;
+        setupGame();
+        loadTextures();
+        loadSounds();
+    } catch (const std::exception& e) {
+        throw std::runtime_error("Failed to initialize game: " + std::string(e.what()));
+    }
 }
 
 void BaseSnakeGame::setupGame() {
@@ -328,20 +335,44 @@ void BaseSnakeGame::loadTextures() {
 }
 
 void BaseSnakeGame::loadBasicTextures(ITextureManager& textures) {
-    int headId = textures.load("snake_head", TextureImg("assets/snake/head.png"));
-    int bodyId = textures.load("snake_body", TextureImg("assets/snake/body.png"));
-    int foodId = textures.load("food", TextureImg("assets/snake/food.png"));
-    int bonusFoodId = textures.load("bonus_food", TextureImg("assets/snake/bonus_food.png"));
+       std::vector<std::pair<std::string, std::string>> texturesToLoad = {
+           {"snake_head", "assets/snake/head.png"},
+           {"snake_body", "assets/snake/body.png"},
+           {"food", "assets/snake/food.png"},
+           {"bonus_food", "assets/snake/bonus_food.png"}
+       };
 
-    if (headId < 0 || bodyId < 0 || foodId < 0 || bonusFoodId < 0)
-        std::cerr << "Failed to load basic textures" << std::endl;
-}
+       for (const auto& [name, path] : texturesToLoad) {
+           if (!std::filesystem::exists(path)) {
+               std::cerr << "Warning: Texture file not found: " << path << std::endl;
+               continue;
+           }
+           int id = textures.load(name, TextureImg(path));
+           if (id < 0)
+               std::cerr << "Failed to load texture: " << name << std::endl;
+       }
+   }
 
 void BaseSnakeGame::loadWallTexture(ITextureManager& textures) {
     int wallId = textures.load("wall", TextureImg("assets/snake/wall.png"));
 
     if (wallId < 0)
         std::cerr << "Failed to load wall texture" << std::endl;
+}
+
+void BaseSnakeGame::loadSounds() {
+    if (!hasDisplayLibrary())
+        return;
+
+    try {
+        auto& sounds = getDisplayLibrary().getSounds();
+        sounds.load("game_over", SoundInfos("assets/sounds/game_over.wav"));
+        sounds.load("eat", SoundInfos("assets/sounds/eat.wav"));
+        sounds.load("level_complete", SoundInfos("assets/sounds/level_complete.wav"));
+        std::cout << "Sounds loaded successfully" << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error loading sounds: " << e.what() << std::endl;
+    }
 }
 
 void BaseSnakeGame::initGrid() {
@@ -472,30 +503,32 @@ void BaseSnakeGame::handleInput() {
 
     try {
         auto& keyboard = getDisplayLibrary().getDisplay().getKeyboard();
+        Direction currentDirection = state.getCurrentDirection();
+        Direction nextDirection = state.getNextDirection();
 
-        if (keyboard.isKeyPressed(Keyboard::KeyCode::UP) &&
-            !areOppositeDirections(state.getCurrentDirection(), Direction::Up)) {
-            state.setNextDirection(Direction::Up);
-        } else if (keyboard.isKeyPressed(Keyboard::KeyCode::RIGHT) &&
-                  !areOppositeDirections(state.getCurrentDirection(), Direction::Right)) {
-            state.setNextDirection(Direction::Right);
-        } else if (keyboard.isKeyPressed(Keyboard::KeyCode::DOWN) &&
-                  !areOppositeDirections(state.getCurrentDirection(), Direction::Down)) {
-            state.setNextDirection(Direction::Down);
-        } else if (keyboard.isKeyPressed(Keyboard::KeyCode::LEFT) &&
-                  !areOppositeDirections(state.getCurrentDirection(), Direction::Left)) {
-            state.setNextDirection(Direction::Left);
-        }
-        if (keyboard.isKeyPressed(Keyboard::KeyCode::KEY_1)) {
-            state.setMoveInterval(BOOST_SPEED);
-        } else {
-            if (speedIncreases) {
-                float reduction = (state.getScore() / 100.0f) * SPEED_FACTOR;
-                state.setMoveInterval(std::max(MIN_SPEED, NORMAL_SPEED - reduction));
-            } else {
-                state.setMoveInterval(NORMAL_SPEED);
+        std::array<std::pair<Keyboard::KeyCode, Direction>, 4> directionControls = {{
+            {Keyboard::KeyCode::UP, Direction::Up},
+            {Keyboard::KeyCode::RIGHT, Direction::Right},
+            {Keyboard::KeyCode::DOWN, Direction::Down},
+            {Keyboard::KeyCode::LEFT, Direction::Left}
+        }};
+        for (const auto& [key, direction] : directionControls) {
+            if (keyboard.isKeyPressed(key) && !areOppositeDirections(currentDirection, direction)) {
+                nextDirection = direction;
+                break;
             }
         }
+        state.setNextDirection(nextDirection);
+        float targetInterval;
+        if (keyboard.isKeyPressed(Keyboard::KeyCode::KEY_1)) {
+            targetInterval = BOOST_SPEED;
+        } else if (speedIncreases) {
+            float scoreModifier = (state.getScore() / 100.0f) * SPEED_FACTOR;
+            targetInterval = std::max(MIN_SPEED, NORMAL_SPEED - scoreModifier);
+        } else {
+            targetInterval = NORMAL_SPEED;
+        }
+        state.setMoveInterval(targetInterval);
     } catch (const std::exception& e) {
         std::cerr << "Error handling input: " << e.what() << std::endl;
     }
@@ -763,30 +796,41 @@ void BaseSnakeGame::drawGrid(IDisplayModule& display, ITextureManager& textures,
 }
 
 void BaseSnakeGame::drawCell(IDisplayModule& display, ITextureManager& textures, CellType cellType, const Vector<float>& pos) {
-    std::shared_ptr<ITexture> texture = nullptr;
+    std::string textureName;
 
     switch (cellType) {
         case CellType::SnakeHead:
-            texture = textures.get("snake_head");
+            textureName = "snake_head";
             break;
         case CellType::Snake:
-            texture = textures.get("snake_body");
+            textureName = "snake_body";
             break;
         case CellType::Food:
-            texture = textures.get("food");
+            textureName = "food";
             break;
         case CellType::BonusFood:
-            texture = textures.get("bonus_food");
+            textureName = "bonus_food";
             break;
         case CellType::Wall:
-            if (hasWalls)
-                texture = textures.get("wall");
+            if (hasWalls) {
+                textureName = "wall";
+            } else {
+                return;
+            }
             break;
         default:
             return;
     }
-    if (texture)
-        display.drawTexture(texture, pos);
+    if (!textureName.empty()) {
+        try {
+            auto texture = textures.get(textureName);
+            if (texture) {
+                display.drawTexture(texture, pos);
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Failed to get texture '" << textureName << "': " << e.what() << std::endl;
+        }
+    }
 }
 
 void BaseSnakeGame::drawUI(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize) {

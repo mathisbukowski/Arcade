@@ -8,6 +8,9 @@
 #include <unordered_map>
 #include "Vector.hpp"
 
+#ifndef INPUT_HPP_
+#define INPUT_HPP_
+
 namespace arcade
 {
     /**
@@ -25,7 +28,7 @@ namespace arcade
         enum KeyCode
         {
             A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V,
-            W, X, Y, Z, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9,
+            W, X, Y, Z, ENTER, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9,
             UP, DOWN, LEFT, RIGHT, ESCAPE, UNKNOWN
         };
         static KeyCode keyCode;
@@ -34,7 +37,10 @@ namespace arcade
          * @param keyCode Key code
          * @return true if the key is pressed, false otherwise
          */
-        bool isKeyPressed(KeyCode code) const { return _keys.at(code);  }
+         bool isKeyPressed(KeyCode code) const {
+             auto it = _keys.find(code);
+             return (it != _keys.end()) ? it->second : false;
+         }
         /**
          * Set a key state
          * @param keyCode Key code
@@ -92,3 +98,5 @@ namespace arcade
         bool _pressed = false;
     };
 }
+
+#endif /* !INPUT_HPP_ */

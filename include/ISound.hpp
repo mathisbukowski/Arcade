@@ -32,7 +32,7 @@ namespace arcade {
          * Get the path of the sound file
          * @return std::string
          */
-        [[nodiscard]] std::string getPath() { return _path; }
+        [[nodiscard]] std::string getPath() const { return _path; }
 
         /**
          * Get the volume level
@@ -57,26 +57,6 @@ namespace arcade {
          */
         virtual void play() { _playing = true; }
 
-    private:
-        std::string _path;
-        float _volume;
-        bool _playing = false;
-    };
-
-    /**
-     * Music properties
-     */
-    class MusicInfos final : public SoundInfos
-    {
-    public:
-        /**
-         * Construct a new MusicInfos object
-         * @param path Path to the music file
-         */
-        MusicInfos(std::string path):
-            SoundInfos(std::move(path)) {}
-        ~MusicInfos() = default;
-
         /**
          * Check if the music is looped
          * @return bool
@@ -90,14 +70,11 @@ namespace arcade {
         void setLoop(bool loop) { _loop = loop; }
 
     private:
+        std::string _path;
+        float _volume;
+        bool _playing = false;
         bool _loop = false;
     };
-
-    /**
-     * MySound type
-     * Contains SoundInfos or MusicInfos
-     */
-    using MySound = std::variant<SoundInfos, MusicInfos>;
 
     /**
      * Interface for the sound
@@ -110,7 +87,7 @@ namespace arcade {
          * Get the sound information
          * @return const MySound&
          */
-        [[nodiscard]] virtual const MySound& getInformations() const = 0;
+        [[nodiscard]] virtual const SoundInfos& getInformations() const = 0;
     };
 
     /**
@@ -139,7 +116,7 @@ namespace arcade {
          * @param sound Sound properties
          * @return int
          */
-        [[nodiscard]] virtual int load(const std::string& name, MySound sound) const = 0;
+        [[nodiscard]] virtual int load(const std::string& name, const SoundInfos& sound) = 0;
 
         /**
          * Get a sound
