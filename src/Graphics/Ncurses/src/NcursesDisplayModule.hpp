@@ -5,8 +5,8 @@
 ** NcursesDisplayModule.hpp
 */
 
-#ifndef ARCADE_NCURSESDISPLAYMODULE_HPP
-    #define ARCADE_NCURSESDISPLAYMODULE_HPP
+#ifndef NCURSES_DISPLAY_HPP
+    #define NCURSES_DISPLAY_HPP
 
 #include <ncurses.h>
 
@@ -68,12 +68,12 @@ namespace arcade {
          * Get the keyboard
          * @return Keyboard
          */
-        [[nodiscard]] Keyboard &getKeyboard() override;
+        [[nodiscard]] Keyboard &getKeyboard() override { return _keyboard; }
         /**
          * Get the mouse
          * @return Mouse
          */
-        [[nodiscard]] Mouse &getMouse() override;
+        [[nodiscard]] Mouse &getMouse() override { return _mouse; }
 
         [[nodiscard]] std::shared_ptr<WINDOW> getRenderer() const { return _renderer; }
         [[nodiscard]] std::shared_ptr<WINDOW> getWindow() const { return _window; }
@@ -91,4 +91,4 @@ namespace arcade {
 };
 
 
-#endif //ARCADE_NCURSESDISPLAYMODULE_HPP
+#endif //NCURSES_DISPLAY_HPP
