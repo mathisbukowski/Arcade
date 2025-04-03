@@ -25,7 +25,7 @@ void arcade::SDLDisplayModule::init(const std::string& title, std::size_t width,
         throw std::runtime_error("Failed to initialize SDL");
     WindowProperties newWindownProperties = {title, width, height};
     this->setupWindowProperties(newWindownProperties);
-    auto window = SDL_CreateWindow(_windowProperties.getTitle().c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+    auto window = SDL_CreateWindow(_windowProperties.getTitle().c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     static_cast<int>(_windowProperties.getWidth()), static_cast<int>(_windowProperties.getHeight()), 0);
     if (!window)
         throw std::runtime_error("Failed to create window");
@@ -80,4 +80,14 @@ void arcade::SDLDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Ve
     SDL_Rect rect = sdlTexture->getRect();
     SDL_RenderCopy(_renderer.get(), sdlTexture->getTexture().get(), nullptr, &rect);
     SDL_RenderPresent(_renderer.get());
+}
+
+arcade::Keyboard &arcade::SDLDisplayModule::getKeyboard()
+{
+    return _keyboard;
+}
+
+arcade::Mouse &arcade::SDLDisplayModule::getMouse()
+{
+    return _mouse;
 }
