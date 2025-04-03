@@ -18,10 +18,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
 
-arcade::SDLSound::SDLSound() : _soundInformations("", 50)
-{
-    // Initialisation avec valeurs par défaut
-}
+arcade::SDLSound::SDLSound() : _soundInformations("", 50) { }
 
 int arcade::SDLSoundManager::load(const std::string& name, const SoundInfos& sound)
 {
