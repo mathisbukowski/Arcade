@@ -10,6 +10,7 @@ project(arcade
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
 file(GLOB_RECURSE CORE_SRC "src/Arcade/*.cpp")
 file(GLOB_RECURSE CORE_INC "src/Arcade/*.hpp")
@@ -40,6 +41,7 @@ target_link_libraries(arcade_sfml PRIVATE sfml-graphics sfml-window sfml-system)
 file (GLOB_RECURSE NCURSES_SRC "src/Graphics/Ncurses/*.cpp")
 file (GLOB_RECURSE NCURSES_INC "src/Graphics/Ncurses/*.hpp")
 add_library(arcade_ncurses SHARED ${NCURSES_SRC} ${NCURSES_INC})
+target_link_libraries(arcade_ncurses PRIVATE ncurses)
 target_include_directories(arcade_ncurses PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Ncurses ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_target_properties(arcade_ncurses PROPERTIES PREFIX "")
 
