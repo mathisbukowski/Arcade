@@ -9,6 +9,7 @@
 #define SDLDISPLAYMODULE_HPP
 
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_keycode.h>
 
 #include "IDisplayModule.hpp"
 
@@ -87,6 +88,7 @@ namespace arcade {
         bool _isOpen;
         Keyboard _keyboard;
         Mouse _mouse;
+        Keyboard::KeyCode mapSDLKeyToArcade(SDL_Keycode key);
     };
 };
 
