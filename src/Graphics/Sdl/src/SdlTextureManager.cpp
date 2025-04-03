@@ -13,7 +13,6 @@
 
 #include "SdlFontManager.hpp"
 
-// TEXTURE MANAGER
 std::shared_ptr<arcade::ITexture> arcade::SDLTextureManager::get(const std::string& name) const
 {
     auto it = _textures.find(name);
@@ -58,6 +57,47 @@ int arcade::SDLTexture::createTexture(const MyTexture& textureInfos, std::shared
         }
         return 0;
     }
-    return  0;
-}
+    else if (std::holds_alternative<TextureText>(this->_textureInformations)) {
+        const TextureText& textureText = std::get<TextureText>(this->_textureInformations);
 
+        std::shared_ptr<TTF_Font> font(TTF_OpenFont("assets/fonts/PixelFont.ttf", 24), TTF_CloseFont);
+        if (!font) {
+            std::cerr << "Failed to load default font: " << TTF_GetError() << std::endl;
+            return -1;
+        }
+        SDL_Color color = {
+            textureText.getColor().getR(),
+            textureText.getColor().getG(),
+            textureText.getColor().getB(),
+            textureText.getColor().getOpacity()
+        };
+        std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)> surface(
+            TTF_RenderText_Blended(font.get(), textureText.getText().c_str(), color),
+            SDL_FreeSurface
+        );
+
+        if (!surface) {
+            std::cerr << "Failed to render text: " << TTF_GetError() << std::endl;
+            return -1;
+        }
+        this->_texture = std::shared_ptr<SDL_Texture>(
+            SDL_CreateTextureFromSurface(renderer.get(), surface.get()),
+            SDL_DestroyTexture
+        );
+
+        if (!this->_texture) {
+            std::cerr << "Failed to create texture from text: " << SDL_GetError() << std::endl;
+            return -1;
+        }
+        if (textureText.getRect().has_value()) {
+            this->_rect.x = static_cast<int>(textureText.getRect().value().getPosition().getX());
+            this->_rect.y = static_cast<int>(textureText.getRect().value().getPosition().getY());
+            this->_rect.w = static_cast<int>(textureText.getRect().value().getWidth());
+            this->_rect.h = static_cast<int>(textureText.getRect().value().getHeight());
+        } else {
+            SDL_QueryTexture(this->_texture.get(), nullptr, nullptr, &this->_rect.w, &this->_rect.h);
+        }
+        return 0;
+    }
+    return 0;
+}
