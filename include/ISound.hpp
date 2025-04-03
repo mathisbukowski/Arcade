@@ -58,6 +58,11 @@ namespace arcade {
         virtual void play() { _playing = true; }
 
         /**
+         * Stop the sound
+         */
+        virtual void stop() { _playing = false; }
+
+        /**
          * Check if the music is looped
          * @return bool
          */
