@@ -172,7 +172,7 @@ private:
     void handleKeyEvent(const sf::Event::KeyEvent& keyEvent, bool isPressed);
     Keyboard::KeyCode mapSfmlKeyToArcade(sf::Keyboard::Key sfmlKey);
     std::string _name;
-    sf::RenderWindow* _window;
+    std::shared_ptr<sf::RenderWindow> _window;
     Keyboard _keyboard;
     Mouse _mouse;
     WindowProperties _properties;
@@ -184,7 +184,7 @@ private:
 class SFMLLibrary : public IDisplayLibrary {
 public:
     SFMLLibrary();
-    ~SFMLLibrary() override;
+    virtual ~SFMLLibrary() = default;
 
     IDisplayModule& getDisplay() override;
     ITextureManager& getTextures() override;
@@ -192,10 +192,10 @@ public:
     ISoundManager& getSounds() override;
 
 private:
-    std::unique_ptr<SFMLDisplay> _display;
-    std::unique_ptr<SFMLTextureManager> _textureManager;
-    std::unique_ptr<SFMLFontManager> _fontManager;
-    std::unique_ptr<SFMLSoundManager> _soundManager;
+    SFMLDisplay _display;
+    SFMLTextureManager _textureManager;
+    SFMLFontManager _fontManager;
+    SFMLSoundManager _soundManager;
 };
 
 }
