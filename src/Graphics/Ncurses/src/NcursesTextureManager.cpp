@@ -28,3 +28,17 @@ int arcade::NcursesTextureManager::load(const std::string& name, const MyTexture
         return -1;
     }
 }
+
+arcade::NcursesTexture::NcursesTexture(const MyTexture& texture) : ITexture(texture),
+    _textureInformations(texture)
+{
+    if (std::holds_alternative<TextureImg>(texture)) {
+        std::cerr << "Images don't support." << std::endl;
+    }
+    if (std::holds_alternative<TextureText>(texture)) {
+        auto textureText = std::get<TextureText>(texture);
+        _textureInformations = textureText;
+    } else {
+        std::cerr << "Invalid texture type" << std::endl;
+    }
+}
