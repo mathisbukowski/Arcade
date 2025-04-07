@@ -25,7 +25,7 @@ namespace arcade {
          * Initialize the game module
          * @param displayLib Display library
          */
-        virtual void init(IDisplayLibrary &displayLib) = 0;
+        virtual void init(std::shared_ptr<IDisplayLibrary> displayLib) = 0;
         /**
          * Stop the game module
          */
@@ -42,4 +42,3 @@ namespace arcade {
     };
 }
 #endif /* !IGAMEMODULE_HPP_ */
-
