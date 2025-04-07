@@ -777,7 +777,7 @@ void BaseSnakeGame::display() {
 }
 
 Vector<float> BaseSnakeGame::getScreenSize(IDisplayModule& display) {
-    WindowProperties windowProps;
+    WindowProperties windowProps("", display.getName().length(), display.getName().length());
     display.setupWindowProperties(windowProps);
     return Vector<float>(windowProps.getWidth(), windowProps.getHeight());
 }

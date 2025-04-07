@@ -10,7 +10,9 @@
 
 #include <SDL2/SDL_render.h>
 #include <map>
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 #include "Arcade.hpp"
 #include "IFont.hpp"

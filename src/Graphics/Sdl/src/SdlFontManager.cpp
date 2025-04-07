@@ -8,8 +8,6 @@
 #include "SdlFontManager.hpp"
 #include <iostream>
 
-// Font Manager
-
 int arcade::SDLFont::createFont(const Font &informations)
 {
     _font = std::shared_ptr<TTF_Font>(TTF_OpenFont(informations.getPath().c_str(), informations.getSize()), TTF_CloseFont);

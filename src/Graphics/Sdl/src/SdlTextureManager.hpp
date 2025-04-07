@@ -13,7 +13,7 @@
 #include <memory>
 #include <utility>
 #include <SDL2/SDL_render.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL.h>
 
 #include "ITexture.hpp"
 #include "SdlFontManager.hpp"
