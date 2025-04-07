@@ -37,7 +37,17 @@ set_target_properties(arcade_sfml PROPERTIES PREFIX "")
 # Lier SFML à arcade_sfml
 target_link_libraries(arcade_sfml PRIVATE sfml-graphics sfml-window sfml-system)
 
+# Compile Ncurses Dynamic library
+file (GLOB_RECURSE NCURSES_SRC "src/Graphics/Ncurses/*.cpp")
+file (GLOB_RECURSE NCURSES_INC "src/Graphics/Ncurses/*.hpp")
+add_library(arcade_ncurses SHARED ${NCURSES_SRC} ${NCURSES_INC})
+target_link_libraries(arcade_ncurses PRIVATE ncurses)
+target_include_directories(arcade_ncurses PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Ncurses ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set_target_properties(arcade_ncurses PROPERTIES PREFIX "")
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Arcade ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 target_compile_options(arcade_sdl2 PRIVATE -fno-gnu-unique)
+target_compile_options(arcade_sfml PRIVATE -fno-gnu-unique)
+target_compile_options(arcade_ncurses PRIVATE -fno-gnu-unique)

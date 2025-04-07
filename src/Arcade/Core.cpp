@@ -83,7 +83,7 @@ void Core::initializeGameLib() {
         using EntryPointFunc = IGameModule* (*)();
         auto entryPointFunc = gameLib->getFunction<EntryPointFunc>("entryPoint");
         _currentGame.reset(entryPointFunc());
-        _currentGame->init(*_currentGraphicLib);
+        _currentGame->init(_currentGraphicLib);
     } catch (const std::exception& e) {
         std::cerr << "Failed to initialize game: " << e.what() << std::endl;
         throw;
@@ -358,7 +358,7 @@ void Core::switchGraphicsLib(const std::string& libName) {
             _currentGraphicLib->getDisplay().init("Arcade", 800, 600);
             if (_state == GameState::GAME && _currentGame) {
                 _currentGame->stop();
-                _currentGame->init(*_currentGraphicLib);
+                _currentGame->init(_currentGraphicLib);
             }
             break;
         }
@@ -373,7 +373,7 @@ void Core::switchGame(const std::string& gameName) {
             using EntryPointFunc = IGameModule* (*)();
             auto entryPointFunc = lib->getFunction<EntryPointFunc>("entryPoint");
             _currentGame.reset(entryPointFunc());
-            _currentGame->init(*_currentGraphicLib);
+            _currentGame->init(_currentGraphicLib);
             std::cout << "Switched to game: " << name << std::endl;
             break;
         }
@@ -387,9 +387,8 @@ void Core::restartGame() {
         auto gameLib = _libManager->getCurrentGameLib();
         using EntryPointFunc = IGameModule* (*)();
         auto entryPointFunc = gameLib->getFunction<EntryPointFunc>("entryPoint");
-
         _currentGame.reset(entryPointFunc());
-        _currentGame->init(*_currentGraphicLib);
+        _currentGame->init(_currentGraphicLib);
     }
 }
 

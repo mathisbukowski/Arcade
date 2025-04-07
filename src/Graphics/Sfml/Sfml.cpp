@@ -344,7 +344,7 @@ SFMLDisplay::~SFMLDisplay()
     try {
         if (_window != nullptr) {
             _window->close();
-            delete _window;
+            _window.reset();
             _window = nullptr;
         }
     } catch (const std::exception& e) {
@@ -357,14 +357,14 @@ void SFMLDisplay::init(const std::string& title, size_t width, size_t height)
     try {
         if (_window != nullptr) {
             _window->close();
-            delete _window;
+            _window.reset();
             _window = nullptr;
         }
-        _window = new sf::RenderWindow(
-            sf::VideoMode(width, width),
-            title,
-            sf::Style::Titlebar | sf::Style::Close
-        );
+        _window = std::make_shared<sf::RenderWindow>(
+           sf::VideoMode(width, height, 32),
+           title,
+           sf::Style::Titlebar | sf::Style::Close
+       );
         if (!_window)
             throw std::runtime_error("Failed to create SFML window");
         _window->setFramerateLimit(60);
@@ -379,7 +379,7 @@ void SFMLDisplay::stop()
     try {
         if (_window != nullptr) {
             _window->close();
-            delete _window;
+            _window.reset();
             _window = nullptr;
         }
     } catch (const std::exception& e) {
@@ -582,41 +582,33 @@ Keyboard::KeyCode SFMLDisplay::mapSfmlKeyToArcade(sf::Keyboard::Key sfmlKey)
     return (it != keyMap.end()) ? it->second : Keyboard::KeyCode::UNKNOWN;
 }
 
-SFMLLibrary::SFMLLibrary() :
-    _display(std::make_unique<SFMLDisplay>()),
-    _textureManager(std::make_unique<SFMLTextureManager>()),
-    _fontManager(std::make_unique<SFMLFontManager>()),
-    _soundManager(std::make_unique<SFMLSoundManager>())
-{
-}
-
-SFMLLibrary::~SFMLLibrary() = default;
-
 IDisplayModule& SFMLLibrary::getDisplay()
 {
-    return *_display;
+    return _display;
 }
 
 ITextureManager& SFMLLibrary::getTextures()
 {
-    return *_textureManager;
+    return _textureManager;
 }
 
 IFontManager& SFMLLibrary::getFonts()
 {
-    return *_fontManager;
+    return _fontManager;
 }
 
 ISoundManager& SFMLLibrary::getSounds()
 {
-    return *_soundManager;
+    return _soundManager;
 }
+
+SFMLLibrary::SFMLLibrary() = default;
 
 }
 
 extern "C" {
     arcade::IDisplayLibrary* entryPoint() {
-        return new arcade::SFMLLibrary();
+        return new arcade::SFMLLibrary;
     }
 
     void destroy(arcade::IDisplayLibrary* library) {
