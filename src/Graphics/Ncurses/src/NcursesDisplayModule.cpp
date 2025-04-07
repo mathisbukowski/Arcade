@@ -18,6 +18,7 @@ arcade::NcursesDisplayModule::NcursesDisplayModule(const std::string &name): _wi
 
 arcade::NcursesDisplayModule::~NcursesDisplayModule()
 {
+    std::cout << "[DEBUG] NcursesDisplayModule destructor called" << std::endl;
     this->stop();
 }
 
@@ -36,6 +37,8 @@ void arcade::NcursesDisplayModule::init(const std::string &title, size_t width, 
     keypad(stdscr, TRUE);
     mousemask(ALL_MOUSE_EVENTS, nullptr);
     start_color();
+    nodelay(stdscr, TRUE);
+    _isOpen = true;
 }
 
 void arcade::NcursesDisplayModule::stop()
@@ -90,12 +93,21 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
 
 void arcade::NcursesDisplayModule::updateWindow(float delta)
 {
-    (void)delta;
+    static int frameCount = 0;
+    static auto lastTimeCheck = std::chrono::high_resolution_clock::now();
 
+    frameCount++;
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    auto elapsedSec = std::chrono::duration<float>(currentTime - lastTimeCheck).count();
+
+    if (elapsedSec >= 1.0f) {
+        frameCount = 0;
+        lastTimeCheck = currentTime;
+    }
     try {
         processEvents();
     } catch (const std::exception& e) {
-        std::cerr << "Error in updateWindow: " << e.what() << std::endl;
+        std::cerr << "[ERROR] Error in updateWindow: " << e.what() << std::endl;
     }
 }
 
@@ -104,8 +116,9 @@ void arcade::NcursesDisplayModule::processEvents()
     if (!_isOpen) return;
 
     try {
-        int ch;
-        while ((ch = getch()) != ERR) {
+        _keyboard.clearPressedKeys();
+        int ch = getch();
+        if (ch != ERR) {
             handleEvent(ch);
         }
     } catch (const std::exception& e) {
