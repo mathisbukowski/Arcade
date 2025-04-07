@@ -9,6 +9,8 @@
 
 #include <iostream>
 #include <ncurses.h>
+#include <thread>
+#include <chrono>
 
 #include "NcursesTextureManager.hpp"
 
@@ -32,7 +34,6 @@ void arcade::NcursesDisplayModule::init(const std::string &title, size_t width, 
     noecho();
     curs_set(0);
     keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
     mousemask(ALL_MOUSE_EVENTS, nullptr);
     start_color();
 }
@@ -57,9 +58,18 @@ void arcade::NcursesDisplayModule::closeWindow()
 
 void arcade::NcursesDisplayModule::clearWindow(Color color)
 {
-    if (!can_change_color())
-        throw std::runtime_error("Terminal does not support colors");
-    std::cout << "coucou" << std::endl;
+    if (!_isOpen) return;
+
+    if (color.getOpacity() != 0) {
+        init_color(COLOR_BLACK, color.getR(), color.getG(), color.getB());
+        init_pair(1, COLOR_BLACK, COLOR_BLACK);
+        attron(COLOR_PAIR(1));
+        clear();
+        attroff(COLOR_PAIR(1));
+    } else {
+        clear();
+    }
+    refresh();
 }
 
 void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)

@@ -38,33 +38,33 @@ namespace arcade
         /**
          * Destroy the Sfml object
          */
-        ~NcursesLibrary();
+        virtual ~NcursesLibrary();
         /**
          * Get the Display object
          * @return IDisplayModule&
          */
-        IDisplayModule &getDisplay() override { return this->_display; }
+        IDisplayModule &getDisplay() override { return *this->_display; }
         /**
         * Get the Texture Manager object
         * @return ITextureManager&
         */
-        ITextureManager &getTextures() override { return this->_textures; }
+        ITextureManager &getTextures() override { return *this->_textures; }
         /**
          * Get the Font Manager object
          * @return IFontManager&
          */
-        IFontManager &getFonts() override { return this->_fonts; }
+        IFontManager &getFonts() override { return *this->_fonts; }
         /**
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        ISoundManager &getSounds() override { return this->_sounds; }
+        ISoundManager &getSounds() override { return *this->_sounds; }
 
     private:
-        NcursesDisplayModule _display;
-        NcursesTextureManager _textures;
-        NcursesFontManager _fonts;
-        NcursesSoundManager _sounds;
+    std::unique_ptr<NcursesDisplayModule> _display;
+    std::unique_ptr<NcursesTextureManager> _textures;
+    std::unique_ptr<NcursesFontManager> _fonts;
+    std::unique_ptr<NcursesSoundManager> _sounds;
     };
 }
 
