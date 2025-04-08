@@ -37,10 +37,6 @@ namespace arcade {
         {
             if (TTF_Init() == -1)
                 throw std::runtime_error("Failed to initialize TTF");
-            if (TTF_WasInit() == 0)
-                throw std::runtime_error("Failed to initialize TTF");
-            if (TTF_GetError() != nullptr)
-                throw std::runtime_error("Failed to initialize TTF");
         };
         ~SDLFontManager() override = default;
         int load(const std::string& name, const Font& newFont) override;

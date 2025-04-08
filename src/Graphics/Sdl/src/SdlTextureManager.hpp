@@ -20,11 +20,13 @@
 
 
 namespace arcade {
+    class SDLRendererManager;
+
     class SDLTexture : public ITexture {
     public:
-        SDLTexture();
+        explicit SDLTexture(const MyTexture& textureInfo);
         ~SDLTexture() = default;
-        int createTexture(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer);
+        int createTexture(const MyTexture& textureInfos, const std::shared_ptr<SDL_Renderer>& renderer);
 
         const MyTexture &getInformations() const override { return _textureInformations; }
 
@@ -46,14 +48,13 @@ namespace arcade {
 
     class SDLTextureManager : public ITextureManager {
     public:
-        SDLTextureManager(std::shared_ptr<SDL_Renderer> renderer, std::shared_ptr<SDLFontManager> fontManager) : _renderer(std::move(renderer)), _fontManager(std::move(fontManager)) {}
+        SDLTextureManager(SDLRendererManager& renderer_manager) :  _renderer(renderer_manager) {}
         ~SDLTextureManager() override = default;
         int load(const std::string& name, const MyTexture& newTexture) override;
         [[nodiscard]] std::shared_ptr<ITexture> get(const std::string& name) const override;
     private:
-        std::shared_ptr<SDL_Renderer> _renderer;
+        SDLRendererManager& _renderer;
         std::map<std::string, std::shared_ptr<SDLTexture>> _textures;
-        std::shared_ptr<SDLFontManager> _fontManager;
     };
 };
 

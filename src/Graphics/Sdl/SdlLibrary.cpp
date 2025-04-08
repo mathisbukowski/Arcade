@@ -7,14 +7,9 @@
 
 #include "SdlLibrary.hpp"
 
-arcade::SdlLibrary::SdlLibrary()
-
-
-
-
 extern "C" arcade::IDisplayLibrary *entryPoint()
 {
-    return new arcade::SdlLibrary;
+    return new arcade::SdlLibrary();
 }
 
 extern "C" const char *entryPointName()
