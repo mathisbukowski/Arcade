@@ -116,7 +116,7 @@ void SnakeGame::update(float delta)
     if (hasDisplayLibrary()) {
         try {
             auto& display = getDisplayLibrary().getDisplay();
-            WindowProperties props;
+            WindowProperties props("", 400, 400);
             display.setupWindowProperties(props);
             props.setTitle(getWindowTitle());
             display.setupWindowProperties(props);

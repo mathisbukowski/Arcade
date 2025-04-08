@@ -302,9 +302,9 @@ BaseSnakeGame::BaseSnakeGame(GameMode mode)
     state.setMode(mode);
 }
 
-void BaseSnakeGame::init(IDisplayLibrary &library) {
+void BaseSnakeGame::init(std::shared_ptr<IDisplayLibrary> library) {
     try {
-        displayLib = library;
+        displayLib = std::ref(*library);
         setupGame();
         loadTextures();
         loadSounds();
@@ -366,10 +366,15 @@ void BaseSnakeGame::loadSounds() {
 
     try {
         auto& sounds = getDisplayLibrary().getSounds();
-        sounds.load("game_over", SoundInfos("assets/sounds/game_over.wav"));
-        sounds.load("eat", SoundInfos("assets/sounds/eat.wav"));
-        sounds.load("level_complete", SoundInfos("assets/sounds/level_complete.wav"));
-        std::cout << "Sounds loaded successfully" << std::endl;
+        int gameOverSoundId = sounds.load("game_over", SoundInfos("assets/sounds/game_over.wav"));
+        int eatSoundId = sounds.load("eat", SoundInfos("assets/sounds/eat.wav"));
+        int levelCompleteSoundId = sounds.load("level_complete", SoundInfos("assets/sounds/level_complete.wav"));
+
+        if (gameOverSoundId < 0 || eatSoundId < 0 || levelCompleteSoundId < 0) {
+            std::cerr << "Warning: Some sounds failed to load" << std::endl;
+        } else {
+            std::cout << "Sounds loaded successfully" << std::endl;
+        }
     } catch (const std::exception& e) {
         std::cerr << "Error loading sounds: " << e.what() << std::endl;
     }
