@@ -178,7 +178,7 @@ namespace arcade {
          * Get the Color object
          * @return Color
          */
-        [[nodiscard]] Color getColor() const { return _color; }
+        [[nodiscard]] const Color getColor() const { return _color; }
 
         /**
          * Set the Color object
