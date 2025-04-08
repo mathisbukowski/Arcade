@@ -38,7 +38,7 @@ namespace arcade
         /**
          * Destroy the Sdl object
          */
-        ~SdlLibrary();
+        virtual ~SdlLibrary() = default;
         /**
          * Get the Display object
          * @return IDisplayModule&
@@ -58,7 +58,7 @@ namespace arcade
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        virtual ISoundManager &getSounds() override { return this->_sounds; };
+        ISoundManager &getSounds() override { return this->_sounds; };
 
     private:
         SDLDisplayModule _display;

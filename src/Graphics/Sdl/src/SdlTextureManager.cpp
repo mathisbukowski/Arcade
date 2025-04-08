@@ -53,7 +53,10 @@ int arcade::SDLTexture::createTexture(const MyTexture& textureInfos, std::shared
             this->_rect.w = static_cast<int>(textureImg.getRect().value().getWidth());
             this->_rect.h = static_cast<int>(textureImg.getRect().value().getHeight());
         } else {
-            SDL_QueryTexture(this->_texture.get(), nullptr, nullptr, &this->_rect.w, &this->_rect.h);
+            if (SDL_QueryTexture(this->_texture.get(), nullptr, nullptr, &_rect.w, &_rect.h) != 0) {
+                std::cerr << "SDL_QueryTexture failed: " << SDL_GetError() << std::endl;
+                return -1;
+            }
         }
         return 0;
     }

@@ -34,7 +34,7 @@ namespace arcade {
 
         [[nodiscard]] SDL_Rect getRect() const { return _rect; }
 
-        void setRect(Rect rect) { _rect = {static_cast<int>(rect.getPosition().getY()), static_cast<int>(rect.getPosition().getY()), static_cast<int>(rect.getWidth()), static_cast<int>(rect.getHeight())}; }
+        void setRect(Rect rect) { _rect = {static_cast<int>(rect.getPosition().getX()), static_cast<int>(rect.getPosition().getY()), static_cast<int>(rect.getWidth()), static_cast<int>(rect.getHeight())}; }
 
         void setTexture(std::shared_ptr<SDL_Texture> texture) { _texture = std::move(texture); }
 
@@ -46,7 +46,7 @@ namespace arcade {
 
     class SDLTextureManager : public ITextureManager {
     public:
-        SDLTextureManager(std::shared_ptr<SDL_Renderer> renderer, std::shared_ptr<SDLFontManager> fontManager) : _renderer(std::move(renderer)), _fontManager(fontManager) {}
+        SDLTextureManager(std::shared_ptr<SDL_Renderer> renderer, std::shared_ptr<SDLFontManager> fontManager) : _renderer(std::move(renderer)), _fontManager(std::move(fontManager)) {}
         ~SDLTextureManager() override = default;
         int load(const std::string& name, const MyTexture& newTexture) override;
         [[nodiscard]] std::shared_ptr<ITexture> get(const std::string& name) const override;
