@@ -198,7 +198,7 @@ namespace arcade
     public:
         BaseSnakeGame(GameMode mode);
         virtual ~BaseSnakeGame() = default;
-        void init(IDisplayLibrary &library) override;
+        void init(std::shared_ptr<IDisplayLibrary> library) override;
         void update(float delta) override;
         void display() override;
         void stop() override;
