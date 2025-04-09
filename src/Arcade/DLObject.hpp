@@ -15,17 +15,17 @@
 #include <stdexcept>
 
 
-/**
- * Class to load dynamic libraries & encapsulate them
- */
 
 namespace arcade {
+    /**
+     * @class DynamicLibraryObject
+     * Represents a dynamic library object.
+     */
     class DynamicLibraryObject {
     public:
         /**
          * Constructor
-         * @param path Path to the library
-         * @param type Type of the library
+         * @param path const std::string & Path to the library
          */
         DynamicLibraryObject(const std::string& path);
 
@@ -37,8 +37,8 @@ namespace arcade {
         /**
          * Get a function from the library
          * @tparam FuncType Type of the function
-         * @param symbolName Name of the symbol
-         * @return Function pointer
+         * @param symbolName const std::string & Name of the symbol
+         * @return FuncType Function pointer
          */
         template <typename FuncType>
         FuncType getFunction(const std::string& symbolName) {
@@ -51,25 +51,25 @@ namespace arcade {
 
         /**
          * Get the name of the library
-         * @return Name of the library
+         * @return std::string Name of the library
          */
         std::string getName() const;
 
         /**
          * Get the type of the library
-         * @return Type of the library
+         * @return LibType Type of the library
          */
         LibType getType() const;
 
         /**
          * Get the library type from entryPointType function
-         * @return Library type from entryPointType or the default type if the function doesn't exist
+         * @return LibType Library type from entryPointType or the default type if the function doesn't exist
          */
         LibType getEntryPointType() const;
 
         /**
          * Get the library name from entryPointName function
-         * @return Library name from entryPointName or the default name if the function doesn't exist
+         * @return std::string Library name from entryPointName or the default name if the function doesn't exist
          */
         std::string getEntryPointName();
 

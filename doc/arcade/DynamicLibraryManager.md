@@ -14,25 +14,41 @@ generator: doxide
 | Name | Description |
 | ---- | ----------- |
 | [_libraries](#_libraries) | Loaded libraries  |
+| [_currentGraphicLib](#_currentGraphicLib) | Current graphic library  |
+| [_currentGameLib](#_currentGameLib) | Current game library  |
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [DynamicLibraryManager](#DynamicLibraryManager) | Constructor :material-location-enter: `directory` :    Directory to search for libraries :material-location-enter: `loadImmediately` :    Whether to load libraries immediately  |
+| [DynamicLibraryManager](#DynamicLibraryManager) | Constructor :material-location-enter: `libToLoad` :    const std::string &  Path to the library to load  |
 | [~DynamicLibraryManager](#_u007eDynamicLibraryManager) | Destructor  |
-| [scanDirectory](#scanDirectory) | Scan a directory for libraries :material-location-enter: `directory` :    Directory path :material-location-enter: `loadDiscovered` :    Whether to load discovered librariesx  |
-| [getAllLibraries](#getAllLibraries) | Get all loaded libraries :material-keyboard-return: **Return** :    _libraries  |
-| [getAllLibrariesByType](#getAllLibrariesByType) | Get all libraries of a specific type :material-keyboard-return: **Return** :    std::map<std::string, std::shared_ptr<DynamicLibraryObject>>  |
+| [scanDirectory](#scanDirectory) | Scan a directory for libraries :material-location-enter: `libToLoad` :    const std::string & Path to the library to load  |
+| [getAllLibraries](#getAllLibraries) | Get all loaded libraries :material-keyboard-return: **Return** :    std::map<std::string, std::shared_ptr<DynamicLibraryObject>>  |
+| [getAllLibrariesByType](#getAllLibrariesByType) | Get all libraries of a specific type :material-location-enter: `type` :    LibType Type of library to filter :material-keyboard-return: **Return** :    std::map<std::string, std::shared_ptr<DynamicLibraryObject>>  |
 | [getCurrentGraphicLib](#getCurrentGraphicLib) | Get current graphic library :material-keyboard-return: **Return** :    std::shared_ptr<DynamicLibraryObject>  |
-| [setCurrentGraphicLib](#setCurrentGraphicLib) | Set current graphic library :material-location-enter: `current_graphic_lib` :    New graphic library  |
+| [setCurrentGraphicLib](#setCurrentGraphicLib) | Set current graphic library :material-location-enter: `current_graphic_lib` :    const std::shared_ptr<DynamicLibraryObject> & New graphic library  |
 | [getCurrentGameLib](#getCurrentGameLib) | Get current game library :material-keyboard-return: **Return** :    std::shared_ptr<DynamicLibraryObject>  |
-| [setCurrentGameLib](#setCurrentGameLib) | Set current game library :material-location-enter: `current_game_lib` :    New game library  |
+| [setCurrentGameLib](#setCurrentGameLib) | Set current game library :material-location-enter: `current_game_lib` :    const std::shared_ptr<DynamicLibraryObject> & New game library  |
 | [initGameLib](#initGameLib) | Initialize the game library  |
 | [setNextGame](#setNextGame) | Set next game library  |
 | [setNextGraphicLib](#setNextGraphicLib) | Set next graphic library  |
 
 ## Variable Details
+
+### _currentGameLib<a name="_currentGameLib"></a>
+
+!!! variable "std::shared_ptr&lt;DynamicLibraryObject&gt; _currentGameLib"
+
+    Current game library
+    
+
+### _currentGraphicLib<a name="_currentGraphicLib"></a>
+
+!!! variable "std::shared_ptr&lt;DynamicLibraryObject&gt; _currentGraphicLib"
+
+    Current graphic library
+    
 
 ### _libraries<a name="_libraries"></a>
 
@@ -48,11 +64,8 @@ generator: doxide
 
     Constructor
     
-    :material-location-enter: `directory`
-    :    Directory to search for libraries
-        
-    :material-location-enter: `loadImmediately`
-    :    Whether to load libraries immediately
+    :material-location-enter: `libToLoad`
+    :    const std::string &  Path to the library to load
     
 
 ### getAllLibraries<a name="getAllLibraries"></a>
@@ -61,13 +74,16 @@ generator: doxide
     Get all loaded libraries
         
     :material-keyboard-return: **Return**
-    :    _libraries
+    :    std::map<std::string, std::shared_ptr<DynamicLibraryObject>>
     
 
 ### getAllLibrariesByType<a name="getAllLibrariesByType"></a>
 !!! function "[[nodiscard]] std::map&lt;std::string, std::shared_ptr&lt;DynamicLibraryObject&gt;&gt; getAllLibrariesByType(LibType type) const"
 
     Get all libraries of a specific type
+        
+    :material-location-enter: `type`
+    :    LibType Type of library to filter
         
     :material-keyboard-return: **Return**
     :    std::map<std::string, std::shared_ptr<DynamicLibraryObject>>
@@ -102,11 +118,8 @@ generator: doxide
 
     Scan a directory for libraries
         
-    :material-location-enter: `directory`
-    :    Directory path
-        
-    :material-location-enter: `loadDiscovered`
-    :    Whether to load discovered librariesx
+    :material-location-enter: `libToLoad`
+    :    const std::string & Path to the library to load
     
 
 ### setCurrentGameLib<a name="setCurrentGameLib"></a>
@@ -115,7 +128,7 @@ generator: doxide
     Set current game library
         
     :material-location-enter: `current_game_lib`
-    :    New game library
+    :    const std::shared_ptr<DynamicLibraryObject> & New game library
     
 
 ### setCurrentGraphicLib<a name="setCurrentGraphicLib"></a>
@@ -124,7 +137,7 @@ generator: doxide
     Set current graphic library
         
     :material-location-enter: `current_graphic_lib`
-    :    New graphic library
+    :    const std::shared_ptr<DynamicLibraryObject> & New graphic library
     
 
 ### setNextGame<a name="setNextGame"></a>

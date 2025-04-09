@@ -7,7 +7,6 @@ generator: doxide
 
 **class IDisplayModule**
 
-
-    Interface for the display module
+Interface for the display module
 
 

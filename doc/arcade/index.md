@@ -7,7 +7,6 @@ generator: doxide
 
 
 Manages multiple dynamic libraries
-Class to load dynamic libraries & encapsulate them
 
 Namespace containing classes and types related to the Arcade project.
 
@@ -17,11 +16,13 @@ Namespace containing classes and types related to the Arcade project.
 | Name | Description |
 | ---- | ----------- |
 | [Color](Color.md) | Color properties  |
+| [Core](Core.md) | class Core Main class for the Arcade game engine. |
 | [DynamicLibraryManager](DynamicLibraryManager.md) |  |
-| [DynamicLibraryObject](DynamicLibraryObject.md) |  |
+| [DynamicLibraryObject](DynamicLibraryObject.md) |  Represents a dynamic library object. |
 | [Font](Font.md) | Font properties  |
+| [GameState](GameState.md) | enum class GameState Represents the current state of the game. |
 | [IDisplayLibrary](IDisplayLibrary.md) | Interface for the display library  |
-| [IDisplayModule](IDisplayModule.md) |  Interface for the display module  |
+| [IDisplayModule](IDisplayModule.md) | Interface for the display module  |
 | [IFont](IFont.md) | Interface for the font  |
 | [IFontManager](IFontManager.md) | Destroy the IFont object Get the font informations :material-keyboard-return: **Return** :    const Font& Font properties Interface for the font manager  |
 | [IGameModule](IGameModule.md) | Interface for the game module  |
@@ -45,6 +46,7 @@ Namespace containing classes and types related to the Arcade project.
 | [SFMLSound](SFMLSound.md) | Implementation of ISound for SFML  |
 | [SFMLSoundManager](SFMLSoundManager.md) | Implementation of ISoundManager for SFML  |
 | [SFMLTextureManager](SFMLTextureManager.md) | Implementation of ITextureManager for SFML  |
+| [Score](Score.md) | struct Score Represents a player's score in a game. |
 | [SdlLibrary](SdlLibrary.md) | Sdl class to handle the SDL library for the display  |
 | [SnakeGame](SnakeGame.md) | @brief Implementation of the classic Snake game  |
 | [SoundInfos](SoundInfos.md) | Sound properties  |

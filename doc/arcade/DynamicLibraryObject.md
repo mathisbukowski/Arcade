@@ -8,6 +8,8 @@ generator: doxide
 **class DynamicLibraryObject**
 
 
+Represents a dynamic library object.
+
 
 ## Variables
 
@@ -21,13 +23,13 @@ generator: doxide
 
 | Name | Description |
 | ---- | ----------- |
-| [DynamicLibraryObject](#DynamicLibraryObject) | Constructor :material-location-enter: `path` :    Path to the library :material-location-enter: `type` :    Type of the library  |
+| [DynamicLibraryObject](#DynamicLibraryObject) | Constructor :material-location-enter: `path` :    const std::string & Path to the library  |
 | [~DynamicLibraryObject](#_u007eDynamicLibraryObject) | Destructor  |
-| [getFunction](#getFunction) | Get a function from the library :material-code-tags: `FuncType` :    Type of the function :material-location-enter: `symbolName` :    Name of the symbol :material-keyboard-return: **Return** :    Function pointer  |
-| [getName](#getName) | Get the name of the library :material-keyboard-return: **Return** :    Name of the library  |
-| [getType](#getType) | Get the type of the library :material-keyboard-return: **Return** :    Type of the library  |
-| [getEntryPointType](#getEntryPointType) | Get the library type from entryPointType function :material-keyboard-return: **Return** :    Library type from entryPointType or the default type if the function doesn't exist  |
-| [getEntryPointName](#getEntryPointName) | Get the library name from entryPointName function :material-keyboard-return: **Return** :    Library name from entryPointName or the default name if the function doesn't exist  |
+| [getFunction](#getFunction) | Get a function from the library :material-code-tags: `FuncType` :    Type of the function :material-location-enter: `symbolName` :    const std::string & Name of the symbol :material-keyboard-return: **Return** :    FuncType Function pointer  |
+| [getName](#getName) | Get the name of the library :material-keyboard-return: **Return** :    std::string Name of the library  |
+| [getType](#getType) | Get the type of the library :material-keyboard-return: **Return** :    LibType Type of the library  |
+| [getEntryPointType](#getEntryPointType) | Get the library type from entryPointType function :material-keyboard-return: **Return** :    LibType Library type from entryPointType or the default type if the function doesn't exist  |
+| [getEntryPointName](#getEntryPointName) | Get the library name from entryPointName function :material-keyboard-return: **Return** :    std::string Library name from entryPointName or the default name if the function doesn't exist  |
 
 ## Variable Details
 
@@ -63,10 +65,7 @@ generator: doxide
     Constructor
     
     :material-location-enter: `path`
-    :    Path to the library
-        
-    :material-location-enter: `type`
-    :    Type of the library
+    :    const std::string & Path to the library
     
 
 ### getEntryPointName<a name="getEntryPointName"></a>
@@ -75,7 +74,7 @@ generator: doxide
     Get the library name from entryPointName function
         
     :material-keyboard-return: **Return**
-    :    Library name from entryPointName or the default name if the function doesn't exist
+    :    std::string Library name from entryPointName or the default name if the function doesn't exist
     
 
 ### getEntryPointType<a name="getEntryPointType"></a>
@@ -84,7 +83,7 @@ generator: doxide
     Get the library type from entryPointType function
         
     :material-keyboard-return: **Return**
-    :    Library type from entryPointType or the default type if the function doesn't exist
+    :    LibType Library type from entryPointType or the default type if the function doesn't exist
     
 
 ### getFunction<a name="getFunction"></a>
@@ -96,10 +95,10 @@ generator: doxide
     :    Type of the function
         
     :material-location-enter: `symbolName`
-    :    Name of the symbol
+    :    const std::string & Name of the symbol
         
     :material-keyboard-return: **Return**
-    :    Function pointer
+    :    FuncType Function pointer
     
 
 ### getName<a name="getName"></a>
@@ -108,7 +107,7 @@ generator: doxide
     Get the name of the library
         
     :material-keyboard-return: **Return**
-    :    Name of the library
+    :    std::string Name of the library
     
 
 ### getType<a name="getType"></a>
@@ -117,7 +116,7 @@ generator: doxide
     Get the type of the library
         
     :material-keyboard-return: **Return**
-    :    Type of the library
+    :    LibType Type of the library
     
 
 ### ~DynamicLibraryObject<a name="_u007eDynamicLibraryObject"></a>

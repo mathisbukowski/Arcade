@@ -8,7 +8,7 @@ generator: doxide
 Epitech Arcade project
 
 :material-package: [arcade](arcade/index.md)
-:    Manages multiple dynamic libraries Class to load dynamic libraries & encapsulate them Namespace containing classes and types related to the Arcade project.
+:    Manages multiple dynamic libraries Namespace containing classes and types related to the Arcade project.
 
 ## Types
 
