@@ -52,6 +52,7 @@ namespace arcade
         public:
             GameState();
 
+            // Getters
             const std::deque<Vector<float>>& getSegments() const;
             Direction getCurrentDirection() const;
             Direction getNextDirection() const;
@@ -67,7 +68,14 @@ namespace arcade
             float getTimeRemaining() const;
             const std::string& getPlayerName() const;
             GameMode getMode() const;
+            Vector<float> getHead() const;
+            Vector<float> getTail() const;
+            size_t getLength() const;
+            bool hasFoods() const;
+            bool hasBonusFoods() const;
+            const std::vector<Vector<float>>& getFoods() const;
 
+            // Setters
             void setCurrentDirection(Direction dir);
             void setNextDirection(Direction dir);
             void setScore(int newScore);
@@ -81,28 +89,28 @@ namespace arcade
             void setPlayerName(const std::string& name);
             void setMode(GameMode newMode);
 
+            // Segment management
             void addSegment(const Vector<float>& segment);
             void prependSegment(const Vector<float>& segment);
             void removeLastSegment();
             void clearSegments();
 
+            // Food management
             void addFood(const Vector<float>& food);
             void removeFood(size_t index);
-            const std::vector<Vector<float>>& getFoods() const;
             void clearFoods();
             void addBonusFood(const Vector<float>& food);
             void removeBonusFood(size_t index);
             void clearBonusFoods();
+
+            // Grid management
             void resizeGrid(size_t height, size_t width);
             void setCellType(size_t y, size_t x, CellType type);
 
-            Vector<float> getHead() const;
-            Vector<float> getTail() const;
-            size_t getLength() const;
-            bool hasFoods() const;
-            bool hasBonusFoods() const;
+            // Game state updates
             void incrementScore(int points);
             void decrementTimeRemaining(float delta);
+
         private:
             std::deque<Vector<float>> segments;
             Direction currentDirection;
@@ -122,61 +130,86 @@ namespace arcade
             GameMode mode;
         };
 
-    private:
-        static constexpr float NORMAL_SPEED = 0.2f;
-        static constexpr float BOOST_SPEED = 0.1f;
-        static constexpr float MIN_SPEED = 0.05f;
-        static constexpr float SPEED_FACTOR = 0.15f;
-        static constexpr float DEFAULT_TIME_LIMIT = 60.0f;
-        static constexpr int BONUS_FOOD_CHANCE = 10;
-        static constexpr int BONUS_SCORE = 50;
-        static constexpr int REGULAR_SCORE = 10;
+        private:
+            // Constants
+            static constexpr float NORMAL_SPEED = 0.2f;
+            static constexpr float BOOST_SPEED = 0.1f;
+            static constexpr float MIN_SPEED = 0.05f;
+            static constexpr float SPEED_FACTOR = 0.15f;
+            static constexpr float DEFAULT_TIME_LIMIT = 60.0f;
+            static constexpr int BONUS_FOOD_CHANCE = 10;
+            static constexpr int BONUS_SCORE = 50;
+            static constexpr int REGULAR_SCORE = 10;
 
-        std::optional<std::reference_wrapper<IDisplayLibrary>> displayLib;
+            std::optional<std::reference_wrapper<IDisplayLibrary>> displayLib;
 
-        void setupGame();
-        void loadTextures();
-        void loadBasicTextures(ITextureManager& textures);
-        void loadWallTexture(ITextureManager& textures);
-        void loadSounds();
+            // Initialization
+            void setupGame();
+            void loadTextures();
+            void loadBasicTextures(ITextureManager& textures);
+            void loadWallTexture(ITextureManager& textures);
+            void loadSounds();
 
-        void handleWallCollision();
-        void handleSelfCollision();
-        void handleFoodCollision();
-        void handleBonusFoodCollision();
-        void removeCollidedFood();
-        void trySpawnBonusFood();
+            // Collision handlers
+            void handleWallCollision();
+            void handleSelfCollision();
+            void handleFoodCollision();
+            void handleBonusFoodCollision();
+            void removeCollidedFood();
+            void trySpawnBonusFood();
 
-        void updateBonusFood(float delta);
-        void updateTimeLimit(float delta);
-        void checkLevelCompletion();
+            // Update helpers
+            void updateBonusFood(float delta);
+            void updateTimeLimit(float delta);
+            void checkLevelCompletion();
 
-        std::vector<Vector<float>> findEmptyCells();
-        Vector<float> chooseRandomCell(const std::vector<Vector<float>>& cells);
-        void placeFood(const Vector<float>& pos, bool isBonus);
-        Vector<float> getScreenSize(IDisplayModule& display);
-        void drawGrid(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
-        void drawCell(IDisplayModule& display, ITextureManager& textures, CellType cellType, const Vector<float>& pos);
-        void drawUI(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
-        void drawScore(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
-        void drawTimeRemaining(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
-        void drawGameOver(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
+            // Food management helpers
+            std::vector<Vector<float>> findEmptyCells();
+            Vector<float> chooseRandomCell(const std::vector<Vector<float>>& cells);
+            void placeFood(const Vector<float>& pos, bool isBonus);
+
+            // Drawing helpers
+            Vector<float> getScreenSize(IDisplayModule& display);
+            void drawGrid(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
+            void drawCell(IDisplayModule& display, ITextureManager& textures, CellType cellType, const Vector<float>& pos);
+            void drawUI(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
+            void drawScore(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
+            void drawTimeRemaining(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
+            void drawGameOver(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize);
+            void drawBackground(ITextureManager& textures, IDisplayModule& display);
+            void drawBorderIfNeeded(size_t x, size_t y, ITextureManager& textures, IDisplayModule& display, const Vector<float>& pos);
+            void getElementDimensions(CellType cellType, float cellWidth, float cellHeight,
+                                     float &elementWidth, float &elementHeight,
+                                     float &offsetX, float &offsetY);
+            std::string getTextureNameForCell(CellType cellType);
+            std::shared_ptr<ITexture> getOrLoadTexture(ITextureManager& textures, const std::string& textureName);
+            void updateTextureRect(std::shared_ptr<ITexture> texture, const Vector<float>& pos,
+                                  float width, float height);
+            void playSound(const std::string& soundName, float volume);
+
+            // Snake movement and collision helpers
+            Vector<float> calculateNewHeadPosition();
+            void moveSnakeSegments(const Vector<float>& newHead);
 
     protected:
+        // Library access
         [[nodiscard]] IDisplayLibrary& getDisplayLibrary() const;
         [[nodiscard]] bool hasDisplayLibrary() const noexcept;
 
+        // Game state
         GameState state;
         std::mt19937 rng;
 
+        // Game properties
         size_t gridWidth;
         size_t gridHeight;
-
+        Vector<float> gridOffset;
         bool isCyclical;
         bool speedIncreases;
         bool hasWalls;
         bool useTimeLimit;
 
+        // Core game logic - virtual for game-specific customization
         virtual void initGrid();
         virtual void initSnake();
         virtual bool spawnFood(bool isBonus = false);
@@ -185,17 +218,20 @@ namespace arcade
         virtual void handleInput();
         virtual void moveSnake(float delta);
         virtual CollisionType checkCollisions();
+        virtual void handleCollision(CollisionType collisionType);
         virtual void growSnake();
-        Vector<float> directionToVector(Direction dir) const;
-        bool areOppositeDirections(Direction dir1, Direction dir2) const;
         virtual Vector<float> adjustPosition(const Vector<float>& pos) const;
         virtual bool isCellFree(const Vector<float>& pos) const;
-        virtual void handleCollision(CollisionType collisionType);
-        Vector<float> findFreeCellNear(const Vector<float>& pos) const;
         virtual void onLevelComplete();
         virtual void onGameOver();
 
+        // Helper methods
+        Vector<float> directionToVector(Direction dir) const;
+        bool areOppositeDirections(Direction dir1, Direction dir2) const;
+        Vector<float> findFreeCellNear(const Vector<float>& pos) const;
+        bool isInBounds(const Vector<float>& pos) const;
     public:
+        // Public interface
         BaseSnakeGame(GameMode mode);
         virtual ~BaseSnakeGame() = default;
         void init(std::shared_ptr<IDisplayLibrary> library) override;
