@@ -3,48 +3,38 @@ generator: doxide
 ---
 
 
-# Ncurses
+# NcursesDisplayModule
 
-**class Ncurses : public IDisplayModule, public IDisplayLibrary**
+**class NcursesDisplayModule : public IDisplayModule**
 
-Ncurses class to handle the Ncurses library for the display
 
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [Ncurses](#Ncurses) | Construct a new Ncurses object  |
-| [~Ncurses](#_u007eNcurses) | Destroy the Ncurses object  |
-| [init](#init) | Initialize the Ncurses library  |
-| [stop](#stop) | Stop the Ncurses library  |
+| [init](#init) | Initialize the SDL library  |
+| [stop](#stop) | Stop the SDL library  |
 | [getName](#getName) | Get the name of the library :material-keyboard-return: **Return** :    const std::string  |
-| [setupWindowProperties](#setupWindowProperties) | Setup the window properties :material-location-enter: `properties` :    WindowProperties  |
+| [setupWindowProperties](#setupWindowProperties) | Set up the window properties :material-location-enter: `properties` :    WindowProperties  |
 | [openWindow](#openWindow) | Open the window  |
 | [closeWindow](#closeWindow) | Close the window  |
-| [clearWindow](#clearWindow) | Clear the window :material-location-enter: `color` :    Color  |
+| [clearWindow](#clearWindow) | Clear the window with a color :material-location-enter: `color` :    Color  |
 | [updateWindow](#updateWindow) | Update the window :material-location-enter: `delta` :    Delta time  |
 | [isWindowOpen](#isWindowOpen) | Check if the window is open :material-keyboard-return: **Return** :    bool  |
-| [drawTexture](#drawTexture) | Draw a texture :material-location-enter: `texture` :    Texture :material-location-enter: `position` :    Position  |
+| [drawTexture](#drawTexture) | Draw a texture on the window :material-location-enter: `texture` :    Texture to draw :material-location-enter: `position` :    Position of the texture  |
 | [getKeyboard](#getKeyboard) | Get the keyboard :material-keyboard-return: **Return** :    Keyboard  |
 | [getMouse](#getMouse) | Get the mouse :material-keyboard-return: **Return** :    Mouse  |
-| [getDisplay](#getDisplay) | Get the Display object :material-keyboard-return: **Return** :    IDisplayModule&  |
-| [getTextures](#getTextures) | Get the Texture Manager object :material-keyboard-return: **Return** :    ITextureManager&  |
-| [getFonts](#getFonts) | Get the Font Manager object :material-keyboard-return: **Return** :    IFontManager&  |
-| [getSounds](#getSounds) | Get the Sound Manager object :material-keyboard-return: **Return** :    ISoundManager&  |
+| [getWindowProperties](#getWindowProperties) | Get the window properties :material-keyboard-return: **Return** :    window properties  |
+| [processEvents](#processEvents) | Process events  |
+| [handleEvent](#handleEvent) | Handle event :material-location-enter: `event` :    Event to handle  |
 
 ## Function Details
-
-### Ncurses<a name="Ncurses"></a>
-!!! function "Ncurses()"
-
-    Construct a new Ncurses object
-    
 
 ### clearWindow<a name="clearWindow"></a>
 !!! function "void clearWindow(Color color) override"
 
-    Clear the window
+    Clear the window with a color
         
     :material-location-enter: `color`
     :    Color
@@ -59,35 +49,17 @@ Ncurses class to handle the Ncurses library for the display
 ### drawTexture<a name="drawTexture"></a>
 !!! function "void drawTexture(std::shared_ptr&lt;ITexture&gt; texture, Vector&lt;float&gt; position) override"
 
-    Draw a texture
+    Draw a texture on the window
         
     :material-location-enter: `texture`
-    :    Texture
+    :    Texture to draw
         
     :material-location-enter: `position`
-    :    Position
-    
-
-### getDisplay<a name="getDisplay"></a>
-!!! function "IDisplayModule &amp;getDisplay() override"
-
-    Get the Display object
-        
-    :material-keyboard-return: **Return**
-    :    IDisplayModule&
-    
-
-### getFonts<a name="getFonts"></a>
-!!! function "IFontManager &amp;getFonts() override"
-
-    Get the Font Manager object
-        
-    :material-keyboard-return: **Return**
-    :    IFontManager&
+    :    Position of the texture
     
 
 ### getKeyboard<a name="getKeyboard"></a>
-!!! function "Keyboard &amp;getKeyboard() override"
+!!! function "[[nodiscard]] Keyboard &amp;getKeyboard() override"
 
     Get the keyboard
         
@@ -96,7 +68,7 @@ Ncurses class to handle the Ncurses library for the display
     
 
 ### getMouse<a name="getMouse"></a>
-!!! function "Mouse &amp;getMouse() override"
+!!! function "[[nodiscard]] Mouse &amp;getMouse() override"
 
     Get the mouse
         
@@ -105,7 +77,7 @@ Ncurses class to handle the Ncurses library for the display
     
 
 ### getName<a name="getName"></a>
-!!! function "const std::string &amp;getName() const override"
+!!! function "[[nodiscard]] const std::string &amp;getName() const override"
 
     Get the name of the library
     
@@ -113,28 +85,28 @@ Ncurses class to handle the Ncurses library for the display
     :    const std::string
     
 
-### getSounds<a name="getSounds"></a>
-!!! function "ISoundManager &amp;getSounds() override"
+### getWindowProperties<a name="getWindowProperties"></a>
+!!! function "[[nodiscard]] WindowProperties getWindowProperties() const"
 
-    Get the Sound Manager object
+    Get the window properties
         
     :material-keyboard-return: **Return**
-    :    ISoundManager&
+    :    window properties
     
 
-### getTextures<a name="getTextures"></a>
-!!! function "ITextureManager &amp;getTextures() override"
+### handleEvent<a name="handleEvent"></a>
+!!! function "void handleEvent(int ch)"
 
-    Get the Texture Manager object
+    Handle event
         
-    :material-keyboard-return: **Return**
-    :    ITextureManager&
+    :material-location-enter: `event`
+    :    Event to handle
     
 
 ### init<a name="init"></a>
-!!! function "void init() override"
+!!! function "void init(const std::string&amp; title, size_t width, size_t height) override"
 
-    Initialize the Ncurses library
+    Initialize the SDL library
     
 
 ### isWindowOpen<a name="isWindowOpen"></a>
@@ -152,10 +124,16 @@ Ncurses class to handle the Ncurses library for the display
     Open the window
     
 
+### processEvents<a name="processEvents"></a>
+!!! function "void processEvents()"
+
+    Process events
+    
+
 ### setupWindowProperties<a name="setupWindowProperties"></a>
 !!! function "void setupWindowProperties(WindowProperties &amp;properties) override"
 
-    Setup the window properties
+    Set up the window properties
     
     :material-location-enter: `properties`
     :    WindowProperties
@@ -164,7 +142,7 @@ Ncurses class to handle the Ncurses library for the display
 ### stop<a name="stop"></a>
 !!! function "void stop() override"
 
-    Stop the Ncurses library
+    Stop the SDL library
     
 
 ### updateWindow<a name="updateWindow"></a>
@@ -174,11 +152,5 @@ Ncurses class to handle the Ncurses library for the display
         
     :material-location-enter: `delta`
     :    Delta time
-    
-
-### ~Ncurses<a name="_u007eNcurses"></a>
-!!! function "~Ncurses()"
-
-    Destroy the Ncurses object
     
 

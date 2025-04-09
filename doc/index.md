@@ -14,6 +14,5 @@ Epitech Arcade project
 
 | Name | Description |
 | ---- | ----------- |
-| [Core](Core.md) |  Main class of the Arcade project  |
 | [Vector](Vector.md) |  Template class representing a generic 2D vector. |
 

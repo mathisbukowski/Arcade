@@ -7,10 +7,11 @@ generator: doxide
 
 **class ISoundManager**
 
+Destroy the ISound object
 Get the sound information
     
 :material-keyboard-return: **Return**
-:    const MySound&
+:    const MySound& Sound information
 Interface for the sound manager
 
 

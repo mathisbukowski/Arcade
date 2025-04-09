@@ -3,35 +3,35 @@ generator: doxide
 ---
 
 
-# SdlLibrary
+# NcursesLibrary
 
-**class SdlLibrary : public IDisplayLibrary**
+**class NcursesLibrary : public IDisplayLibrary**
 
-Sdl class to handle the SDL library for the display
+Sfml class to handle the SFML library for the display
 
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [SdlLibrary](#SdlLibrary) | Construct a new Sdl object  |
-| [getDisplay](#getDisplay) | Destroy the Sdl object Get the Display object :material-keyboard-return: **Return** :    IDisplayModule&  |
+| [NcursesLibrary](#NcursesLibrary) | Construct a new Ncurses object  |
+| [~NcursesLibrary](#_u007eNcursesLibrary) | Destroy the Sfml object  |
+| [getDisplay](#getDisplay) | Get the Display object :material-keyboard-return: **Return** :    IDisplayModule&  |
 | [getTextures](#getTextures) | Get the Texture Manager object :material-keyboard-return: **Return** :    ITextureManager&  |
 | [getFonts](#getFonts) | Get the Font Manager object :material-keyboard-return: **Return** :    IFontManager&  |
 | [getSounds](#getSounds) | Get the Sound Manager object :material-keyboard-return: **Return** :    ISoundManager&  |
 
 ## Function Details
 
-### SdlLibrary<a name="SdlLibrary"></a>
-!!! function "SdlLibrary()"
+### NcursesLibrary<a name="NcursesLibrary"></a>
+!!! function "NcursesLibrary()"
 
-    Construct a new Sdl object
+    Construct a new Ncurses object
     
 
 ### getDisplay<a name="getDisplay"></a>
 !!! function "IDisplayModule &amp;getDisplay() override"
 
-    Destroy the Sdl object
     Get the Display object
     
     :material-keyboard-return: **Return**
@@ -63,5 +63,11 @@ Sdl class to handle the SDL library for the display
     
     :material-keyboard-return: **Return**
     :    ITextureManager&
+    
+
+### ~NcursesLibrary<a name="_u007eNcursesLibrary"></a>
+!!! function "virtual ~NcursesLibrary()"
+
+    Destroy the Sfml object
     
 

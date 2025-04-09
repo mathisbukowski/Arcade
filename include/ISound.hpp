@@ -22,33 +22,36 @@ namespace arcade {
     public:
         /**
          * Construct a new SoundInfos object
-         * @param path Path to the sound file
+         * @param path std::string Path to the sound file
          */
         SoundInfos(std::string path):
             _path(std::move(path)), _volume(50) {}
+        /**
+         * Destroy the SoundInfos object
+         */
         virtual ~SoundInfos() = default;
 
         /**
          * Get the path of the sound file
-         * @return std::string
+         * @return std::string Path of the sound file
          */
         [[nodiscard]] std::string getPath() const { return _path; }
 
         /**
          * Get the volume level
-         * @return float
+         * @return float Volume level
          */
         [[nodiscard]] float getVolume() const { return _volume; }
 
         /**
          * Check if the sound is currently playing
-         * @return bool
+         * @return bool True if the sound is playing, false otherwise
          */
         [[nodiscard]] bool isPlaying() const { return _playing; }
 
         /**
          * Set the volume level
-         * @param newVolume New volume value
+         * @param newVolume float New volume value
          */
         virtual void setVolume(float newVolume) { _volume = newVolume; }
 
@@ -64,20 +67,32 @@ namespace arcade {
 
         /**
          * Check if the music is looped
-         * @return bool
+         * @return bool True if the music is looped, false otherwise
          */
         [[nodiscard]] bool isLooped() const { return _loop; }
 
         /**
          * Enable or disable looping
-         * @param loop Whether the music should loop
+         * @param loop bool Whether the music should loop
          */
         void setLoop(bool loop) { _loop = loop; }
 
     private:
+        /**
+         * Path to the sound file
+         */
         std::string _path;
+        /**
+         * Volume level
+         */
         float _volume;
+        /**
+         * Playing state
+         */
         bool _playing = false;
+        /**
+         * Looping state
+         */
         bool _loop = false;
     };
 
@@ -86,11 +101,14 @@ namespace arcade {
      */
     class ISound {
     public:
+        /**
+         * Destroy the ISound object
+         */
         virtual ~ISound() = default;
 
         /**
          * Get the sound information
-         * @return const MySound&
+         * @return const MySound& Sound information
          */
         [[nodiscard]] virtual const SoundInfos& getInformations() const = 0;
     };
@@ -100,33 +118,36 @@ namespace arcade {
      */
     class ISoundManager {
     public:
+        /**
+         * Destroy the ISoundManager object
+         */
         virtual ~ISoundManager() = default;
 
         /**
          * Play a sound
-         * @param name Name of the sound
-         * @param volume Volume level
+         * @param name const std::string & Name of the sound
+         * @param volume float Volume level
          */
         virtual void playSound(const std::string& name, float volume) = 0;
 
         /**
          * Stop a sound
-         * @param name Name of the sound
+         * @param name const std::string & Name of the sound
          */
         virtual void stopSound(const std::string& name) = 0;
 
         /**
          * Load a sound
-         * @param name Name of the sound
-         * @param sound Sound properties
-         * @return int
+         * @param name const std::string & Name of the sound
+         * @param sound const SoundInfos & Sound properties
+         * @return int 0 if success, -1 if error
          */
         [[nodiscard]] virtual int load(const std::string& name, const SoundInfos& sound) = 0;
 
         /**
          * Get a sound
-         * @param name Name of the sound
-         * @return std::shared_ptr<ISound>
+         * @param name const std::string & Name of the sound
+         * @return std::shared_ptr<ISound> Sound object
          */
         [[nodiscard]] virtual std::shared_ptr<ISound> get(const std::string& name) const = 0;
     };

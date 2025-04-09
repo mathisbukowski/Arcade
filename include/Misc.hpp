@@ -19,13 +19,17 @@ namespace arcade
         public:
             /**
              * Construct a new Color object
-             * @param r Red component (0-255)
-             * @param g Green component (0-255)
-             * @param b Blue component (0-255)
-             * @param a Alpha (opacity) component (0-255), default is 255
+             * @param r uint8_t Red component (0-255)
+             * @param g uint8_t Green component (0-255)
+             * @param b uint8_t Blue component (0-255)
+             * @param a uint8_t Alpha (opacity) component (0-255), default is 255
              */
             Color(const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a = 255)
                 : _red(r), _green(g), _blue(b), _alpha(a) {}
+
+            /**
+             * Default constructor for Color
+             */
             ~Color() = default;
 
             /**
@@ -77,9 +81,21 @@ namespace arcade
             void setOpacity(const uint8_t newOpacity) { _alpha = newOpacity; }
 
         private:
+            /**
+             * Red component
+             */
             uint8_t _red;
+            /**
+             * Green component
+             */
             uint8_t _green;
+            /**
+             * Blue component
+             */
             uint8_t _blue;
+            /**
+             * Alpha (opacity) component
+             */
             uint8_t _alpha;
     };;
 }

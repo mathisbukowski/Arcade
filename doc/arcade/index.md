@@ -21,26 +21,35 @@ Namespace containing classes and types related to the Arcade project.
 | [DynamicLibraryObject](DynamicLibraryObject.md) |  |
 | [Font](Font.md) | Font properties  |
 | [IDisplayLibrary](IDisplayLibrary.md) | Interface for the display library  |
-| [IDisplayModule](IDisplayModule.md) | Interface for the display module  |
+| [IDisplayModule](IDisplayModule.md) |  Interface for the display module  |
 | [IFont](IFont.md) | Interface for the font  |
-| [IFontManager](IFontManager.md) | Destroy the IFont object Get the font informations :material-keyboard-return: **Return** :    const Font& Interface for the font manager  |
+| [IFontManager](IFontManager.md) | Destroy the IFont object Get the font informations :material-keyboard-return: **Return** :    const Font& Font properties Interface for the font manager  |
 | [IGameModule](IGameModule.md) | Interface for the game module  |
 | [ISound](ISound.md) | Interface for the sound  |
-| [ISoundManager](ISoundManager.md) | Get the sound information :material-keyboard-return: **Return** :    const MySound& Interface for the sound manager  |
+| [ISoundManager](ISoundManager.md) | Destroy the ISound object Get the sound information :material-keyboard-return: **Return** :    const MySound& Sound information Interface for the sound manager  |
 | [ITexture](ITexture.md) | Interface for the texture  |
-| [ITextureManager](ITextureManager.md) | Get the texture informations :material-keyboard-return: **Return** :    const MyTexture& Get the width of the texture :material-keyboard-return: **Return** :    uint32_t Get the height of the texture :material-keyboard-return: **Return** :    uint32_t Interface for the texture manager  |
+| [ITextureManager](ITextureManager.md) | Interface for the texture manager  |
 | [Keyboard](Keyboard.md) | Keyboard input  |
+| [LevelManager](LevelManager.md) |  |
 | [LibType](LibType.md) |  Represents the types of dynamic libraries. |
 | [Mouse](Mouse.md) | Mouse input  |
-| [MusicInfos](MusicInfos.md) | Music properties  |
-| [MySound](MySound.md) | MySound type Contains SoundInfos or MusicInfos  |
 | [MyTexture](MyTexture.md) | MyTexture type Contains TextureImg or TextureText  |
-| [Ncurses](Ncurses.md) | Ncurses class to handle the Ncurses library for the display  |
+| [NcursesDisplayModule](NcursesDisplayModule.md) |  |
+| [NcursesLibrary](NcursesLibrary.md) | Sfml class to handle the SFML library for the display  |
 | [Rect](Rect.md) | Rect properties  |
-| [Sdl](Sdl.md) | Sdl class to handle the SDL library for the display  |
-| [Sfml](Sfml.md) | Sfml class to handle the SFML library for the display  |
+| [SDLDisplayModule](SDLDisplayModule.md) |  |
+| [SFMLDisplay](SFMLDisplay.md) | Implementation of IDisplayModule for SFML  |
+| [SFMLFont](SFMLFont.md) | Implementation of IFont for SFML  |
+| [SFMLFontManager](SFMLFontManager.md) | Implementation of IFontManager for SFML  |
+| [SFMLLibrary](SFMLLibrary.md) | Implementation of IDisplayLibrary for SFML  |
+| [SFMLSound](SFMLSound.md) | Implementation of ISound for SFML  |
+| [SFMLSoundManager](SFMLSoundManager.md) | Implementation of ISoundManager for SFML  |
+| [SFMLTextureManager](SFMLTextureManager.md) | Implementation of ITextureManager for SFML  |
+| [SdlLibrary](SdlLibrary.md) | Sdl class to handle the SDL library for the display  |
+| [SnakeGame](SnakeGame.md) | @brief Implementation of the classic Snake game  |
 | [SoundInfos](SoundInfos.md) | Sound properties  |
-| [TextureImg](TextureImg.md) | TextureImg properties  |
-| [TextureText](TextureText.md) | TextureText properties  |
+| [TextureBase](TextureBase.md) |  |
+| [TextureImg](TextureImg.md) | Class for textured images  |
+| [TextureText](TextureText.md) | Class for textured text  |
 | [WindowProperties](WindowProperties.md) | Properties of the window  |
 
