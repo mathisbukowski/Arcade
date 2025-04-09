@@ -7,8 +7,19 @@ generator: doxide
 
 **class NcursesLibrary : public IDisplayLibrary**
 
-Sfml class to handle the SFML library for the display
 
+This class is used to create a library using the ncurses library
+It inherits from the IDisplayLibrary interface
+
+
+## Variables
+
+| Name | Description |
+| ---- | ----------- |
+| [_textures](#_textures) | Texture Manager  |
+| [_display](#_display) | Display Module  |
+| [_fonts](#_fonts) | Font Manager  |
+| [_sounds](#_sounds) | Sound Manager  |
 
 ## Functions
 
@@ -20,6 +31,36 @@ Sfml class to handle the SFML library for the display
 | [getTextures](#getTextures) | Get the Texture Manager object :material-keyboard-return: **Return** :    ITextureManager&  |
 | [getFonts](#getFonts) | Get the Font Manager object :material-keyboard-return: **Return** :    IFontManager&  |
 | [getSounds](#getSounds) | Get the Sound Manager object :material-keyboard-return: **Return** :    ISoundManager&  |
+
+## Variable Details
+
+### _display<a name="_display"></a>
+
+!!! variable "NcursesDisplayModule _display"
+
+    Display Module
+    
+
+### _fonts<a name="_fonts"></a>
+
+!!! variable "NcursesFontManager _fonts"
+
+    Font Manager
+    
+
+### _sounds<a name="_sounds"></a>
+
+!!! variable "NcursesSoundManager _sounds"
+
+    Sound Manager
+    
+
+### _textures<a name="_textures"></a>
+
+!!! variable "NcursesTextureManager _textures"
+
+    Texture Manager
+    
 
 ## Function Details
 

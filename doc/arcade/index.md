@@ -35,8 +35,14 @@ Namespace containing classes and types related to the Arcade project.
 | [LibType](LibType.md) |  Represents the types of dynamic libraries. |
 | [Mouse](Mouse.md) | Mouse input  |
 | [MyTexture](MyTexture.md) | MyTexture type Contains TextureImg or TextureText  |
-| [NcursesDisplayModule](NcursesDisplayModule.md) |  |
-| [NcursesLibrary](NcursesLibrary.md) | Sfml class to handle the SFML library for the display  |
+| [NcursesDisplayModule](NcursesDisplayModule.md) |  This class is used to create a window using the ncurses library It inherits from the IDisplayModule interface  |
+| [NcursesFont](NcursesFont.md) |  This class is used to create a font using the ncurses library It inherits from the IFont interface  |
+| [NcursesFontManager](NcursesFontManager.md) |  This class is used to manage fonts using the ncurses library It inherits from the IFontManager interface  |
+| [NcursesLibrary](NcursesLibrary.md) |  This class is used to create a library using the ncurses library It inherits from the IDisplayLibrary interface  |
+| [NcursesSound](NcursesSound.md) |  This class is used to create a sound using the ncurses library It inherits from the ISound interface  |
+| [NcursesSoundManager](NcursesSoundManager.md) |  This class is used to manage sounds using the ncurses library It inherits from the ISoundManager interface  |
+| [NcursesTexture](NcursesTexture.md) |  This class is used to create a texture using the ncurses library It inherits from the ITexture interface  |
+| [NcursesTextureManager](NcursesTextureManager.md) |  This class is used to manage textures using the ncurses library It inherits from the ITextureManager interface  |
 | [Rect](Rect.md) | Rect properties  |
 | [SDLDisplayModule](SDLDisplayModule.md) |  |
 | [SFMLDisplay](SFMLDisplay.md) | Implementation of IDisplayModule for SFML  |
