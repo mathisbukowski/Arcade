@@ -6,18 +6,21 @@
 */
 
 #include "SnakeGame.hpp"
+#include "IGameModule.hpp"
+#include "Arcade.hpp"
 
 namespace arcade {
 
-SnakeGame::SnakeGame(bool cyclical)
-    : BaseSnakeGame(GameMode::Snake)
-{
-    isCyclical = cyclical;
-    speedIncreases = true;
-    hasWalls = false;
-    useTimeLimit = false;
-    state.setMoveInterval(DEFAULT_SPEED);
-}
+    SnakeGame::SnakeGame(bool cyclical)
+        : BaseSnakeGame(GameMode::Snake)
+    {
+        isCyclical = cyclical;
+        speedIncreases = true;
+        hasWalls = false;
+        useTimeLimit = false;
+        state.setMoveInterval(DEFAULT_SPEED);
+        state.setGameOver(false);
+    }
 
 Vector<float> SnakeGame::adjustPosition(const Vector<float>& pos) const
 {
@@ -116,12 +119,30 @@ void SnakeGame::update(float delta)
     if (hasDisplayLibrary()) {
         try {
             auto& display = getDisplayLibrary().getDisplay();
-            WindowProperties props("", 400, 400);
+            WindowProperties props("", 800, 600);
             display.setupWindowProperties(props);
             props.setTitle(getWindowTitle());
             display.setupWindowProperties(props);
         } catch (const std::exception&) {
         }
+    }
+}
+
+extern "C" {
+    arcade::IGameModule* entryPoint() {
+        return new arcade::SnakeGame;
+    }
+
+    void destroy(arcade::IGameModule* game) {
+        delete game;
+    }
+
+    arcade::LibType entryPointType() {
+        return arcade::LibType::GAME;
+    }
+
+    const char* entryPointName() {
+        return "Snake";
     }
 }
 

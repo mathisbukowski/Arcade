@@ -6,6 +6,7 @@
 */
 
 #include "NibblerGame.hpp"
+#include "Arcade.hpp"
 #include <algorithm>
 
 namespace arcade {
@@ -20,6 +21,7 @@ NibblerGame::NibblerGame()
     useTimeLimit = true;
     state.setMoveInterval(DEFAULT_SPEED);
     loadLevel(state.getLevel());
+    state.setGameOver(false);
 }
 
 void NibblerGame::initGrid()
@@ -165,7 +167,7 @@ void NibblerGame::update(float delta)
     if (hasDisplayLibrary()) {
         try {
             auto& display = getDisplayLibrary().getDisplay();
-            WindowProperties props("", 400, 400);
+            WindowProperties props("", 800, 600);
             display.setupWindowProperties(props);
             props.setTitle(getWindowTitle());
             display.setupWindowProperties(props);
@@ -207,5 +209,24 @@ std::string NibblerGame::getWindowTitle() const
     title += " - Time: " + std::to_string(static_cast<int>(state.getTimeRemaining()));
     return title;
 }
+
+extern "C" {
+    arcade::IGameModule* entryPoint() {
+        return new arcade::NibblerGame;
+    }
+
+    void destroy(arcade::IGameModule* game) {
+        delete game;
+    }
+
+    arcade::LibType entryPointType() {
+        return arcade::LibType::GAME;
+    }
+
+    const char* entryPointName() {
+        return "Nibbler";
+    }
+}
+
 
 }
