@@ -60,7 +60,7 @@ namespace arcade
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        ISoundManager &getSounds() override { return this->_sounds; };
+        ISoundManager &getSounds() override { return this->_sounds; }
 
     private:
         /**

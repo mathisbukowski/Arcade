@@ -53,13 +53,14 @@ Namespace containing classes and types related to the Arcade project.
 | [SDLSoundManager](SDLSoundManager.md) |  This class is used to manage the sounds using the SDL2 library It inherits from the ISoundManager interface  |
 | [SDLTexture](SDLTexture.md) |  This class is used to create a texture using the SDL2 library It inherits from the ITexture interface  |
 | [SDLTextureManager](SDLTextureManager.md) |  This class is used to create a texture manager using the SDL2 library It inherits from the ITextureManager interface  |
-| [SFMLDisplay](SFMLDisplay.md) | Implementation of IDisplayModule for SFML  |
-| [SFMLFont](SFMLFont.md) | Implementation of IFont for SFML  |
-| [SFMLFontManager](SFMLFontManager.md) | Implementation of IFontManager for SFML  |
-| [SFMLLibrary](SFMLLibrary.md) | Implementation of IDisplayLibrary for SFML  |
-| [SFMLSound](SFMLSound.md) | Implementation of ISound for SFML  |
-| [SFMLSoundManager](SFMLSoundManager.md) | Implementation of ISoundManager for SFML  |
-| [SFMLTextureManager](SFMLTextureManager.md) | Implementation of ITextureManager for SFML  |
+| [SFMLDisplay](SFMLDisplay.md) |  This class is used to create a display using the SFML library It inherits from the IDisplayModule interface  |
+| [SFMLFont](SFMLFont.md) |  This class is used to create a font using the SFML library It inherits from the IFont interface  |
+| [SFMLFontManager](SFMLFontManager.md) |  This class is used to manage fonts using the SFML library It inherits from the IFontManager interface  |
+| [SFMLLibrary](SFMLLibrary.md) |  This class is used to create a library using the SFML library It inherits from the IDisplayLibrary interface  |
+| [SFMLSound](SFMLSound.md) |  of ISound for SFML This class is used to create a sound using the SFML library It inherits from the ISound interface  |
+| [SFMLSoundManager](SFMLSoundManager.md) |  This class is used to manage sounds using the SFML library It inherits from the ISoundManager interface  |
+| [SFMLTexture](SFMLTexture.md) |  This class is used to create a texture using the SFML library It inherits from the ITexture interface  |
+| [SFMLTextureManager](SFMLTextureManager.md) |  This class is used to manage textures using the SFML library It inherits from the ITextureManager interface  |
 | [Score](Score.md) | struct Score Represents a player's score in a game. |
 | [SdlLibrary](SdlLibrary.md) |  This class is used to create a library using the SDL2 library It inherits from the IDisplayLibrary interface  |
 | [SnakeGame](SnakeGame.md) | @brief Implementation of the classic Snake game  |

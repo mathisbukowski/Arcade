@@ -252,7 +252,7 @@ namespace arcade {
          * Constructor for ITexture
          * @param texture MyTexture &
          */
-        explicit ITexture([[maybe_unused]]const MyTexture &texture) {};
+        explicit ITexture([[maybe_unused]]const MyTexture &texture) {}
     };
 
     /**
