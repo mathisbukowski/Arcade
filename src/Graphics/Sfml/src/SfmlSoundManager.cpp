@@ -12,7 +12,7 @@
 namespace arcade {
     SFMLSound::SFMLSound(const SoundInfos &soundInfo) : _info(soundInfo)
     {
-        loadSound(soundInfo);
+        this->loadSound(soundInfo);
     }
 
     void SFMLSound::loadSound(const SoundInfos& soundInfos)

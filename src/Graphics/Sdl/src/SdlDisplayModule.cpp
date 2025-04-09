@@ -107,14 +107,14 @@ void arcade::SDLDisplayModule::updateWindow(float delta)
             break;
         case SDL_KEYDOWN:
             {
-                Keyboard::KeyCode key = mapSDLKeyToArcade(event.key.keysym.sym);
+                Keyboard::KeyCode key = this->mapSDLKeyToArcade(event.key.keysym.sym);
                 if (key != Keyboard::UNKNOWN)
                     _keyboard.setKey(key, true);
             }
             break;
         case SDL_KEYUP:
             {
-                Keyboard::KeyCode key = mapSDLKeyToArcade(event.key.keysym.sym);
+                Keyboard::KeyCode key = this->mapSDLKeyToArcade(event.key.keysym.sym);
                 if (key != Keyboard::UNKNOWN)
                     _keyboard.setKey(key, false);
             }

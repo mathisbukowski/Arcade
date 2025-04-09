@@ -18,7 +18,6 @@ arcade::NcursesDisplayModule::NcursesDisplayModule(const std::string &name): _wi
 
 arcade::NcursesDisplayModule::~NcursesDisplayModule()
 {
-    std::cout << "[DEBUG] NcursesDisplayModule destructor called" << std::endl;
     this->stop();
 }
 
@@ -105,7 +104,7 @@ void arcade::NcursesDisplayModule::updateWindow(float delta)
         lastTimeCheck = currentTime;
     }
     try {
-        processEvents();
+        this->processEvents();
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Error in updateWindow: " << e.what() << std::endl;
     }
@@ -119,7 +118,7 @@ void arcade::NcursesDisplayModule::processEvents()
         _keyboard.clearPressedKeys();
         int ch = getch();
         if (ch != ERR) {
-            handleEvent(ch);
+            this->handleEvent(ch);
         }
     } catch (const std::exception& e) {
         std::cerr << "Error in processEvents: " << e.what() << std::endl;
