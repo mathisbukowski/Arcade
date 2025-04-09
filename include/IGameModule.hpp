@@ -23,7 +23,7 @@ namespace arcade {
         virtual ~IGameModule () = default;
         /**
          * Initialize the game module
-         * @param displayLib Display library
+         * @param displayLib std::shared_ptr<IDisplayLibrary> Display library
          */
         virtual void init(std::shared_ptr<IDisplayLibrary> displayLib) = 0;
         /**
@@ -32,7 +32,7 @@ namespace arcade {
         virtual void stop() = 0;
         /**
          * update the game module
-         * @param delta Time since the last update
+         * @param delta float Time since the last update
          */
         virtual void update(float delta) = 0;
         /**

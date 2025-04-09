@@ -13,12 +13,24 @@
 #include "IDisplayModule.hpp"
 
 namespace arcade {
+    /**
+     * @class NcursesDisplayModule
+     * This class is used to create a window using the ncurses library
+     * It inherits from the IDisplayModule interface
+     */
     class NcursesDisplayModule : public IDisplayModule {
     public:
+        /**
+         * Constructor
+         * @param name const std::string & name Name of the display module. Default is "NCURSES"
+         */
         NcursesDisplayModule(const std::string &name = "NCURSES");
         ~NcursesDisplayModule() override;
         /**
          * Initialize the SDL library
+         * @param title const std::string & Title of the window
+         * @param width size_t Width of the window
+         * @param height size_t Height of the window
          */
         void init(const std::string& title, size_t width, size_t height) override;
         /**
@@ -27,12 +39,12 @@ namespace arcade {
         void stop() override;
         /**
          * Get the name of the library
-         * @return const std::string
+         * @return const std::string & Name of the library
          */
         [[nodiscard]] const std::string &getName() const override { return _name; }
         /**
          * Set up the window properties
-         * @param properties WindowProperties
+         * @param properties WindowProperties & Properties of the window
          */
         void setupWindowProperties(WindowProperties &properties) override { _windowProperties = properties; }
         /**
@@ -50,7 +62,7 @@ namespace arcade {
         void clearWindow(Color color) override;
         /**
          * Update the window
-         * @param delta Delta time
+         * @param delta float Delta time
          */
         void updateWindow(float delta) override;
         /**
@@ -60,24 +72,24 @@ namespace arcade {
         bool isWindowOpen() override { return _isOpen; }
         /**
          * Draw a texture on the window
-         * @param texture Texture to draw
-         * @param position Position of the texture
+         * @param texture std::shared_ptr<ITexture> Texture to draw
+         * @param position Vector<float> Position of the texture
          */
         void drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position) override;
         /**
          * Get the keyboard
-         * @return Keyboard
+         * @return Keyboard &
          */
         [[nodiscard]] Keyboard &getKeyboard() override { return _keyboard; }
         /**
          * Get the mouse
-         * @return Mouse
+         * @return Mouse &
          */
         [[nodiscard]] Mouse &getMouse() override { return _mouse; }
 
         /**
          * Get the window properties
-         * @return window properties
+         * @return WindowProperties
          */
         [[nodiscard]] WindowProperties getWindowProperties() const { return _windowProperties; }
 
@@ -87,15 +99,30 @@ namespace arcade {
         void processEvents();
         /**
          * Handle event
-         * @param event Event to handle
+         * @param ch int Character code
          */
         void handleEvent(int ch);
 
     private:
+        /**
+         * Window properties
+         */
         WindowProperties _windowProperties;
+        /**
+         * Name of the display module
+         */
         std::string _name;
+        /**
+         * Check if the window is open
+         */
         bool _isOpen;
+        /**
+         * Keyboard
+         */
         Keyboard _keyboard;
+        /**
+         * Mouse
+         */
         Mouse _mouse;
     };
 };

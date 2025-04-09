@@ -58,7 +58,7 @@ Template class representing a generic 2D vector.
 
 ### operator+<a name="operator_u002b"></a>
 
-!!! function "T operator+(const Vector&lt;T&gt;&amp; other) const"
+!!! function "Vector&lt;T&gt; operator+(const Vector&lt;T&gt;&amp; other) const"
 
     Operator overloads
         

@@ -5,59 +5,68 @@ generator: doxide
 
 # TextureText
 
-**class TextureText**
+**class TextureText : public TextureBase**
 
-TextureText properties
+Class for textured text
 
+
+## Variables
+
+| Name | Description |
+| ---- | ----------- |
+| [_text](#_text) | Text to be displayed  |
+| [_color](#_color) | Color of the text  |
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [TextureText](#TextureText) | Construct a new Texture Text object :material-location-enter: `text` :    Text :material-location-enter: `color` :    Color of the text :material-location-enter: `rect` :    Rect properties :material-keyboard-return: **Return** :    TextureText  |
-| [getText](#getText) | Get the Text object :material-keyboard-return: **Return** :    std::string  |
-| [setText](#setText) | Set the Text object :material-location-enter: `text` :    Text  |
-| [getColor](#getColor) | Get the Color object :material-keyboard-return: **Return** :    Color  |
-| [setColor](#setColor) | Set the Color object :material-location-enter: `color` :    Color  |
-| [getRect](#getRect) | Get the Rect object :material-keyboard-return: **Return** :    std::optional<Rect>  |
-| [setRect](#setRect) | Set the Rect object :material-location-enter: `rect` :    Rect properties  |
+| [TextureText](#TextureText) | Constructor for TextureText :material-location-enter: `text` :    std::string Text :material-location-enter: `color` :    Color Text color :material-location-enter: `rect` :    const std::optional<Rect> & Rect properties  |
+| [getText](#getText) | Get the Text object :material-keyboard-return: **Return** :    std::string Text  |
+| [setText](#setText) | Set the Text object :material-location-enter: `newText` :    const std::string & Text  |
+| [getColor](#getColor) | Get the Color object :material-keyboard-return: **Return** :    const Color Color  |
+| [setColor](#setColor) | Set the Color object :material-location-enter: `newColor` :    const Color & Color  |
+
+## Variable Details
+
+### _color<a name="_color"></a>
+
+!!! variable "Color _color"
+
+    Color of the text
+    
+
+### _text<a name="_text"></a>
+
+!!! variable "std::string _text"
+
+    Text to be displayed
+    
 
 ## Function Details
 
 ### TextureText<a name="TextureText"></a>
-!!! function "TextureText(std::string text = &quot;&quot;, Color color = Color(0, 0, 0), const std::optional&lt;Rect&gt; &amp;rect = std::nullopt)"
+!!! function "explicit TextureText(std::string text = &quot;&quot;, Color color = Color(0, 0, 0), const std::optional&lt;Rect&gt; &amp;rect = std::nullopt)"
 
-    Construct a new Texture Text object
+    Constructor for TextureText
         
     :material-location-enter: `text`
-    :    Text
+    :    std::string Text
         
     :material-location-enter: `color`
-    :    Color of the text
+    :    Color Text color
         
     :material-location-enter: `rect`
-    :    Rect properties
-        
-    :material-keyboard-return: **Return**
-    :    TextureText
+    :    const std::optional<Rect> & Rect properties
     
 
 ### getColor<a name="getColor"></a>
-!!! function "[[nodiscard]] Color getColor() const"
+!!! function "[[nodiscard]] const Color getColor() const"
 
     Get the Color object
         
     :material-keyboard-return: **Return**
-    :    Color
-    
-
-### getRect<a name="getRect"></a>
-!!! function "[[nodiscard]] std::optional&lt;Rect&gt; getRect() const"
-
-    Get the Rect object
-        
-    :material-keyboard-return: **Return**
-    :    std::optional<Rect>
+    :    const Color Color
     
 
 ### getText<a name="getText"></a>
@@ -66,7 +75,7 @@ TextureText properties
     Get the Text object
         
     :material-keyboard-return: **Return**
-    :    std::string
+    :    std::string Text
     
 
 ### setColor<a name="setColor"></a>
@@ -74,17 +83,8 @@ TextureText properties
 
     Set the Color object
         
-    :material-location-enter: `color`
-    :    Color
-    
-
-### setRect<a name="setRect"></a>
-!!! function "void setRect(const std::optional&lt;Rect&gt; &amp;newRect)"
-
-    Set the Rect object
-        
-    :material-location-enter: `rect`
-    :    Rect properties
+    :material-location-enter: `newColor`
+    :    const Color & Color
     
 
 ### setText<a name="setText"></a>
@@ -92,7 +92,7 @@ TextureText properties
 
     Set the Text object
         
-    :material-location-enter: `text`
-    :    Text
+    :material-location-enter: `newText`
+    :    const std::string & Text
     
 

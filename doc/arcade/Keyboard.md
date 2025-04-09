@@ -16,13 +16,28 @@ Keyboard input
 | ---- | ----------- |
 | [KeyCode](Keyboard/KeyCode.md) | Key codes  |
 
+## Variables
+
+| Name | Description |
+| ---- | ----------- |
+| [_keys](#_keys) | Map of key codes and their pressed state  |
+
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [isKeyPressed](#isKeyPressed) | Check if a key is pressed :material-location-enter: `keyCode` :    Key code :material-keyboard-return: **Return** :    true if the key is pressed, false otherwise  |
-| [setKey](#setKey) | Set a key state :material-location-enter: `keyCode` :    Key code :material-location-enter: `isPressed` :    Key state  |
+| [isKeyPressed](#isKeyPressed) | Check if a key is pressed :material-location-enter: `code` :    KeyCode Key code :material-keyboard-return: **Return** :    true if the key is pressed, false otherwise (bool)  |
+| [setKey](#setKey) | Set a key state :material-location-enter: `code` :    KeyCode Key code :material-location-enter: `isPressed` :    bool Key state  |
 | [clearPressedKeys](#clearPressedKeys) | Clear all pressed keys  |
+
+## Variable Details
+
+### _keys<a name="_keys"></a>
+
+!!! variable "std::unordered_map&lt;KeyCode, bool&gt; _keys"
+
+    Map of key codes and their pressed state
+    
 
 ## Function Details
 
@@ -37,11 +52,11 @@ Keyboard input
 
     Check if a key is pressed
     
-    :material-location-enter: `keyCode`
-    :    Key code
+    :material-location-enter: `code`
+    :    KeyCode Key code
         
     :material-keyboard-return: **Return**
-    :    true if the key is pressed, false otherwise
+    :    true if the key is pressed, false otherwise (bool)
     
 
 ### setKey<a name="setKey"></a>
@@ -49,10 +64,10 @@ Keyboard input
 
     Set a key state
         
-    :material-location-enter: `keyCode`
-    :    Key code
+    :material-location-enter: `code`
+    :    KeyCode Key code
         
     :material-location-enter: `isPressed`
-    :    Key state
+    :    bool Key state
     
 
