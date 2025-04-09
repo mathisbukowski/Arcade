@@ -20,13 +20,13 @@ Core::Core(const std::string& initialLibPath)
       _currentGame(nullptr),
       _deltaTime(0.0f)
 {
-    initializeGraphicsLib(initialLibPath);
-    loadScores();
+    this->initializeGraphicsLib(initialLibPath);
+    this->loadScores();
     _lastFrameTime = std::chrono::high_resolution_clock::now();
 }
 
 Core::~Core() {
-    saveScores();
+    this->saveScores();
 
     if (_currentGame)
         _currentGame->stop();
@@ -36,13 +36,13 @@ Core::~Core() {
 
 void Core::run() {
     while (_state != GameState::EXIT) {
-        updateDeltaTime();
+        this->updateDeltaTime();
         if (_state == GameState::MENU) {
-            updateMenu();
-            displayMenu();
+            this->updateMenu();
+            this->displayMenu();
         } else if (_state == GameState::GAME) {
-            updateGame();
-            displayGame();
+            this->updateGame();
+            this->displayGame();
         }
     }
 }
@@ -88,7 +88,7 @@ void Core::initializeGameLib() {
 }
 
 void Core::updateMenu() {
-    handleMenuInput();
+    this->handleMenuInput();
 }
 
 void Core::displayMenu() {
@@ -103,10 +103,10 @@ void Core::displayMenu() {
         std::cerr << "Failed to load menu_title texture" << std::endl;
 
     display.drawTexture(textures.get("menu_title"), Vector<float>(300, 50));
-    renderGameList(100, 150);
-    renderGraphicsList(500, 150);
-    renderScores(100, 350);
-    renderPlayerNameInput(500, 400);
+    this->renderGameList(100, 150);
+    this->renderGraphicsList(500, 150);
+    this->renderScores(100, 350);
+    this->renderPlayerNameInput(500, 400);
 
     auto instructionsText = MyTexture(TextureText("Controls: F1-Next Lib, F2-Next Game, F3-Restart, ESC-Exit", Color(200, 200, 200)));
     result = textures.load("menu_instructions", instructionsText);
@@ -119,7 +119,7 @@ void Core::displayMenu() {
 }
 
 void Core::updateGame() {
-    handleGameInput();
+    this->handleGameInput();
     if (_currentGame)
         _currentGame->update(_deltaTime);
 }
@@ -159,7 +159,7 @@ void Core::handleMenuInput() {
             for (const auto& [name, lib] : gameLibs) {
                 if (index == _selectedGameIndex) {
                     _libManager->setCurrentGameLib(lib);
-                    initializeGameLib();
+                    this->initializeGameLib();
                     _state = GameState::GAME;
                     return;
                 }
@@ -169,7 +169,7 @@ void Core::handleMenuInput() {
     }
     if (mouse.isPressed()) {
         Vector<float> pos = mouse.getPos();
-        checkGameListClicks(pos.getX(), pos.getY());
+        this->checkGameListClicks(pos.getX(), pos.getY());
     }
 }
 
@@ -183,7 +183,7 @@ void Core::handleGameInput() {
     }
     if (keyboard.isKeyPressed(Keyboard::KeyCode::A)) {
         try {
-            initializeGameLib();
+            this->initializeGameLib();
             _state = GameState::GAME;
         } catch (const std::exception& e) {
             std::cerr << "Failed to start game: " << e.what() << std::endl;
@@ -193,13 +193,13 @@ void Core::handleGameInput() {
 
     if (mouse.isPressed()) {
         Vector<float> pos = mouse.getPos();
-        checkGameListClicks(pos.getX(), pos.getY());
+        this->checkGameListClicks(pos.getX(), pos.getY());
     }
     if (keyboard.isKeyPressed(Keyboard::KeyCode::KEY_2)) {
         try {
             _libManager->setNextGame();
             auto nextGame = _libManager->getCurrentGameLib();
-            switchGame(nextGame->getName());
+            this->switchGame(nextGame->getName());
         } catch (const std::exception& e) {
             std::cerr << "Failed to switch game: " << e.what() << std::endl;
         }
@@ -207,7 +207,7 @@ void Core::handleGameInput() {
     }
     if (keyboard.isKeyPressed(Keyboard::KeyCode::KEY_3)) {
         try {
-            restartGame();
+            this->restartGame();
         } catch (const std::exception& e) {
             std::cerr << "Failed to restart game: " << e.what() << std::endl;
         }
@@ -450,7 +450,7 @@ void Core::checkGameListClicks(float mouseX, float mouseY) {
             std::cout << "Clicked on game: " << name << std::endl;
             try {
                 _libManager->setCurrentGameLib(lib);
-                initializeGameLib();
+                this->initializeGameLib();
                 _state = GameState::GAME;
                 return;
             } catch (const std::exception& e) {
