@@ -7,8 +7,7 @@
 
 #include "SdlLibrary.hpp"
 
-
-extern "C" arcade::IDisplayLibrary *entrypoint()
+extern "C" arcade::IDisplayLibrary *entryPoint()
 {
     return new arcade::SdlLibrary();
 }
