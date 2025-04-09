@@ -18,6 +18,12 @@ int arcade::SDLFont::createFont(const Font &informations)
     return 0;
 }
 
+arcade::SDLFontManager::SDLFontManager()
+{
+    if (TTF_Init() == -1)
+        throw std::runtime_error("Failed to initialize TTF");
+}
+
 int arcade::SDLFontManager::load(const std::string& name, const Font &newFont)
 {
     auto font = std::make_shared<SDLFont>(newFont);

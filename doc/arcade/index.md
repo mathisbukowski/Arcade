@@ -44,7 +44,15 @@ Namespace containing classes and types related to the Arcade project.
 | [NcursesTexture](NcursesTexture.md) |  This class is used to create a texture using the ncurses library It inherits from the ITexture interface  |
 | [NcursesTextureManager](NcursesTextureManager.md) |  This class is used to manage textures using the ncurses library It inherits from the ITextureManager interface  |
 | [Rect](Rect.md) | Rect properties  |
-| [SDLDisplayModule](SDLDisplayModule.md) |  |
+| [SDLDisplayModule](SDLDisplayModule.md) |  This class is used to create a library using the SDL2 library It inherits from the IDisplayModule interface  |
+| [SDLFont](SDLFont.md) |  This class is used to create a font using the SDL2 library It inherits from the IFont interface  |
+| [SDLFontManager](SDLFontManager.md) |  This class is used to create a font manager using the SDL2 library It inherits from the IFontManager interface  |
+| [SDLRendererManager](SDLRendererManager.md) |  This class is used to create a texture using the SDL2 library It inherits from the ITexture interface  |
+| [SDLRendererManager](SDLRendererManager.md) |  This class is used to manage the SDL renderer and window  |
+| [SDLSound](SDLSound.md) |  This class is used to create a sound using the SDL2 library It inherits from the ISound interface  |
+| [SDLSoundManager](SDLSoundManager.md) |  This class is used to manage the sounds using the SDL2 library It inherits from the ISoundManager interface  |
+| [SDLTexture](SDLTexture.md) |  This class is used to create a texture using the SDL2 library It inherits from the ITexture interface  |
+| [SDLTextureManager](SDLTextureManager.md) |  This class is used to create a texture manager using the SDL2 library It inherits from the ITextureManager interface  |
 | [SFMLDisplay](SFMLDisplay.md) | Implementation of IDisplayModule for SFML  |
 | [SFMLFont](SFMLFont.md) | Implementation of IFont for SFML  |
 | [SFMLFontManager](SFMLFontManager.md) | Implementation of IFontManager for SFML  |
@@ -53,7 +61,7 @@ Namespace containing classes and types related to the Arcade project.
 | [SFMLSoundManager](SFMLSoundManager.md) | Implementation of ISoundManager for SFML  |
 | [SFMLTextureManager](SFMLTextureManager.md) | Implementation of ITextureManager for SFML  |
 | [Score](Score.md) | struct Score Represents a player's score in a game. |
-| [SdlLibrary](SdlLibrary.md) | Sdl class to handle the SDL library for the display  |
+| [SdlLibrary](SdlLibrary.md) |  This class is used to create a library using the SDL2 library It inherits from the IDisplayLibrary interface  |
 | [SnakeGame](SnakeGame.md) | @brief Implementation of the classic Snake game  |
 | [SoundInfos](SoundInfos.md) | Sound properties  |
 | [TextureBase](TextureBase.md) |  |
