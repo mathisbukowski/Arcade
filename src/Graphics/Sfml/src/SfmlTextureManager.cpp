@@ -15,13 +15,13 @@ namespace arcade {
     {
         try {
             if (std::holds_alternative<TextureImg>(textureInfo)) {
-                loadFromImage(std::get<TextureImg>(textureInfo));
+                this->loadFromImage(std::get<TextureImg>(textureInfo));
             } else {
-                loadFromText(std::get<TextureText>(textureInfo));
+                this->loadFromText(std::get<TextureText>(textureInfo));
             }
         } catch (const std::exception& e) {
             std::cerr << "Error creating texture: " << e.what() << std::endl;
-            createErrorTexture();
+           this->createErrorTexture();
         }
     }
 
@@ -52,7 +52,7 @@ namespace arcade {
         }
 
         sf::Text text;
-        text.setFont(*_font);
+        text.setFont(_font.operator*());
         text.setString(textureText.getText());
         text.setFillColor(sf::Color(
             textureText.getColor().getR(),
@@ -150,11 +150,11 @@ namespace arcade {
         this->_info = newTexture;
 
         if (std::holds_alternative<TextureImg>(newTexture)) {
-            loadFromImage(std::get<TextureImg>(newTexture));
+            this->loadFromImage(std::get<TextureImg>(newTexture));
         } else if (std::holds_alternative<TextureText>(newTexture)) {
-            loadFromText(std::get<TextureText>(newTexture));
+            this->loadFromText(std::get<TextureText>(newTexture));
         } else {
-            createErrorTexture();
+            this->createErrorTexture();
         }
     }
 

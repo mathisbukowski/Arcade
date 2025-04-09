@@ -81,7 +81,7 @@ namespace arcade {
     {
         try {
             if (_window == nullptr) {
-                init(_properties.getTitle(), _properties.getWidth(), _properties.getHeight());
+                this->init(_properties.getTitle(), _properties.getWidth(), _properties.getHeight());
             } else if (!_window->isOpen()) {
                 _window->create(
                     sf::VideoMode(_properties.getWidth(), _properties.getHeight()),
@@ -113,7 +113,7 @@ namespace arcade {
 
         try {
             if (_window != nullptr && _window->isOpen()) {
-                processEvents();
+                this->processEvents();
                 _window->display();
             }
         } catch (const std::exception& e) {
@@ -167,7 +167,7 @@ namespace arcade {
         try {
             sf::Event event;
             while (_window->pollEvent(event))
-                handleEvent(event);
+                this->handleEvent(event);
         } catch (const std::exception& e) {
             std::cerr << "Error in processEvents: " << e.what() << std::endl;
         }
@@ -180,10 +180,10 @@ namespace arcade {
                 _window->close();
                 break;
             case sf::Event::KeyPressed:
-                handleKeyEvent(event.key, true);
+                this->handleKeyEvent(event.key, true);
                 break;
             case sf::Event::KeyReleased:
-                handleKeyEvent(event.key, false);
+                this->handleKeyEvent(event.key, false);
                 break;
             case sf::Event::MouseButtonPressed:
                 _mouse.setPressed(true);
@@ -203,7 +203,7 @@ namespace arcade {
 
     void SFMLDisplay::handleKeyEvent(const sf::Event::KeyEvent& keyEvent, bool isPressed)
     {
-        Keyboard::KeyCode code = mapSfmlKeyToArcade(keyEvent.code);
+        Keyboard::KeyCode code = this->mapSfmlKeyToArcade(keyEvent.code);
 
         _keyboard.setKey(code, isPressed);
     }
