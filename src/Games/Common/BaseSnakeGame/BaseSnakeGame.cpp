@@ -285,6 +285,9 @@ void BaseSnakeGame::loadTextures() {
 void BaseSnakeGame::loadBasicTextures(ITextureManager& textures) {
     std::vector<std::pair<std::string, std::string>> texturesToLoad = {
         {"snake_head", "assets/snake/head.png"},
+        {"snake_head_up", "assets/snake/head_up.png"},
+        {"snake_head_down", "assets/snake/head_down.png"},
+        {"snake_head_left", "assets/snake/head_left.png"},
         {"snake_body", "assets/snake/body.png"},
         {"food", "assets/snake/food.png"},
         {"bonus_food", "assets/snake/bonus_food.png"}
@@ -834,10 +837,25 @@ void BaseSnakeGame::getElementDimensions(CellType cellType, float cellWidth, flo
     }
 }
 
+std::string BaseSnakeGame::getSnakeHeadTextureName() const {
+    switch (_state.getCurrentDirection()) {
+        case Direction::Up:
+            return "snake_head_up";
+        case Direction::Down:
+            return "snake_head_down";
+        case Direction::Left:
+            return "snake_head_left";
+        case Direction::Right:
+            return "snake_head";
+        default:
+            return "snake_head";
+    }
+}
+
 std::string BaseSnakeGame::getTextureNameForCell(CellType cellType) {
     switch (cellType) {
         case CellType::SnakeHead:
-            return "snake_head";
+            return getSnakeHeadTextureName();
         case CellType::Snake:
             return "snake_body";
         case CellType::Food:

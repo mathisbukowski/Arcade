@@ -182,6 +182,7 @@ namespace arcade
                                      float &elementWidth, float &elementHeight,
                                      float &offsetX, float &offsetY);
             std::string getTextureNameForCell(CellType cellType);
+            std::string getSnakeHeadTextureName() const;
             std::shared_ptr<ITexture> getOrLoadTexture(ITextureManager& textures, const std::string& textureName);
             void updateTextureRect(std::shared_ptr<ITexture> texture, const Vector<float>& pos,
                                   float width, float height);
