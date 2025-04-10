@@ -937,7 +937,7 @@ void BaseSnakeGame::drawTimeRemaining(IDisplayModule& display, ITextureManager& 
 }
 
 void BaseSnakeGame::drawGameOver(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize) {
-    std::string gameOverText = "GAME OVER - Press ESC to return to menu";
+    std::string gameOverText = "GAME OVER - Press a to restart the game";
     TextureText gameOverTextureText(gameOverText, Color(255, 0, 0));
     MyTexture gameOverTexture = gameOverTextureText;
 
