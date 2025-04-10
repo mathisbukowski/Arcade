@@ -112,22 +112,22 @@ namespace arcade
             void decrementTimeRemaining(float delta);
 
         private:
-            std::deque<Vector<float>> segments;
-            Direction currentDirection;
-            Direction nextDirection;
-            std::vector<Vector<float>> foods;
-            std::vector<Vector<float>> bonusFoods;
-            std::vector<std::vector<CellType>> grid;
-            int score;
-            bool gameOver;
-            float moveTimer;
-            float moveInterval;
-            float bonusFoodTimer;
-            float bonusFoodDuration;
-            int level;
-            float timeRemaining;
-            std::string playerName;
-            GameMode mode;
+            std::deque<Vector<float>> _segments;
+            Direction _currentDirection;
+            Direction _nextDirection;
+            std::vector<Vector<float>> _foods;
+            std::vector<Vector<float>> _bonusFoods;
+            std::vector<std::vector<CellType>> _grid;
+            int _score;
+            bool _gameOver;
+            float _moveTimer;
+            float _moveInterval;
+            float _bonusFoodTimer;
+            float _bonusFoodDuration;
+            int _level;
+            float _timeRemaining;
+            std::string _playerName;
+            GameMode _mode;
         };
 
         private:
@@ -141,7 +141,7 @@ namespace arcade
             static constexpr int BONUS_SCORE = 50;
             static constexpr int REGULAR_SCORE = 10;
 
-            std::optional<std::reference_wrapper<IDisplayLibrary>> displayLib;
+            std::optional<std::reference_wrapper<IDisplayLibrary>> _displayLib;
 
             // Initialization
             void setupGame();
@@ -197,17 +197,17 @@ namespace arcade
         [[nodiscard]] bool hasDisplayLibrary() const noexcept;
 
         // Game state
-        GameState state;
-        std::mt19937 rng;
+        GameState _state;
+        std::mt19937 _rng;
 
         // Game properties
-        size_t gridWidth;
-        size_t gridHeight;
-        Vector<float> gridOffset;
-        bool isCyclical;
-        bool speedIncreases;
-        bool hasWalls;
-        bool useTimeLimit;
+        size_t _gridWidth;
+        size_t _gridHeight;
+        Vector<float> _gridOffset;
+        bool _isCyclical;
+        bool _speedIncreases;
+        bool _hasWalls;
+        bool _useTimeLimit;
 
         // Core game logic - virtual for game-specific customization
         virtual void initGrid();

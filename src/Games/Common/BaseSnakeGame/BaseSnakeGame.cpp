@@ -14,245 +14,245 @@
 namespace arcade {
 
 BaseSnakeGame::GameState::GameState() :
-    currentDirection(Direction::Right),
-    nextDirection(Direction::Right),
-    score(0),
-    gameOver(false),
-    moveTimer(0.0f),
-    moveInterval(0.2f),
-    bonusFoodTimer(0.0f),
-    bonusFoodDuration(5.0f),
-    level(1),
-    timeRemaining(60.0f),
-    mode(GameMode::Snake)
+    _currentDirection(Direction::Right),
+    _nextDirection(Direction::Right),
+    _score(0),
+    _gameOver(false),
+    _moveTimer(0.0f),
+    _moveInterval(0.2f),
+    _bonusFoodTimer(0.0f),
+    _bonusFoodDuration(5.0f),
+    _level(1),
+    _timeRemaining(60.0f),
+    _mode(GameMode::Snake)
 {
 }
 
 const std::deque<Vector<float>>& BaseSnakeGame::GameState::getSegments() const {
-    return segments;
+    return _segments;
 }
 
 Direction BaseSnakeGame::GameState::getCurrentDirection() const {
-    return currentDirection;
+    return _currentDirection;
 }
 
 Direction BaseSnakeGame::GameState::getNextDirection() const {
-    return nextDirection;
+    return _nextDirection;
 }
 
 const std::vector<Vector<float>>& BaseSnakeGame::GameState::getBonusFoods() const {
-    return bonusFoods;
+    return _bonusFoods;
 }
 
 const std::vector<std::vector<CellType>>& BaseSnakeGame::GameState::getGrid() const {
-    return grid;
+    return _grid;
 }
 
 int BaseSnakeGame::GameState::getScore() const {
-    return score;
+    return _score;
 }
 
 bool BaseSnakeGame::GameState::isGameOver() const {
-    return gameOver;
+    return _gameOver;
 }
 
 float BaseSnakeGame::GameState::getMoveTimer() const {
-    return moveTimer;
+    return _moveTimer;
 }
 
 float BaseSnakeGame::GameState::getMoveInterval() const {
-    return moveInterval;
+    return _moveInterval;
 }
 
 float BaseSnakeGame::GameState::getBonusFoodTimer() const {
-    return bonusFoodTimer;
+    return _bonusFoodTimer;
 }
 
 float BaseSnakeGame::GameState::getBonusFoodDuration() const {
-    return bonusFoodDuration;
+    return _bonusFoodDuration;
 }
 
 int BaseSnakeGame::GameState::getLevel() const {
-    return level;
+    return _level;
 }
 
 float BaseSnakeGame::GameState::getTimeRemaining() const {
-    return timeRemaining;
+    return _timeRemaining;
 }
 
 const std::string& BaseSnakeGame::GameState::getPlayerName() const {
-    return playerName;
+    return _playerName;
 }
 
 GameMode BaseSnakeGame::GameState::getMode() const {
-    return mode;
+    return _mode;
 }
 
 const std::vector<Vector<float>>& BaseSnakeGame::GameState::getFoods() const {
-    return foods;
+    return _foods;
 }
 
 Vector<float> BaseSnakeGame::GameState::getHead() const {
-    return segments.empty() ? Vector<float>(0, 0) : segments.front();
+    return _segments.empty() ? Vector<float>(0, 0) : _segments.front();
 }
 
 Vector<float> BaseSnakeGame::GameState::getTail() const {
-    return segments.empty() ? Vector<float>(0, 0) : segments.back();
+    return _segments.empty() ? Vector<float>(0, 0) : _segments.back();
 }
 
 size_t BaseSnakeGame::GameState::getLength() const {
-    return segments.size();
+    return _segments.size();
 }
 
 bool BaseSnakeGame::GameState::hasFoods() const {
-    return !foods.empty();
+    return !_foods.empty();
 }
 
 bool BaseSnakeGame::GameState::hasBonusFoods() const {
-    return !bonusFoods.empty();
+    return !_bonusFoods.empty();
 }
 
 void BaseSnakeGame::GameState::setCurrentDirection(Direction dir) {
-    currentDirection = dir;
+    _currentDirection = dir;
 }
 
 void BaseSnakeGame::GameState::setNextDirection(Direction dir) {
-    nextDirection = dir;
+    _nextDirection = dir;
 }
 
 void BaseSnakeGame::GameState::setScore(int newScore) {
-    score = newScore;
+    _score = newScore;
 }
 
 void BaseSnakeGame::GameState::setGameOver(bool over) {
-    gameOver = over;
+    _gameOver = over;
 }
 
 void BaseSnakeGame::GameState::setMoveTimer(float timer) {
-    moveTimer = timer;
+    _moveTimer = timer;
 }
 
 void BaseSnakeGame::GameState::setMoveInterval(float interval) {
-    moveInterval = interval;
+    _moveInterval = interval;
 }
 
 void BaseSnakeGame::GameState::setBonusFoodTimer(float timer) {
-    bonusFoodTimer = timer;
+    _bonusFoodTimer = timer;
 }
 
 void BaseSnakeGame::GameState::setBonusFoodDuration(float duration) {
-    bonusFoodDuration = duration;
+    _bonusFoodDuration = duration;
 }
 
 void BaseSnakeGame::GameState::setLevel(int newLevel) {
-    level = newLevel;
+    _level = newLevel;
 }
 
 void BaseSnakeGame::GameState::setTimeRemaining(float time) {
-    timeRemaining = time;
+    _timeRemaining = time;
 }
 
 void BaseSnakeGame::GameState::setPlayerName(const std::string& name) {
-    playerName = name;
+    _playerName = name;
 }
 
 void BaseSnakeGame::GameState::setMode(GameMode newMode) {
-    mode = newMode;
+    _mode = newMode;
 }
 
 void BaseSnakeGame::GameState::addSegment(const Vector<float>& segment) {
-    segments.push_back(segment);
+    _segments.push_back(segment);
 }
 
 void BaseSnakeGame::GameState::prependSegment(const Vector<float>& segment) {
-    segments.push_front(segment);
+    _segments.push_front(segment);
 }
 
 void BaseSnakeGame::GameState::removeLastSegment() {
-    if (!segments.empty()) segments.pop_back();
+    if (!_segments.empty()) _segments.pop_back();
 }
 
 void BaseSnakeGame::GameState::clearSegments() {
-    segments.clear();
+    _segments.clear();
 }
 
 void BaseSnakeGame::GameState::addFood(const Vector<float>& food) {
-    foods.push_back(food);
+    _foods.push_back(food);
 }
 
 void BaseSnakeGame::GameState::removeFood(size_t index) {
-    if (index < foods.size()) foods.erase(foods.begin() + index);
+    if (index < _foods.size()) _foods.erase(_foods.begin() + index);
 }
 
 void BaseSnakeGame::GameState::clearFoods() {
-    foods.clear();
+    _foods.clear();
 }
 
 void BaseSnakeGame::GameState::addBonusFood(const Vector<float>& food) {
-    bonusFoods.push_back(food);
+    _bonusFoods.push_back(food);
 }
 
 void BaseSnakeGame::GameState::removeBonusFood(size_t index) {
-    if (index < bonusFoods.size()) bonusFoods.erase(bonusFoods.begin() + index);
+    if (index < _bonusFoods.size()) _bonusFoods.erase(_bonusFoods.begin() + index);
 }
 
 void BaseSnakeGame::GameState::clearBonusFoods() {
-    bonusFoods.clear();
+    _bonusFoods.clear();
 }
 
 void BaseSnakeGame::GameState::resizeGrid(size_t height, size_t width) {
-    grid.resize(height, std::vector<CellType>(width, CellType::Empty));
+    _grid.resize(height, std::vector<CellType>(width, CellType::Empty));
 }
 
 void BaseSnakeGame::GameState::setCellType(size_t y, size_t x, CellType type) {
-    if (y < grid.size() && x < grid[y].size())
-        grid[y][x] = type;
+    if (y < _grid.size() && x < _grid[y].size())
+        _grid[y][x] = type;
 }
 
 void BaseSnakeGame::GameState::incrementScore(int points) {
-    score += points;
+    _score += points;
 }
 
 void BaseSnakeGame::GameState::decrementTimeRemaining(float delta) {
-    timeRemaining -= delta;
-    if (timeRemaining < 0)
-        timeRemaining = 0;
+    _timeRemaining -= delta;
+    if (_timeRemaining < 0)
+        _timeRemaining = 0;
 }
 
 IDisplayLibrary& BaseSnakeGame::getDisplayLibrary() const {
-    if (!displayLib.has_value())
+    if (!_displayLib.has_value())
         throw std::runtime_error("Display library not initialized");
-    return displayLib->get();
+    return _displayLib->get();
 }
 
 bool BaseSnakeGame::hasDisplayLibrary() const noexcept {
-    return displayLib.has_value();
+    return _displayLib.has_value();
 }
 
 BaseSnakeGame::BaseSnakeGame(GameMode mode)
-    : displayLib(std::nullopt),
-      rng(std::random_device()()),
-      gridWidth(20),
-      gridHeight(20),
-      gridOffset(0, 0)
+    : _displayLib(std::nullopt),
+      _rng(std::random_device()()),
+      _gridWidth(20),
+      _gridHeight(20),
+      _gridOffset(0, 0)
 {
     if (mode == GameMode::Snake) {
-        isCyclical = false;
-        speedIncreases = true;
-        hasWalls = false;
-        useTimeLimit = false;
+        _isCyclical = false;
+        _speedIncreases = true;
+        _hasWalls = false;
+        _useTimeLimit = false;
     } else {
-        isCyclical = false;
-        speedIncreases = true;
-        hasWalls = true;
-        useTimeLimit = true;
+        _isCyclical = false;
+        _speedIncreases = true;
+        _hasWalls = true;
+        _useTimeLimit = true;
     }
-    state.setMode(mode);
+    _state.setMode(mode);
 }
 
 void BaseSnakeGame::init(std::shared_ptr<IDisplayLibrary> library) {
     try {
-        displayLib = std::ref(*library);
+        _displayLib = std::ref(*library);
         setupGame();
         loadTextures();
         loadSounds();
@@ -275,7 +275,7 @@ void BaseSnakeGame::loadTextures() {
         auto& textures = getDisplayLibrary().getTextures();
         loadBasicTextures(textures);
 
-        if (hasWalls)
+        if (_hasWalls)
             loadWallTexture(textures);
     } catch (const std::exception& e) {
         std::cerr << "Error loading textures: " << e.what() << std::endl;
@@ -325,44 +325,44 @@ void BaseSnakeGame::loadSounds() {
 }
 
 void BaseSnakeGame::initGrid() {
-    state.resizeGrid(gridHeight, gridWidth);
+    _state.resizeGrid(_gridHeight, _gridWidth);
 
-    if (hasWalls && state.getMode() == GameMode::Nibbler) {
-        for (size_t y = 0; y < gridHeight; ++y) {
-            state.setCellType(y, 0, CellType::Wall);
-            state.setCellType(y, gridWidth - 1, CellType::Wall);
+    if (_hasWalls && _state.getMode() == GameMode::Nibbler) {
+        for (size_t y = 0; y < _gridHeight; ++y) {
+            _state.setCellType(y, 0, CellType::Wall);
+            _state.setCellType(y, _gridWidth - 1, CellType::Wall);
         }
-        for (size_t x = 0; x < gridWidth; ++x) {
-            state.setCellType(0, x, CellType::Wall);
-            state.setCellType(gridHeight - 1, x, CellType::Wall);
+        for (size_t x = 0; x < _gridWidth; ++x) {
+            _state.setCellType(0, x, CellType::Wall);
+            _state.setCellType(_gridHeight - 1, x, CellType::Wall);
         }
-        if (state.getLevel() == 1) {
+        if (_state.getLevel() == 1) {
             for (int y = 5; y < 10; ++y) {
-                state.setCellType(y, 5, CellType::Wall);
-                state.setCellType(y, 15, CellType::Wall);
+                _state.setCellType(y, 5, CellType::Wall);
+                _state.setCellType(y, 15, CellType::Wall);
             }
         }
     }
 }
 
 void BaseSnakeGame::initSnake() {
-    state.clearSegments();
+    _state.clearSegments();
 
     int startX, startY;
 
-    if (state.getMode() == GameMode::Snake) {
-        startX = gridWidth / 2;
-        startY = gridHeight / 2;
+    if (_state.getMode() == GameMode::Snake) {
+        startX = _gridWidth / 2;
+        startY = _gridHeight / 2;
     } else {
-        startX = gridWidth / 2;
-        startY = gridHeight - 3;
+        startX = _gridWidth / 2;
+        startY = _gridHeight - 3;
     }
-    state.setCurrentDirection(Direction::Right);
-    state.setNextDirection(Direction::Right);
-    state.prependSegment(Vector<float>(startX - 3, startY));
-    state.prependSegment(Vector<float>(startX - 2, startY));
-    state.prependSegment(Vector<float>(startX - 1, startY));
-    state.prependSegment(Vector<float>(startX, startY));
+    _state.setCurrentDirection(Direction::Right);
+    _state.setNextDirection(Direction::Right);
+    _state.prependSegment(Vector<float>(startX - 3, startY));
+    _state.prependSegment(Vector<float>(startX - 2, startY));
+    _state.prependSegment(Vector<float>(startX - 1, startY));
+    _state.prependSegment(Vector<float>(startX, startY));
     updateGrid();
 }
 
@@ -370,7 +370,7 @@ bool BaseSnakeGame::spawnFood(bool isBonus) {
     auto emptyCells = findEmptyCells();
 
     if (emptyCells.empty()) {
-        state.setGameOver(true);
+        _state.setGameOver(true);
         return false;
     }
 
@@ -383,9 +383,9 @@ bool BaseSnakeGame::spawnFood(bool isBonus) {
 std::vector<Vector<float>> BaseSnakeGame::findEmptyCells() {
     std::vector<Vector<float>> emptyCells;
 
-    for (size_t y = 0; y < gridHeight; ++y) {
-        for (size_t x = 0; x < gridWidth; ++x) {
-            if (state.getGrid()[y][x] == CellType::Empty)
+    for (size_t y = 0; y < _gridHeight; ++y) {
+        for (size_t x = 0; x < _gridWidth; ++x) {
+            if (_state.getGrid()[y][x] == CellType::Empty)
                 emptyCells.emplace_back(static_cast<float>(x), static_cast<float>(y));
         }
     }
@@ -394,7 +394,7 @@ std::vector<Vector<float>> BaseSnakeGame::findEmptyCells() {
 
 Vector<float> BaseSnakeGame::chooseRandomCell(const std::vector<Vector<float>>& cells) {
     std::uniform_int_distribution<size_t> dist(0, cells.size() - 1);
-    return cells[dist(rng)];
+    return cells[dist(_rng)];
 }
 
 void BaseSnakeGame::placeFood(const Vector<float>& pos, bool isBonus) {
@@ -402,53 +402,53 @@ void BaseSnakeGame::placeFood(const Vector<float>& pos, bool isBonus) {
     size_t x = static_cast<size_t>(pos.getX());
 
     if (isBonus) {
-        state.addBonusFood(pos);
-        state.setCellType(y, x, CellType::BonusFood);
+        _state.addBonusFood(pos);
+        _state.setCellType(y, x, CellType::BonusFood);
     } else {
-        state.addFood(pos);
-        state.setCellType(y, x, CellType::Food);
+        _state.addFood(pos);
+        _state.setCellType(y, x, CellType::Food);
     }
 }
 
 void BaseSnakeGame::trySpawnBonusFood() {
-    if (state.getBonusFoods().empty() && (std::uniform_int_distribution<int>(1, BONUS_FOOD_CHANCE)(rng) == 1)) {
+    if (_state.getBonusFoods().empty() && (std::uniform_int_distribution<int>(1, BONUS_FOOD_CHANCE)(_rng) == 1)) {
         spawnFood(true);
-        state.setBonusFoodTimer(state.getBonusFoodDuration());
+        _state.setBonusFoodTimer(_state.getBonusFoodDuration());
     }
 }
 
 void BaseSnakeGame::updateGrid() {
-    auto grid = state.getGrid();
+    auto grid = _state.getGrid();
     for (size_t y = 0; y < grid.size(); ++y) {
         for (size_t x = 0; x < grid[y].size(); ++x) {
             if (grid[y][x] != CellType::Wall)
-                state.setCellType(y, x, CellType::Empty);
+                _state.setCellType(y, x, CellType::Empty);
         }
     }
-    const auto& segments = state.getSegments();
+    const auto& segments = _state.getSegments();
     if (!segments.empty()) {
         Vector<float> head = segments.front();
         if (isInBounds(head))
-            state.setCellType(static_cast<size_t>(head.getY()), static_cast<size_t>(head.getX()), CellType::SnakeHead);
+            _state.setCellType(static_cast<size_t>(head.getY()), static_cast<size_t>(head.getX()), CellType::SnakeHead);
         for (size_t i = 1; i < segments.size(); ++i) {
             Vector<float> segment = segments[i];
             if (isInBounds(segment))
-                state.setCellType(static_cast<size_t>(segment.getY()), static_cast<size_t>(segment.getX()), CellType::Snake);
+                _state.setCellType(static_cast<size_t>(segment.getY()), static_cast<size_t>(segment.getX()), CellType::Snake);
         }
     }
-    for (const auto& food : state.getFoods()) {
+    for (const auto& food : _state.getFoods()) {
         if (isInBounds(food))
-            state.setCellType(static_cast<size_t>(food.getY()), static_cast<size_t>(food.getX()), CellType::Food);
+            _state.setCellType(static_cast<size_t>(food.getY()), static_cast<size_t>(food.getX()), CellType::Food);
     }
-    for (const auto& bonusFood : state.getBonusFoods()) {
+    for (const auto& bonusFood : _state.getBonusFoods()) {
         if (isInBounds(bonusFood))
-            state.setCellType(static_cast<size_t>(bonusFood.getY()), static_cast<size_t>(bonusFood.getX()), CellType::BonusFood);
+            _state.setCellType(static_cast<size_t>(bonusFood.getY()), static_cast<size_t>(bonusFood.getX()), CellType::BonusFood);
     }
 }
 
 bool BaseSnakeGame::isInBounds(const Vector<float>& pos) const {
-    return pos.getX() >= 0 && pos.getX() < gridWidth &&
-           pos.getY() >= 0 && pos.getY() < gridHeight;
+    return pos.getX() >= 0 && pos.getX() < _gridWidth &&
+           pos.getY() >= 0 && pos.getY() < _gridHeight;
 }
 
 void BaseSnakeGame::handleInput() {
@@ -457,8 +457,8 @@ void BaseSnakeGame::handleInput() {
 
     try {
         auto& keyboard = getDisplayLibrary().getDisplay().getKeyboard();
-        Direction currentDirection = state.getCurrentDirection();
-        Direction nextDirection = state.getNextDirection();
+        Direction currentDirection = _state.getCurrentDirection();
+        Direction nextDirection = _state.getNextDirection();
 
         if (keyboard.isKeyPressed(Keyboard::KeyCode::UP) && currentDirection != Direction::Down) {
             nextDirection = Direction::Up;
@@ -472,26 +472,26 @@ void BaseSnakeGame::handleInput() {
         else if (keyboard.isKeyPressed(Keyboard::KeyCode::LEFT) && currentDirection != Direction::Right) {
             nextDirection = Direction::Left;
         }
-        state.setNextDirection(nextDirection);
+        _state.setNextDirection(nextDirection);
 
         float targetInterval = NORMAL_SPEED;
         if (keyboard.isKeyPressed(Keyboard::KeyCode::KEY_1))
             targetInterval = BOOST_SPEED;
 
-        state.setMoveInterval(targetInterval);
+        _state.setMoveInterval(targetInterval);
     } catch (const std::exception& e) {
         std::cerr << "Error handling input: " << e.what() << std::endl;
     }
 }
 
 void BaseSnakeGame::moveSnake(float delta) {
-    float moveTimer = state.getMoveTimer() + delta;
-    state.setMoveTimer(moveTimer);
+    float moveTimer = _state.getMoveTimer() + delta;
+    _state.setMoveTimer(moveTimer);
 
-    if (moveTimer >= state.getMoveInterval()) {
-        state.setMoveTimer(0);
-        if (!areOppositeDirections(state.getCurrentDirection(), state.getNextDirection()))
-            state.setCurrentDirection(state.getNextDirection());
+    if (moveTimer >= _state.getMoveInterval()) {
+        _state.setMoveTimer(0);
+        if (!areOppositeDirections(_state.getCurrentDirection(), _state.getNextDirection()))
+            _state.setCurrentDirection(_state.getNextDirection());
 
         Vector<float> newHead = calculateNewHeadPosition();
         moveSnakeSegments(newHead);
@@ -503,15 +503,15 @@ void BaseSnakeGame::moveSnake(float delta) {
 }
 
 Vector<float> BaseSnakeGame::calculateNewHeadPosition() {
-    Vector<float> head = state.getHead();
-    Vector<float> movement = directionToVector(state.getCurrentDirection());
+    Vector<float> head = _state.getHead();
+    Vector<float> movement = directionToVector(_state.getCurrentDirection());
     Vector<float> newHead(head.getX() + movement.getX(), head.getY() + movement.getY());
     return adjustPosition(newHead);
 }
 
 void BaseSnakeGame::moveSnakeSegments(const Vector<float>& newHead) {
-    state.prependSegment(newHead);
-    state.removeLastSegment();
+    _state.prependSegment(newHead);
+    _state.removeLastSegment();
 }
 
 Vector<float> BaseSnakeGame::directionToVector(Direction dir) const {
@@ -537,19 +537,19 @@ bool BaseSnakeGame::areOppositeDirections(Direction dir1, Direction dir2) const 
 }
 
 Vector<float> BaseSnakeGame::adjustPosition(const Vector<float>& pos) const {
-    if (!isCyclical)
+    if (!_isCyclical)
         return pos;
 
     Vector<float> adjusted = pos;
 
     if (adjusted.getX() < 0) {
-        adjusted.setX(gridWidth - 1);
-    } else if (adjusted.getX() >= gridWidth) {
+        adjusted.setX(_gridWidth - 1);
+    } else if (adjusted.getX() >= _gridWidth) {
         adjusted.setX(0);
     }
     if (adjusted.getY() < 0) {
-        adjusted.setY(gridHeight - 1);
-    } else if (adjusted.getY() >= gridHeight) {
+        adjusted.setY(_gridHeight - 1);
+    } else if (adjusted.getY() >= _gridHeight) {
         adjusted.setY(0);
     }
     return adjusted;
@@ -558,18 +558,18 @@ Vector<float> BaseSnakeGame::adjustPosition(const Vector<float>& pos) const {
 CellType BaseSnakeGame::checkCell(const Vector<float>& pos) const {
     if (!isInBounds(pos))
         return CellType::OutOfBounds;
-    return state.getGrid()[static_cast<size_t>(pos.getY())][static_cast<size_t>(pos.getX())];
+    return _state.getGrid()[static_cast<size_t>(pos.getY())][static_cast<size_t>(pos.getX())];
 }
 
 CollisionType BaseSnakeGame::checkCollisions() {
-    if (state.getSegments().empty())
+    if (_state.getSegments().empty())
         return CollisionType::None;
 
-    Vector<float> head = state.getHead();
+    Vector<float> head = _state.getHead();
 
-    if (!isCyclical && !isInBounds(head))
+    if (!_isCyclical && !isInBounds(head))
         return CollisionType::Wall;
-    const auto& segments = state.getSegments();
+    const auto& segments = _state.getSegments();
     for (size_t i = 1; i < segments.size(); ++i) {
         if (head.getX() == segments[i].getX() && head.getY() == segments[i].getY()) {
             return CollisionType::Self;
@@ -609,20 +609,20 @@ void BaseSnakeGame::handleCollision(CollisionType collisionType) {
 }
 
 void BaseSnakeGame::handleWallCollision() {
-    if (state.getMode() == GameMode::Snake || !hasWalls) {
-        state.setGameOver(true);
+    if (_state.getMode() == GameMode::Snake || !_hasWalls) {
+        _state.setGameOver(true);
         onGameOver();
     }
 }
 
 void BaseSnakeGame::handleSelfCollision() {
-    state.setGameOver(true);
+    _state.setGameOver(true);
     onGameOver();
 }
 
 void BaseSnakeGame::handleFoodCollision() {
     growSnake();
-    state.incrementScore(REGULAR_SCORE);
+    _state.incrementScore(REGULAR_SCORE);
     playSound("eat", 100.0f);
     removeCollidedFood();
     spawnFood();
@@ -630,12 +630,12 @@ void BaseSnakeGame::handleFoodCollision() {
 }
 
 void BaseSnakeGame::removeCollidedFood() {
-    Vector<float> head = state.getHead();
-    const auto& foods = state.getFoods();
+    Vector<float> head = _state.getHead();
+    const auto& foods = _state.getFoods();
 
     for (size_t i = 0; i < foods.size(); ++i) {
         if (foods[i].getX() == head.getX() && foods[i].getY() == head.getY()) {
-            state.removeFood(i);
+            _state.removeFood(i);
             break;
         }
     }
@@ -643,24 +643,24 @@ void BaseSnakeGame::removeCollidedFood() {
 
 void BaseSnakeGame::handleBonusFoodCollision() {
     growSnake();
-    state.incrementScore(BONUS_SCORE);
+    _state.incrementScore(BONUS_SCORE);
     playSound("eat", 100.0f);
 
-    Vector<float> head = state.getHead();
-    const auto& bonusFoods = state.getBonusFoods();
+    Vector<float> head = _state.getHead();
+    const auto& bonusFoods = _state.getBonusFoods();
 
     for (size_t i = 0; i < bonusFoods.size(); ++i) {
         if (bonusFoods[i].getX() == head.getX() && bonusFoods[i].getY() == head.getY()) {
-            state.removeBonusFood(i);
+            _state.removeBonusFood(i);
             break;
         }
     }
 }
 
 void BaseSnakeGame::growSnake() {
-    Vector<float> tail = state.getTail();
+    Vector<float> tail = _state.getTail();
     Vector<float> newTail = findFreeCellNear(tail);
-    state.addSegment(newTail);
+    _state.addSegment(newTail);
 }
 
 Vector<float> BaseSnakeGame::findFreeCellNear(const Vector<float>& pos) const {
@@ -690,7 +690,7 @@ void BaseSnakeGame::update(float delta) {
 
     if (firstUpdate)
         firstUpdate = false;
-    if (!hasDisplayLibrary() || state.isGameOver())
+    if (!hasDisplayLibrary() || _state.isGameOver())
         return;
 
     handleInput();
@@ -701,28 +701,28 @@ void BaseSnakeGame::update(float delta) {
 }
 
 void BaseSnakeGame::updateBonusFood(float delta) {
-    if (!state.getBonusFoods().empty()) {
-        float bonusFoodTimer = state.getBonusFoodTimer() - delta;
-        state.setBonusFoodTimer(bonusFoodTimer);
+    if (!_state.getBonusFoods().empty()) {
+        float bonusFoodTimer = _state.getBonusFoodTimer() - delta;
+        _state.setBonusFoodTimer(bonusFoodTimer);
         if (bonusFoodTimer <= 0.0f) {
-            state.clearBonusFoods();
+            _state.clearBonusFoods();
             updateGrid();
         }
     }
 }
 
 void BaseSnakeGame::updateTimeLimit(float delta) {
-    if (useTimeLimit && state.getMode() == GameMode::Nibbler) {
-        state.decrementTimeRemaining(delta);
-        if (state.getTimeRemaining() <= 0.0f) {
-            state.setGameOver(true);
+    if (_useTimeLimit && _state.getMode() == GameMode::Nibbler) {
+        _state.decrementTimeRemaining(delta);
+        if (_state.getTimeRemaining() <= 0.0f) {
+            _state.setGameOver(true);
             onGameOver();
         }
     }
 }
 
 void BaseSnakeGame::checkLevelCompletion() {
-    if (state.getMode() == GameMode::Nibbler && !state.hasFoods())
+    if (_state.getMode() == GameMode::Nibbler && !_state.hasFoods())
         onLevelComplete();
 }
 
@@ -752,17 +752,17 @@ Vector<float> BaseSnakeGame::getScreenSize(IDisplayModule& display) {
 
     float windowWidth = props.getWidth();
     float windowHeight = props.getHeight();
-    gridOffset = Vector<float>(0, 0);
+    _gridOffset = Vector<float>(0, 0);
     return Vector<float>(windowWidth, windowHeight);
 }
 
 void BaseSnakeGame::drawGrid(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize) {
-    float cellWidth = screenSize.getX() / gridWidth;
-    float cellHeight = screenSize.getY() / gridHeight;
+    float cellWidth = screenSize.getX() / _gridWidth;
+    float cellHeight = screenSize.getY() / _gridHeight;
 
     drawBackground(textures, display);
 
-    const auto& grid = state.getGrid();
+    const auto& grid = _state.getGrid();
     for (size_t y = 0; y < grid.size(); ++y) {
         for (size_t x = 0; x < grid[y].size(); ++x) {
             Vector<float> pos(x * cellWidth, y * cellHeight);
@@ -783,11 +783,11 @@ void BaseSnakeGame::drawBackground(ITextureManager& textures, IDisplayModule& di
 }
 
 void BaseSnakeGame::drawBorderIfNeeded(size_t x, size_t y, ITextureManager& textures, IDisplayModule& display, const Vector<float>& pos) {
-    if (x == 0 || x == gridWidth - 1 || y == 0 || y == gridHeight - 1) {
+    if (x == 0 || x == _gridWidth - 1 || y == 0 || y == _gridHeight - 1) {
         auto borderColor = MyTexture(TextureText("", Color(50, 50, 50)));
-        int borderResult = textures.load("border_" + std::to_string(y * gridWidth + x), borderColor);
+        int borderResult = textures.load("border_" + std::to_string(y * _gridWidth + x), borderColor);
         if (borderResult >= 0) {
-            auto borderTexture = textures.get("border_" + std::to_string(y * gridWidth + x));
+            auto borderTexture = textures.get("border_" + std::to_string(y * _gridWidth + x));
             display.drawTexture(borderTexture, pos);
         }
     }
@@ -799,8 +799,8 @@ void BaseSnakeGame::drawCell(IDisplayModule& display, ITextureManager& textures,
 
     std::string textureName;
     Vector<float> screenSize = getScreenSize(display);
-    float cellWidth = screenSize.getX() / gridWidth;
-    float cellHeight = screenSize.getY() / gridHeight;
+    float cellWidth = screenSize.getX() / _gridWidth;
+    float cellHeight = screenSize.getY() / _gridHeight;
     float elementWidth, elementHeight, offsetX, offsetY;
     getElementDimensions(cellType, cellWidth, cellHeight, elementWidth, elementHeight, offsetX, offsetY);
     Vector<float> adjustedPos(pos.getX() + offsetX, pos.getY() + offsetY);
@@ -845,7 +845,7 @@ std::string BaseSnakeGame::getTextureNameForCell(CellType cellType) {
         case CellType::BonusFood:
             return "bonus_food";
         case CellType::Wall:
-            return hasWalls ? "wall" : "";
+            return _hasWalls ? "wall" : "";
         default:
             return "";
     }
@@ -887,15 +887,15 @@ void BaseSnakeGame::updateTextureRect(std::shared_ptr<ITexture> texture, const V
 void BaseSnakeGame::drawUI(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize) {
     drawScore(display, textures, screenSize);
 
-    if (useTimeLimit && state.getMode() == GameMode::Nibbler)
+    if (_useTimeLimit && _state.getMode() == GameMode::Nibbler)
         drawTimeRemaining(display, textures, screenSize);
 
-    if (state.isGameOver())
+    if (_state.isGameOver())
         drawGameOver(display, textures, screenSize);
 }
 
 void BaseSnakeGame::drawScore(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize) {
-    std::string scoreText = "Score: " + std::to_string(state.getScore());
+    std::string scoreText = "Score: " + std::to_string(_state.getScore());
     TextureText scoreTextureText(scoreText, Color(255, 255, 255));
     MyTexture scoreTexture = scoreTextureText;
 
@@ -907,7 +907,7 @@ void BaseSnakeGame::drawScore(IDisplayModule& display, ITextureManager& textures
 }
 
 void BaseSnakeGame::drawTimeRemaining(IDisplayModule& display, ITextureManager& textures, const Vector<float>& screenSize) {
-    std::string timeText = "Time: " + std::to_string(static_cast<int>(state.getTimeRemaining()));
+    std::string timeText = "Time: " + std::to_string(static_cast<int>(_state.getTimeRemaining()));
     TextureText timeTextureText(timeText, Color(255, 255, 255));
     MyTexture timeTexture = timeTextureText;
 
@@ -933,14 +933,14 @@ void BaseSnakeGame::drawGameOver(IDisplayModule& display, ITextureManager& textu
 
 void BaseSnakeGame::onLevelComplete() {
     playSound("level_complete", 100.0f);
-    state.setLevel(state.getLevel() + 1);
+    _state.setLevel(_state.getLevel() + 1);
 
-    if (useTimeLimit)
-        state.setTimeRemaining(DEFAULT_TIME_LIMIT);
+    if (_useTimeLimit)
+        _state.setTimeRemaining(DEFAULT_TIME_LIMIT);
 
     initGrid();
 
-    if (state.getMode() == GameMode::Nibbler)
+    if (_state.getMode() == GameMode::Nibbler)
         initSnake();
 
     spawnFood();
@@ -964,15 +964,15 @@ void BaseSnakeGame::playSound(const std::string& soundName, float volume) {
 void BaseSnakeGame::stop() {}
 
 void BaseSnakeGame::setPlayerName(const std::string& name) {
-    state.setPlayerName(name);
+    _state.setPlayerName(name);
 }
 
 std::string BaseSnakeGame::getPlayerName() const {
-    return state.getPlayerName();
+    return _state.getPlayerName();
 }
 
 int BaseSnakeGame::getScore() const {
-    return state.getScore();
+    return _state.getScore();
 }
 
 }

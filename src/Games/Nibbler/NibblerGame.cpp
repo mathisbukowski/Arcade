@@ -15,53 +15,53 @@ NibblerGame::NibblerGame()
     : BaseSnakeGame(GameMode::Nibbler),
       _levelManager("assets/nibbler/levels.txt")
 {
-    isCyclical = false;
-    speedIncreases = true;
-    hasWalls = true;
-    useTimeLimit = true;
-    state.setMoveInterval(DEFAULT_SPEED);
-    loadLevel(state.getLevel());
-    state.setGameOver(false);
+    _isCyclical = false;
+    _speedIncreases = true;
+    _hasWalls = true;
+    _useTimeLimit = true;
+    _state.setMoveInterval(DEFAULT_SPEED);
+    loadLevel(_state.getLevel());
+    _state.setGameOver(false);
 }
 
 void NibblerGame::initGrid()
 {
-    state.resizeGrid(gridHeight, gridWidth);
+    _state.resizeGrid(_gridHeight, _gridWidth);
 
-    for (size_t y = 0; y < gridHeight; ++y) {
-        for (size_t x = 0; x < gridWidth; ++x)
-            state.setCellType(y, x, CellType::Empty);
+    for (size_t y = 0; y < _gridHeight; ++y) {
+        for (size_t x = 0; x < _gridWidth; ++x)
+            _state.setCellType(y, x, CellType::Empty);
     }
-    loadLevel(state.getLevel());
+    loadLevel(_state.getLevel());
 }
 
 void NibblerGame::loadLevel(int level)
 {
     std::vector<std::string> layout = _levelManager.getLevel(level);
 
-    for (size_t y = 0; y < layout.size() && y < gridHeight; ++y) {
+    for (size_t y = 0; y < layout.size() && y < _gridHeight; ++y) {
         const std::string& row = layout[y];
-        for (size_t x = 0; x < row.length() && x < gridWidth; ++x) {
+        for (size_t x = 0; x < row.length() && x < _gridWidth; ++x) {
             if (row[x] == '#')
-                state.setCellType(y, x, CellType::Wall);
+                _state.setCellType(y, x, CellType::Wall);
         }
     }
     float timeLimit = BASE_TIME_LIMIT + (level - 1) * 10.0f;
-    state.setTimeRemaining(timeLimit);
+    _state.setTimeRemaining(timeLimit);
     float speed = DEFAULT_SPEED - (level - 1) * LEVEL_SPEED_INCREASE;
     speed = std::max(0.05f, speed);
-    state.setMoveInterval(speed);
+    _state.setMoveInterval(speed);
 }
 
 CollisionType NibblerGame::checkCollisions()
 {
-    if (state.getSegments().empty())
+    if (_state.getSegments().empty())
         return CollisionType::None;
 
-    Vector<float> head = state.getHead();
+    Vector<float> head = _state.getHead();
 
-    if (head.getX() < 0 || head.getX() >= gridWidth ||
-        head.getY() < 0 || head.getY() >= gridHeight)
+    if (head.getX() < 0 || head.getX() >= _gridWidth ||
+        head.getY() < 0 || head.getY() >= _gridHeight)
         return CollisionType::Wall;
 
     CellType cellType = checkCell(head);
@@ -82,7 +82,7 @@ CollisionType NibblerGame::checkCollisions()
 
 Direction NibblerGame::handleAutomaticTurns(const Vector<float>& currentPosition)
 {
-    Direction currentDir = state.getCurrentDirection();
+    Direction currentDir = _state.getCurrentDirection();
 
     if (isTjunction(currentPosition))
         return currentDir;
@@ -155,12 +155,12 @@ bool NibblerGame::isTjunction(const Vector<float>& position) const
 
 void NibblerGame::update(float delta)
 {
-    if (!state.isGameOver()) {
-        Vector<float> head = state.getHead();
+    if (!_state.isGameOver()) {
+        Vector<float> head = _state.getHead();
         Direction newDirection = handleAutomaticTurns(head);
-        if (newDirection != state.getCurrentDirection() &&
-            !areOppositeDirections(newDirection, state.getCurrentDirection())) {
-            state.setNextDirection(newDirection);
+        if (newDirection != _state.getCurrentDirection() &&
+            !areOppositeDirections(newDirection, _state.getCurrentDirection())) {
+            _state.setNextDirection(newDirection);
         }
     }
     BaseSnakeGame::update(delta);
@@ -178,35 +178,35 @@ void NibblerGame::update(float delta)
 
 void NibblerGame::onLevelComplete()
 {
-    int currentLevel = state.getLevel();
+    int currentLevel = _state.getLevel();
     int newLevel = std::min(currentLevel + 1, MAX_LEVEL);
 
-    state.setLevel(newLevel);
+    _state.setLevel(newLevel);
     initGrid();
     initSnake();
     spawnFood();
-    int remainingFood = state.getFoods().size();
-    state.setTimeRemaining(BASE_TIME_LIMIT + remainingFood * TIME_BONUS_PER_FOOD);
-    state.incrementScore(1000);
+    int remainingFood = _state.getFoods().size();
+    _state.setTimeRemaining(BASE_TIME_LIMIT + remainingFood * TIME_BONUS_PER_FOOD);
+    _state.incrementScore(1000);
     if (newLevel == MAX_LEVEL)
-        state.incrementScore(5000);
+        _state.incrementScore(5000);
 }
 
 void NibblerGame::onGameOver()
 {
     BaseSnakeGame::onGameOver();
-    int levelBonus = (state.getLevel() - 1) * 500;
-    state.incrementScore(levelBonus);
-    int timeBonus = static_cast<int>(state.getTimeRemaining() * 10);
-    state.incrementScore(timeBonus);
+    int levelBonus = (_state.getLevel() - 1) * 500;
+    _state.incrementScore(levelBonus);
+    int timeBonus = static_cast<int>(_state.getTimeRemaining() * 10);
+    _state.incrementScore(timeBonus);
 }
 
 std::string NibblerGame::getWindowTitle() const
 {
     std::string title = "Nibbler";
-    title += " - Level: " + std::to_string(state.getLevel());
-    title += " - Score: " + std::to_string(state.getScore());
-    title += " - Time: " + std::to_string(static_cast<int>(state.getTimeRemaining()));
+    title += " - Level: " + std::to_string(_state.getLevel());
+    title += " - Score: " + std::to_string(_state.getScore());
+    title += " - Time: " + std::to_string(static_cast<int>(_state.getTimeRemaining()));
     return title;
 }
 
