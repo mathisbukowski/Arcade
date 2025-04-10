@@ -91,7 +91,7 @@ namespace arcade {
          * Get the window properties
          * @return WindowProperties
          */
-        [[nodiscard]] WindowProperties getWindowProperties() const { return _windowProperties; }
+        [[nodiscard]] WindowProperties& getWindowProperties() override { return _windowProperties; }
 
         /**
          * Process events

@@ -77,7 +77,7 @@ namespace arcade {
          */
         [[nodiscard]] Mouse &getMouse() override;
 
-        [[nodiscard]] WindowProperties getWindowProperties() const { return _windowProperties; }
+        [[nodiscard]] WindowProperties& getWindowProperties() override { return _windowProperties; }
 
     private:
         std::shared_ptr<SDL_Renderer> _renderer = nullptr;

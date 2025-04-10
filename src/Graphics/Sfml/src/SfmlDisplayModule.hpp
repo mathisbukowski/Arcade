@@ -32,6 +32,7 @@ namespace arcade {
         void drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position) override;
         Keyboard& getKeyboard() override;
         Mouse& getMouse() override;
+        WindowProperties& getWindowProperties() override;
 
         void processEvents();
 
