@@ -15,6 +15,7 @@
 #include "DLManager.hpp"
 #include "IGameModule.hpp"
 #include "IDisplayLibrary.hpp"
+#include "ResolutionScaler.hpp"
 
 namespace arcade {
     /**
@@ -112,6 +113,10 @@ namespace arcade {
          */
         float _deltaTime;
 
+        /**
+         * Resolution scaler for the graphics library
+         */
+        std::unique_ptr<ResolutionScaler> _resolutionScaler;
         /**
          * Initialize the graphics library
          * @param path const std::string & Path to the library
