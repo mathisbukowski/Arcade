@@ -32,13 +32,12 @@ int arcade::NcursesTextureManager::load(const std::string& name, const MyTexture
 arcade::NcursesTexture::NcursesTexture(const MyTexture& texture) : ITexture(texture),
     _textureInformations(texture)
 {
-    if (std::holds_alternative<TextureImg>(texture)) {
-        std::cerr << "Images don't support." << std::endl;
-    }
     if (std::holds_alternative<TextureText>(texture)) {
         auto textureText = std::get<TextureText>(texture);
         _textureInformations = textureText;
     } else {
-        std::cerr << "Invalid texture type" << std::endl;
+        std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        std::string letter(1, alphabet[std::rand() % alphabet.size()]);
+        _textureInformations = TextureText(letter, Color(123, 23, 42));
     }
 }
