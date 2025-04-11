@@ -16,7 +16,6 @@ file(GLOB_RECURSE CORE_SRC "src/Arcade/*.cpp")
 file(GLOB_RECURSE CORE_INC "src/Arcade/*.hpp")
 
 add_executable(${PROJECT_NAME} ${CORE_SRC} ${CORE_INC})
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 # Compile SDL Dynamic Lib
 find_package(SDL2 REQUIRED)
@@ -70,6 +69,8 @@ file (GLOB_RECURSE SNAKE_INC "src/Games/Snake/*.hpp")
 add_library(arcade_snake SHARED ${SNAKE_SRC} ${SNAKE_INC} ${COMMON_SRC} ${COMMON_INC})
 target_include_directories(arcade_snake PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Games/Snake ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src/Games/Common/BaseSnakeGame)
 set_target_properties(arcade_snake PROPERTIES PREFIX "")
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Arcade ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 target_compile_options(arcade_sdl2 PRIVATE -fno-gnu-unique)
