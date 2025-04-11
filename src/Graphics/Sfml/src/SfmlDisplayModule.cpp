@@ -303,5 +303,8 @@ namespace arcade {
         auto it = keyMap.find(sfmlKey);
         return (it != keyMap.end()) ? it->second : Keyboard::KeyCode::UNKNOWN;
     }
-
+    WindowProperties &SFMLDisplay::getWindowProperties()
+    {
+        return _properties;
+    }
 }

@@ -152,6 +152,11 @@ namespace arcade
          * @return Mouse&
          */
         virtual Mouse &getMouse() = 0;
+        /**
+         * Get the window properties
+         * @return WindowProperties& Window properties
+         */
+        [[nodiscard]] virtual WindowProperties &getWindowProperties() = 0;
     };
 }
 

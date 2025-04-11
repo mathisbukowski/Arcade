@@ -64,14 +64,13 @@ void arcade::NcursesDisplayModule::clearWindow(Color color)
 
     if (color.getOpacity() != 0) {
         init_color(COLOR_BLACK, color.getR(), color.getG(), color.getB());
-        init_pair(1, COLOR_BLACK, COLOR_BLACK);
+        init_pair(1, COLOR_RED, COLOR_RED);
         attron(COLOR_PAIR(1));
         clear();
         attroff(COLOR_PAIR(1));
     } else {
         clear();
     }
-    refresh();
 }
 
 void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
@@ -81,9 +80,8 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
 
     if (std::holds_alternative<TextureText>(textureInformations)) {
         auto &textureText = std::get<TextureText>(textureInformations);
-        attron(COLOR_PAIR(textureText.getColor().getOpacity()));
         mvprintw(static_cast<int>(position.getY()), static_cast<int>(position.getX()), textureText.getText().c_str());
-        attroff(COLOR_PAIR(textureText.getColor().getOpacity()));
+        std::cout << textureText.getText() << std::endl;
         refresh();
     } else
         throw std::runtime_error("Terminal does not support images");

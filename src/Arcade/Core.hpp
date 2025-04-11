@@ -15,6 +15,7 @@
 #include "DLManager.hpp"
 #include "IGameModule.hpp"
 #include "IDisplayLibrary.hpp"
+#include "ResolutionScaler.hpp"
 
 namespace arcade {
     /**
@@ -113,6 +114,10 @@ namespace arcade {
         float _deltaTime;
 
         /**
+         * Resolution scaler for the graphics library
+         */
+        std::unique_ptr<ResolutionScaler> _resolutionScaler;
+        /**
          * Initialize the graphics library
          * @param path const std::string & Path to the library
          */
@@ -182,25 +187,25 @@ namespace arcade {
          * @param x int X position
          * @param y int Y position
          */
-        void renderGameList(int x, int y);
+        void renderGameList(float x, float y);
         /**
          * Render the graphics list
          * @param x int X position
          * @param y int Y position
          */
-        void renderGraphicsList(int x, int y);
+        void renderGraphicsList(float x, float y);
         /**
          * Render the scores
          * @param x int X position
          * @param y int Y position
          */
-        void renderScores(int x, int y);
+        void renderScores(float x, float y);
         /**
          * Render the player name input
          * @param x int X position
          * @param y int Y position
          */
-        void renderPlayerNameInput(int x, int y);
+        void renderPlayerNameInput(float x, float y);
 
         /**
          * Check if the mouse is clicked on the game list
