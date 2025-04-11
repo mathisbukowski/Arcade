@@ -23,9 +23,9 @@ namespace arcade
     public:
         /**
          * Constructor for the WindowProperties class
-         * @param title Title of the window
-         * @param width Width of the window
-         * @param height Height of the window
+         * @param title const std::string & Title of the window
+         * @param width std::size_t Width of the window
+         * @param height std::size_t Height of the window
          */
         WindowProperties(const std::string& title, std::size_t width, std::size_t height): _width(width), _height(height), _title(title) {}
         /**
@@ -40,7 +40,7 @@ namespace arcade
 
         /**
          * Set the width of the window
-         * @param newWidth New width of the window
+         * @param newWidth std::size_t New width of the window
          */
         void setWidth(std::size_t newWidth) { _width = newWidth; }
 
@@ -52,7 +52,7 @@ namespace arcade
 
         /**
          * Set the height of the window
-         * @param newHeight size_t New height of the window
+         * @param newHeight std::size_t New height of the window
          */
         void setHeight(std::size_t newHeight) { _height = newHeight; }
 
@@ -123,7 +123,7 @@ namespace arcade
         virtual void closeWindow() = 0;
         /**
          * Clear the window
-         * @param color Color to clear the window with
+         * @param color Color Color to clear the window with
          */
         virtual void clearWindow(Color color) = 0;
         /**
@@ -133,7 +133,7 @@ namespace arcade
         virtual void updateWindow(float delta) = 0;
         /**
          * is the window open
-         * @return true if the window is open
+         * @return bool true if the window is open
          */
         virtual bool isWindowOpen() = 0;
         /**
