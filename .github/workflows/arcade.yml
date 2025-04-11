@@ -16,44 +16,44 @@ on:
       - '.github/workflows/**'
 
 jobs:
-#  check_program_compilation:
-#    runs-on: ubuntu-latest
-#    container:
-#      image: epitechcontent/epitest-docker:latest
-#    steps:
-#      - name: "Checkout Code"
-#        uses: actions/checkout@v4
-#
-#      - name: "Create Build Directory"
-#        run: mkdir -p build
-#
-#      - name: "Compile the Program with CMake and Make"
-#        run: |
-#          cd build
-#          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
-#          cmake --build .
-#        timeout-minutes: 2
-#
-#      - name: "Verify Executable Permissions and Presence"
-#        run: |
-#          if [ -f "arcade" ] && [ -x "arcade" ]; then
-#              echo "arcade exists and is executable."
-#          else
-#              echo "arcade does not exist or is not executable."
-#              exit 1
-#          fi
-#      - name: "Verify Graphic Libraries Presence"
-#        run: |
-#          for lib in lib/arcade_sdl2.so lib/arcade_sfml.so lib/arcade_ncurses.so lib/arcade_snake.so lib/arcade_nibbler.so; do
-#              if [ ! -f "$lib" ]; then
-#                echo "Missing library: $lib"
-#                exit 1
-#              fi
-#          done
-#          echo "All libraries exist."
+  check_program_compilation:
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker:latest
+    steps:
+      - name: "Checkout Code"
+        uses: actions/checkout@v4
+
+      - name: "Create Build Directory"
+        run: mkdir -p build
+
+      - name: "Compile the Program with CMake and Make"
+        run: |
+          cd build
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+          cmake --build .
+        timeout-minutes: 2
+
+      - name: "Verify Executable Permissions and Presence"
+        run: |
+          if [ -f "arcade" ] && [ -x "arcade" ]; then
+              echo "arcade exists and is executable."
+          else
+              echo "arcade does not exist or is not executable."
+              exit 1
+          fi
+      - name: "Verify Graphic Libraries Presence"
+        run: |
+          for lib in lib/arcade_sdl2.so lib/arcade_sfml.so lib/arcade_ncurses.so lib/arcade_snake.so lib/arcade_nibbler.so; do
+              if [ ! -f "$lib" ]; then
+                echo "Missing library: $lib"
+                exit 1
+              fi
+          done
+          echo "All libraries exist."
 
   push_to_mirror:
-#    needs: check_program_compilation
+    needs: check_program_compilation
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
