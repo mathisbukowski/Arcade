@@ -36,7 +36,7 @@ namespace arcade {
         SFMLFontManager() noexcept = default;
         ~SFMLFontManager() override = default;
 
-        int load(const std::string& name, const Font& font) override;
+        int load(const std::string& name, Font& font) override;
         std::shared_ptr<IFont> get(const std::string& name) const override;
 
     private:

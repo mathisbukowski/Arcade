@@ -50,7 +50,7 @@ namespace arcade {
          * @param font Font & Font to load
          * @return int 0 if success, -1 if error
          */
-        int load(const std::string& name, const Font& font) override;
+        int load(const std::string& name, Font& font) override;
         /**
          * Function to get a font
          * @param name const std::string & Name of the font

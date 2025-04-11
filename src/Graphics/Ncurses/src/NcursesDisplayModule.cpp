@@ -37,26 +37,6 @@ void arcade::NcursesDisplayModule::init(const std::string &title, size_t width, 
     mousemask(ALL_MOUSE_EVENTS, nullptr);
     start_color();
     nodelay(stdscr, TRUE);
-    if (can_change_color()) {
-        // _canChangeColor = true;
-        init_color(COLOR_BLACK, 0, 0, 0);
-        init_color(COLOR_RED, 1000, 0, 0);
-        init_color(COLOR_GREEN, 0, 1000, 0);
-        init_color(COLOR_YELLOW, 1000, 1000, 0);
-        init_color(COLOR_BLUE, 0, 0, 1000);
-        init_color(COLOR_MAGENTA, 1000, 0, 1000);
-        init_color(COLOR_CYAN, 0, 1000, 1000);
-        init_color(COLOR_WHITE, 1000, 1000, 1000);
-
-        init_pair(1, COLOR_BLACK, COLOR_BLACK);
-        init_pair(2, COLOR_RED, COLOR_BLACK);
-        init_pair(3, COLOR_GREEN, COLOR_BLACK);
-        init_pair(4, COLOR_YELLOW, COLOR_BLACK);
-        init_pair(5, COLOR_BLUE, COLOR_BLACK);
-        init_pair(6, COLOR_MAGENTA, COLOR_BLACK);
-        init_pair(7, COLOR_CYAN, COLOR_BLACK);
-        init_pair(8, COLOR_WHITE, COLOR_WHITE);
-    }
     _isOpen = true;
 }
 
