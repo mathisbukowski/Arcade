@@ -7,7 +7,7 @@ generator: doxide
 
 **class SFMLFont : public IFont**
 
-
+ of IFont for SFML
 This class is used to create a font using the SFML library
 It inherits from the IFont interface
 
@@ -17,15 +17,15 @@ It inherits from the IFont interface
 | Name | Description |
 | ---- | ----------- |
 | [_info](#_info) | Font information  |
-| [_font](#_font) | SFML font  |
+| [_font](#_font) | Font object  |
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [SFMLFont](#SFMLFont) | Construct a new SFMLFont object :material-location-enter: `fontInfo` :    const Font& Font information  |
-| [getInformations](#getInformations) | Destroy the SFMLFont object Get the font information :material-keyboard-return: **Return** :    const Font&  |
-| [getFont](#getFont) | Get the SFML font :material-keyboard-return: **Return** :    sf::Font&  |
+| [SFMLFont](#SFMLFont) | Constructor :material-location-enter: `fontInfo` :    const Font& Font information  |
+| [getInformations](#getInformations) | Destructor Get the font information :material-keyboard-return: **Return** :    const Font& Font information  |
+| [getFont](#getFont) | Get the font :material-keyboard-return: **Return** :    sf::Font& Font  |
 
 ## Variable Details
 
@@ -33,7 +33,7 @@ It inherits from the IFont interface
 
 !!! variable "sf::Font _font"
 
-    SFML font
+    Font object
     
 
 ### _info<a name="_info"></a>
@@ -48,7 +48,7 @@ It inherits from the IFont interface
 ### SFMLFont<a name="SFMLFont"></a>
 !!! function "explicit SFMLFont(const Font&amp; fontInfo)"
 
-    Construct a new SFMLFont object
+    Constructor
     
     :material-location-enter: `fontInfo`
     :    const Font& Font information
@@ -57,19 +57,19 @@ It inherits from the IFont interface
 ### getFont<a name="getFont"></a>
 !!! function "sf::Font&amp; getFont()"
 
-    Get the SFML font
+    Get the font
         
     :material-keyboard-return: **Return**
-    :    sf::Font&
+    :    sf::Font& Font
     
 
 ### getInformations<a name="getInformations"></a>
 !!! function "const Font&amp; getInformations() const override"
 
-    Destroy the SFMLFont object
+    Destructor
     Get the font information
         
     :material-keyboard-return: **Return**
-    :    const Font&
+    :    const Font& Font information
     
 

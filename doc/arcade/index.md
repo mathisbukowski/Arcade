@@ -44,17 +44,17 @@ Namespace containing classes and types related to the Arcade project.
 | [NcursesTexture](NcursesTexture.md) |  This class is used to create a texture using the ncurses library It inherits from the ITexture interface  |
 | [NcursesTextureManager](NcursesTextureManager.md) |  This class is used to manage textures using the ncurses library It inherits from the ITextureManager interface  |
 | [Rect](Rect.md) | Rect properties  |
-| [SDLDisplayModule](SDLDisplayModule.md) |  This class is used to create a library using the SDL2 library It inherits from the IDisplayModule interface  |
+| [ResolutionScaler](ResolutionScaler.md) |  Class to scale the resolution of the display. |
+| [SDLDisplayModule](SDLDisplayModule.md) |  Implementation of the display module interface using SDL2 It inherits from IDisplayModule  |
 | [SDLFont](SDLFont.md) |  This class is used to create a font using the SDL2 library It inherits from the IFont interface  |
-| [SDLFontManager](SDLFontManager.md) |  This class is used to create a font manager using the SDL2 library It inherits from the IFontManager interface  |
-| [SDLRendererManager](SDLRendererManager.md) |  This class is used to create a texture using the SDL2 library It inherits from the ITexture interface  |
+| [SDLFontManager](SDLFontManager.md) |  This class is used to manage fonts using the SDL2 library It inherits from the IFontManager interface  |
 | [SDLRendererManager](SDLRendererManager.md) |  This class is used to manage the SDL renderer and window  |
 | [SDLSound](SDLSound.md) |  This class is used to create a sound using the SDL2 library It inherits from the ISound interface  |
 | [SDLSoundManager](SDLSoundManager.md) |  This class is used to manage the sounds using the SDL2 library It inherits from the ISoundManager interface  |
-| [SDLTexture](SDLTexture.md) |  This class is used to create a texture using the SDL2 library It inherits from the ITexture interface  |
-| [SDLTextureManager](SDLTextureManager.md) |  This class is used to create a texture manager using the SDL2 library It inherits from the ITextureManager interface  |
-| [SFMLDisplay](SFMLDisplay.md) |  This class is used to create a display using the SFML library It inherits from the IDisplayModule interface  |
-| [SFMLFont](SFMLFont.md) |  This class is used to create a font using the SFML library It inherits from the IFont interface  |
+| [SDLTexture](SDLTexture.md) |  SDL implementation of textures for Arcade  |
+| [SDLTextureManager](SDLTextureManager.md) |  Manager for SDL textures in Arcade  |
+| [SFMLDisplay](SFMLDisplay.md) |  of IDisplayModule for SFML This class is used to create a display using the SFML library It inherits from the IDisplayModule interface  |
+| [SFMLFont](SFMLFont.md) |  of IFont for SFML This class is used to create a font using the SFML library It inherits from the IFont interface  |
 | [SFMLFontManager](SFMLFontManager.md) |  This class is used to manage fonts using the SFML library It inherits from the IFontManager interface  |
 | [SFMLLibrary](SFMLLibrary.md) |  This class is used to create a library using the SFML library It inherits from the IDisplayLibrary interface  |
 | [SFMLSound](SFMLSound.md) |  of ISound for SFML This class is used to create a sound using the SFML library It inherits from the ISound interface  |

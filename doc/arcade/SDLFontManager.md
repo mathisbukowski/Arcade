@@ -8,7 +8,7 @@ generator: doxide
 **class SDLFontManager : public IFontManager**
 
 
-    This class is used to create a font manager using the SDL2 library
+    This class is used to manage fonts using the SDL2 library
     It inherits from the IFontManager interface
 
 
@@ -22,9 +22,9 @@ generator: doxide
 
 | Name | Description |
 | ---- | ----------- |
-| [SDLFontManager](#SDLFontManager) | Construct a new SDLFontManager object  |
-| [load](#load) | Destroy the SDLFontManager object Load a font :material-location-enter: `name` :    const std::string & Name of the font :material-location-enter: `newFont` :    Font & Font information :material-keyboard-return: **Return** :    int  |
-| [get](#get) | Get a font :material-location-enter: `name` :    const std::string & Name of the font :material-keyboard-return: **Return** :    std::shared_ptr<IFont>  |
+| [SDLFontManager](#SDLFontManager) | Constructor  |
+| [load](#load) | Destructor Load a font :material-location-enter: `name` :    const std::string & Name of the font :material-location-enter: `newFont` :    Font & Font to load :material-keyboard-return: **Return** :    int 0 if success, -1 if error  |
+| [get](#get) | Get a font :material-location-enter: `name` :    const std::string & Name of the font :material-keyboard-return: **Return** :    std::shared_ptr<IFont> Font  |
 
 ## Variable Details
 
@@ -40,7 +40,7 @@ generator: doxide
 ### SDLFontManager<a name="SDLFontManager"></a>
 !!! function "SDLFontManager()"
 
-    Construct a new SDLFontManager object
+    Constructor
     
 
 ### get<a name="get"></a>
@@ -52,22 +52,22 @@ generator: doxide
     :    const std::string & Name of the font
         
     :material-keyboard-return: **Return**
-    :    std::shared_ptr<IFont>
+    :    std::shared_ptr<IFont> Font
     
 
 ### load<a name="load"></a>
-!!! function "int load(const std::string&amp; name, const Font&amp; newFont) override"
+!!! function "int load(const std::string&amp; name, Font&amp; newFont) override"
 
-    Destroy the SDLFontManager object
+    Destructor
     Load a font
         
     :material-location-enter: `name`
     :    const std::string & Name of the font
         
     :material-location-enter: `newFont`
-    :    Font & Font information
+    :    Font & Font to load
         
     :material-keyboard-return: **Return**
-    :    int
+    :    int 0 if success, -1 if error
     
 

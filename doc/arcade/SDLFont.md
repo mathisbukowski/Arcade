@@ -17,17 +17,17 @@ It inherits from the IFont interface
 | Name | Description |
 | ---- | ----------- |
 | [_font](#_font) | Font  |
-| [_fontInformations](#_fontInformations) | Font information  |
+| [_fontInformations](#_fontInformations) | Font informations  |
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [SDLFont](#SDLFont) | Construct a new SDLFont object :material-location-enter: `informations` :    Font & Font information  |
-| [createFont](#createFont) | Create a new font :material-location-enter: `informations` :    Font & Font information :material-keyboard-return: **Return** :    int  |
-| [getInformations](#getInformations) | Destroy the SDLFont object Get the font information :material-keyboard-return: **Return** :    const Font &  |
-| [getFont](#getFont) | Get the font :material-keyboard-return: **Return** :    const std::shared_ptr<TTF_Font> &  |
-| [setFont](#setFont) | Set the font :material-location-enter: `font` :    const std::shared_ptr<TTF_Font> &  |
+| [SDLFont](#SDLFont) | Constructor :material-location-enter: `informations` :    Font & Font to create  |
+| [createFont](#createFont) | Create a font :material-location-enter: `informations` :    Font & Font to create :material-keyboard-return: **Return** :    int 0 if success, -1 if error  |
+| [getInformations](#getInformations) | Destroy the SDLFont object Get the font informations :material-keyboard-return: **Return** :    const Font & Font informations  |
+| [getFont](#getFont) | Get the font :material-keyboard-return: **Return** :    const std::shared_ptr<TTF_Font> & Font  |
+| [setFont](#setFont) | Set the font :material-location-enter: `font` :    const std::shared_ptr<TTF_Font> & Font  |
 
 ## Variable Details
 
@@ -42,7 +42,7 @@ It inherits from the IFont interface
 
 !!! variable "Font _fontInformations"
 
-    Font information
+    Font informations
     
 
 ## Function Details
@@ -50,22 +50,22 @@ It inherits from the IFont interface
 ### SDLFont<a name="SDLFont"></a>
 !!! function "SDLFont(const Font &amp;informations)"
 
-    Construct a new SDLFont object
+    Constructor
     
     :material-location-enter: `informations`
-    :    Font & Font information
+    :    Font & Font to create
     
 
 ### createFont<a name="createFont"></a>
 !!! function "int createFont(const Font &amp;informations)"
 
-    Create a new font
+    Create a font
         
     :material-location-enter: `informations`
-    :    Font & Font information
+    :    Font & Font to create
         
     :material-keyboard-return: **Return**
-    :    int
+    :    int 0 if success, -1 if error
     
 
 ### getFont<a name="getFont"></a>
@@ -74,17 +74,17 @@ It inherits from the IFont interface
     Get the font
         
     :material-keyboard-return: **Return**
-    :    const std::shared_ptr<TTF_Font> &
+    :    const std::shared_ptr<TTF_Font> & Font
     
 
 ### getInformations<a name="getInformations"></a>
 !!! function "[[nodiscard]] const Font &amp;getInformations() const override"
 
     Destroy the SDLFont object
-    Get the font information
+    Get the font informations
         
     :material-keyboard-return: **Return**
-    :    const Font &
+    :    const Font & Font informations
     
 
 ### setFont<a name="setFont"></a>
@@ -93,6 +93,6 @@ It inherits from the IFont interface
     Set the font
         
     :material-location-enter: `font`
-    :    const std::shared_ptr<TTF_Font> &
+    :    const std::shared_ptr<TTF_Font> & Font
     
 

@@ -23,6 +23,7 @@ class Core
 | [_currentGame](#_currentGame) | Pointer to the current game library  |
 | [_lastFrameTime](#_lastFrameTime) | chrono to keep track of the last frame time  |
 | [_deltaTime](#_deltaTime) | Time since the last frame  |
+| [_resolutionScaler](#_resolutionScaler) | Resolution scaler for the graphics library  |
 | [_selectedGameIndex](#_selectedGameIndex) | index of the selected game  |
 
 ## Functions
@@ -95,6 +96,13 @@ class Core
 !!! variable "std::string _playerName"
 
     Player's name
+    
+
+### _resolutionScaler<a name="_resolutionScaler"></a>
+
+!!! variable "std::unique_ptr&lt;ResolutionScaler&gt; _resolutionScaler"
+
+    Resolution scaler for the graphics library
     
 
 ### _scores<a name="_scores"></a>
@@ -193,7 +201,7 @@ class Core
     
 
 ### renderGameList<a name="renderGameList"></a>
-!!! function "void renderGameList(int x, int y)"
+!!! function "void renderGameList(float x, float y)"
 
     Render the game list
         
@@ -205,7 +213,7 @@ class Core
     
 
 ### renderGraphicsList<a name="renderGraphicsList"></a>
-!!! function "void renderGraphicsList(int x, int y)"
+!!! function "void renderGraphicsList(float x, float y)"
 
     Render the graphics list
         
@@ -217,7 +225,7 @@ class Core
     
 
 ### renderPlayerNameInput<a name="renderPlayerNameInput"></a>
-!!! function "void renderPlayerNameInput(int x, int y)"
+!!! function "void renderPlayerNameInput(float x, float y)"
 
     Render the player name input
         
@@ -229,7 +237,7 @@ class Core
     
 
 ### renderScores<a name="renderScores"></a>
-!!! function "void renderScores(int x, int y)"
+!!! function "void renderScores(float x, float y)"
 
     Render the scores
         

@@ -16,14 +16,14 @@ generator: doxide
 
 | Name | Description |
 | ---- | ----------- |
-| [_fonts](#_fonts) | Map of fonts  |
+| [_fonts](#_fonts) | map of fonts  |
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [load](#load) | Construct a new SFMLFontManager object Destroy the SFMLFontManager object Load a font :material-location-enter: `name` :    const std::string& Name of the font :material-location-enter: `font` :    const Font& Font information :material-keyboard-return: **Return** :    int  |
-| [get](#get) | Get a font :material-location-enter: `name` :    const std::string& Name of the font :material-keyboard-return: **Return** :    std::shared_ptr<IFont>  |
+| [load](#load) | Constructor Destructor Load font :material-location-enter: `name` :    const std::string& Name of the font :material-location-enter: `font` :    const Font& Font information :material-keyboard-return: **Return** :    int 0 if success, -1 if error  |
+| [get](#get) | Get font :material-location-enter: `name` :    const std::string& Name of the font :material-keyboard-return: **Return** :    std::shared_ptr<IFont> Font object  |
 
 ## Variable Details
 
@@ -31,7 +31,7 @@ generator: doxide
 
 !!! variable "mutable std::map&lt;std::string, std::shared_ptr&lt;SFMLFont&gt;&gt; _fonts"
 
-    Map of fonts
+    map of fonts
     
 
 ## Function Details
@@ -39,21 +39,21 @@ generator: doxide
 ### get<a name="get"></a>
 !!! function "std::shared_ptr&lt;IFont&gt; get(const std::string&amp; name) const override"
 
-    Get a font
+    Get font
         
     :material-location-enter: `name`
     :    const std::string& Name of the font
         
     :material-keyboard-return: **Return**
-    :    std::shared_ptr<IFont>
+    :    std::shared_ptr<IFont> Font object
     
 
 ### load<a name="load"></a>
-!!! function "int load(const std::string&amp; name, const Font&amp; font) override"
+!!! function "int load(const std::string&amp; name, Font&amp; font) override"
 
-    Construct a new SFMLFontManager object
-    Destroy the SFMLFontManager object
-    Load a font
+    Constructor
+    Destructor
+    Load font
         
     :material-location-enter: `name`
     :    const std::string& Name of the font
@@ -62,6 +62,6 @@ generator: doxide
     :    const Font& Font information
         
     :material-keyboard-return: **Return**
-    :    int
+    :    int 0 if success, -1 if error
     
 
