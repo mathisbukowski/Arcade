@@ -128,7 +128,8 @@ namespace arcade {
 
     void SFMLDisplay::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
     {
-        if (_window == nullptr || !_window->isOpen()) return;
+        if (_window == nullptr || !_window->isOpen())
+            return;
 
         try {
             auto sfmlTexture = std::dynamic_pointer_cast<SFMLTexture>(texture);
@@ -137,17 +138,62 @@ namespace arcade {
                 return;
             }
             if (sfmlTexture->isText()) {
-                sf::Text& text = sfmlTexture->getText();
-                text.setPosition(position.getX(), position.getY());
-                _window->draw(text);
+                drawText(sfmlTexture, position);
             } else {
-                sf::Sprite& sprite = sfmlTexture->getSprite();
-                sprite.setPosition(position.getX(), position.getY());
-                _window->draw(sprite);
+                drawSprite(sfmlTexture, position);
             }
         } catch (const std::exception& e) {
             std::cerr << "Error in drawTexture: " << e.what() << std::endl;
         }
+    }
+
+    void SFMLDisplay::drawText(std::shared_ptr<SFMLTexture> texture, Vector<float> position)
+    {
+        sf::Text& text = texture->getText();
+        text.setPosition(position.getX(), position.getY());
+        _window->draw(text);
+    }
+
+    void SFMLDisplay::drawSprite(std::shared_ptr<SFMLTexture> texture, Vector<float> position)
+    {
+        sf::Sprite& sprite = texture->getSprite();
+        sf::Vector2f originalScale = sprite.getScale();
+
+        auto [scaleX, scaleY] = calculateSpriteScale(sprite);
+        sprite.setScale(scaleX, scaleY);
+
+        auto [x, y] = calculateAdjustedPosition(position);
+        sprite.setPosition(x, y);
+
+        _window->draw(sprite);
+        sprite.setScale(originalScale);
+    }
+
+    std::pair<float, float> SFMLDisplay::calculateSpriteScale(const sf::Sprite& sprite)
+    {
+        float cellWidth = _properties.getWidth() / 20.0f;
+        float cellHeight = _properties.getHeight() / 20.0f;
+        float scaleFactor = 1.0f;
+
+        sf::FloatRect bounds = sprite.getLocalBounds();
+        if (bounds.width > 0 && bounds.height > 0) {
+            float scaleX = (cellWidth * scaleFactor) / bounds.width;
+            float scaleY = (cellHeight * scaleFactor) / bounds.height;
+            return {scaleX, scaleY};
+        }
+        return {1.0f, 1.0f};
+    }
+
+    std::pair<float, float> SFMLDisplay::calculateAdjustedPosition(Vector<float> position)
+    {
+        float cellWidth = _properties.getWidth() / 20.0f;
+        float cellHeight = _properties.getHeight() / 20.0f;
+        float scaleFactor = 1.0f;
+
+        float offsetX = (cellWidth * (1.0f - scaleFactor)) / 2.0f;
+        float offsetY = (cellHeight * (1.0f - scaleFactor)) / 2.0f;
+
+        return {position.getX() + offsetX, position.getY() + offsetY};
     }
 
     Keyboard& SFMLDisplay::getKeyboard()

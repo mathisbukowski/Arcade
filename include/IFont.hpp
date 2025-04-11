@@ -16,7 +16,7 @@
 
 
 namespace arcade {
-    
+
     /**
      * Font properties
      */
@@ -85,7 +85,7 @@ namespace arcade {
      */
     class IFont {
     public:
-        /** 
+        /**
          * Destroy the IFont object
          */
         virtual ~IFont() = default;
