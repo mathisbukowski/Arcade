@@ -37,13 +37,24 @@ void NibblerGame::initGrid()
 
 void NibblerGame::loadLevel(int level)
 {
+    _state.resizeGrid(_gridHeight, _gridWidth);
+    for (size_t y = 0; y <= _gridHeight; ++y) {
+        for (size_t x = 0; x <= _gridWidth; ++x)
+            _state.setCellType(y, x, CellType::Empty);
+    }
     std::vector<std::string> layout = _levelManager.getLevel(level);
+    float scaleY = static_cast<float>(_gridHeight) / layout.size();
+    float scaleX = static_cast<float>(_gridWidth) / layout[0].length();
 
-    for (size_t y = 0; y < layout.size() && y < _gridHeight; ++y) {
+    for (size_t y = 0; y < layout.size(); ++y) {
         const std::string& row = layout[y];
-        for (size_t x = 0; x < row.length() && x < _gridWidth; ++x) {
-            if (row[x] == '#')
-                _state.setCellType(y, x, CellType::Wall);
+        for (size_t x = 0; x < row.length(); ++x) {
+            size_t scaledY = static_cast<size_t>(y * scaleY);
+            size_t scaledX = static_cast<size_t>(x * scaleX);
+
+            if (scaledY < _gridHeight && scaledX < _gridWidth && row[x] == '#') {
+                _state.setCellType(scaledY, scaledX, CellType::Wall);
+            }
         }
     }
     float timeLimit = BASE_TIME_LIMIT + (level - 1) * 10.0f;
