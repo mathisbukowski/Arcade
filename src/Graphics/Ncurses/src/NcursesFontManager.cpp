@@ -8,7 +8,7 @@
 #include "NcursesFontManager.hpp"
 #include <iostream>
 
-int arcade::NcursesFontManager::load(const std::string& name, const Font& font)
+int arcade::NcursesFontManager::load(const std::string& name, Font& font)
 {
     try {
         _fonts[name] = std::make_shared<NcursesFont>(font);

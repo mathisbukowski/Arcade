@@ -21,7 +21,16 @@ namespace arcade
     class WindowProperties
     {
     public:
+        /**
+         * Constructor for the WindowProperties class
+         * @param title Title of the window
+         * @param width Width of the window
+         * @param height Height of the window
+         */
         WindowProperties(const std::string& title, std::size_t width, std::size_t height): _width(width), _height(height), _title(title) {}
+        /**
+         * Default constructor for the WindowProperties class
+         */
         ~WindowProperties() = default;
         /**
          * Get the width of the window
@@ -43,7 +52,7 @@ namespace arcade
 
         /**
          * Set the height of the window
-         * @param newHeight New height of the window
+         * @param newHeight size_t New height of the window
          */
         void setHeight(std::size_t newHeight) { _height = newHeight; }
 
@@ -55,13 +64,22 @@ namespace arcade
 
         /**
          * Set the title of the window
-         * @param newTitle New title of the window
+         * @param newTitle const std::string &New title of the window
          */
         void setTitle(const std::string &newTitle) { _title = newTitle; }
 
     private:
+        /**
+         * Width of the window
+         */
         std::size_t _width;
+        /**
+         * Height of the window
+         */
         std::size_t _height;
+        /**
+         * Title of the window
+         */
         std::string _title;
     };
 
@@ -76,6 +94,9 @@ namespace arcade
         virtual ~IDisplayModule () = default;
         /**
          * Initialize the display module
+         * @param title const std::string& Title of the window
+         * @param width size_t Width of the window
+         * @param height size_t Height of the window
          */
         virtual void init(const std::string& title, size_t width, size_t height) = 0;
         /**
@@ -84,12 +105,12 @@ namespace arcade
         virtual void stop() = 0;
         /**
          * Get the name of the display module
-         * @return const std::string&
+         * @return const std::string& Name of the display module
          */
         [[nodiscard]] virtual const std::string &getName() const = 0;
         /**
          * Set the window properties
-         * @param windowProperties width, height and title of the window
+         * @param windowProperties WindowProperties & width, height and title of the window
          */
         virtual void setupWindowProperties(WindowProperties &windowProperties) = 0;
         /**
@@ -107,7 +128,7 @@ namespace arcade
         virtual void clearWindow(Color color) = 0;
         /**
          * Update the window
-         * @param delta Time since last update
+         * @param delta float Time since last update
          */
         virtual void updateWindow(float delta) = 0;
         /**
@@ -117,8 +138,8 @@ namespace arcade
         virtual bool isWindowOpen() = 0;
         /**
          * draw a texture
-         * @param texture Texture to draw
-         * @param position Position to draw the texture
+         * @param texture std::shared_ptr<ITexture> Texture to draw
+         * @param position Vector<float> Position to draw the texture
          */
         virtual void drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position) = 0;
         /**
@@ -131,6 +152,11 @@ namespace arcade
          * @return Mouse&
          */
         virtual Mouse &getMouse() = 0;
+        /**
+         * Get the window properties
+         * @return WindowProperties& Window properties
+         */
+        [[nodiscard]] virtual WindowProperties &getWindowProperties() = 0;
     };
 }
 

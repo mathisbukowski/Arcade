@@ -15,8 +15,7 @@ Sdl class to handle the SDL library for the display
 | Name | Description |
 | ---- | ----------- |
 | [SdlLibrary](#SdlLibrary) | Construct a new Sdl object  |
-| [~SdlLibrary](#_u007eSdlLibrary) | Destroy the Sdl object  |
-| [getDisplay](#getDisplay) | Get the Display object :material-keyboard-return: **Return** :    IDisplayModule&  |
+| [getDisplay](#getDisplay) | Destroy the Sdl object Get the Display object :material-keyboard-return: **Return** :    IDisplayModule&  |
 | [getTextures](#getTextures) | Get the Texture Manager object :material-keyboard-return: **Return** :    ITextureManager&  |
 | [getFonts](#getFonts) | Get the Font Manager object :material-keyboard-return: **Return** :    IFontManager&  |
 | [getSounds](#getSounds) | Get the Sound Manager object :material-keyboard-return: **Return** :    ISoundManager&  |
@@ -32,6 +31,7 @@ Sdl class to handle the SDL library for the display
 ### getDisplay<a name="getDisplay"></a>
 !!! function "IDisplayModule &amp;getDisplay() override"
 
+    Destroy the Sdl object
     Get the Display object
     
     :material-keyboard-return: **Return**
@@ -48,7 +48,7 @@ Sdl class to handle the SDL library for the display
     
 
 ### getSounds<a name="getSounds"></a>
-!!! function "virtual ISoundManager &amp;getSounds() override"
+!!! function "ISoundManager &amp;getSounds() override"
 
     Get the Sound Manager object
     
@@ -63,11 +63,5 @@ Sdl class to handle the SDL library for the display
     
     :material-keyboard-return: **Return**
     :    ITextureManager&
-    
-
-### ~SdlLibrary<a name="_u007eSdlLibrary"></a>
-!!! function "~SdlLibrary()"
-
-    Destroy the Sdl object
     
 

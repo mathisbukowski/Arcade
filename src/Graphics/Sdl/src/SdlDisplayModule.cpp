@@ -13,7 +13,10 @@
 
 #include "SdlTextureManager.hpp"
 
-arcade::SDLDisplayModule::SDLDisplayModule(const std::string& name): _windowProperties("", 0, 0), _name(name), _isOpen(false) {}
+arcade::SDLDisplayModule::SDLDisplayModule(SDLRendererManager& renderer_manager): _windowProperties("", 0, 0), _isOpen(false), _rendererManager(renderer_manager)
+{
+    SDL_Init(SDL_INIT_EVERYTHING);
+}
 
 arcade::SDLDisplayModule::~SDLDisplayModule()
 {
@@ -22,23 +25,28 @@ arcade::SDLDisplayModule::~SDLDisplayModule()
 
 void arcade::SDLDisplayModule::init(const std::string& title, std::size_t width, std::size_t height)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-        throw std::runtime_error("Failed to initialize SDL");
     WindowProperties newWindownProperties = {title, width, height};
     this->setupWindowProperties(newWindownProperties);
-    auto window = SDL_CreateWindow(_windowProperties.getTitle().c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    static_cast<int>(_windowProperties.getWidth()), static_cast<int>(_windowProperties.getHeight()), 0);
-    if (!window)
+    _rendererManager.initializeRenderer(title, width, height);
+    _renderer = _rendererManager.getRenderer();
+    _window = _rendererManager.getWindow();
+    if (!_renderer)
+        throw std::runtime_error("Failed to create renderer");
+    if (!_window)
         throw std::runtime_error("Failed to create window");
-    this->_window.reset(window, SDL_DestroyWindow);
-    auto renderer = SDL_CreateRenderer(window, -1, 0);
-    this->_renderer.reset(renderer, SDL_DestroyRenderer);
+    this->openWindow();
 }
 
 void arcade::SDLDisplayModule::stop()
 {
-    _renderer.reset();
-    _window.reset();
+    if (!isWindowOpen())
+        return;
+    if (_renderer)
+        _renderer.reset();
+    if (_window)
+        _window.reset();
+    if (TTF_WasInit())
+        TTF_Quit();
     SDL_Quit();
 }
 
@@ -99,14 +107,14 @@ void arcade::SDLDisplayModule::updateWindow(float delta)
             break;
         case SDL_KEYDOWN:
             {
-                Keyboard::KeyCode key = mapSDLKeyToArcade(event.key.keysym.sym);
+                Keyboard::KeyCode key = this->mapSDLKeyToArcade(event.key.keysym.sym);
                 if (key != Keyboard::UNKNOWN)
                     _keyboard.setKey(key, true);
             }
             break;
         case SDL_KEYUP:
             {
-                Keyboard::KeyCode key = mapSDLKeyToArcade(event.key.keysym.sym);
+                Keyboard::KeyCode key = this->mapSDLKeyToArcade(event.key.keysym.sym);
                 if (key != Keyboard::UNKNOWN)
                     _keyboard.setKey(key, false);
             }

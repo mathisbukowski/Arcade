@@ -12,6 +12,7 @@
 #include <iostream>
 
 #include "SdlFontManager.hpp"
+#include "SdlRendererManager.hpp"
 
 std::shared_ptr<arcade::ITexture> arcade::SDLTextureManager::get(const std::string& name) const
 {
@@ -23,8 +24,8 @@ std::shared_ptr<arcade::ITexture> arcade::SDLTextureManager::get(const std::stri
 
 int arcade::SDLTextureManager::load(const std::string& name, const MyTexture& newTexture)
 {
-    auto texture = std::make_shared<SDLTexture>();
-    texture->createTexture(newTexture, _renderer);
+    auto texture = std::make_shared<SDLTexture>(newTexture);
+    texture->createTexture(newTexture, _renderer.getRenderer());
     if (_textures.find(name) != _textures.end())
         return -1;
     _textures.emplace(name, texture);
@@ -33,7 +34,7 @@ int arcade::SDLTextureManager::load(const std::string& name, const MyTexture& ne
 
 // Texture
 
-int arcade::SDLTexture::createTexture(const MyTexture& textureInfos, std::shared_ptr<SDL_Renderer> renderer)
+int arcade::SDLTexture::createTexture(const MyTexture& textureInfos, const std::shared_ptr<SDL_Renderer>& renderer)
 {
     this->_textureInformations = textureInfos;
 
@@ -53,11 +54,14 @@ int arcade::SDLTexture::createTexture(const MyTexture& textureInfos, std::shared
             this->_rect.w = static_cast<int>(textureImg.getRect().value().getWidth());
             this->_rect.h = static_cast<int>(textureImg.getRect().value().getHeight());
         } else {
-            SDL_QueryTexture(this->_texture.get(), nullptr, nullptr, &this->_rect.w, &this->_rect.h);
+            if (SDL_QueryTexture(this->_texture.get(), nullptr, nullptr, &_rect.w, &_rect.h) != 0) {
+                std::cerr << "SDL_QueryTexture failed: " << SDL_GetError() << std::endl;
+                return -1;
+            }
         }
         return 0;
     }
-    else if (std::holds_alternative<TextureText>(this->_textureInformations)) {
+    if (std::holds_alternative<TextureText>(this->_textureInformations)) {
         const TextureText& textureText = std::get<TextureText>(this->_textureInformations);
 
         std::shared_ptr<TTF_Font> font(TTF_OpenFont("assets/fonts/PixelFont.ttf", 24), TTF_CloseFont);
@@ -101,3 +105,8 @@ int arcade::SDLTexture::createTexture(const MyTexture& textureInfos, std::shared
     }
     return 0;
 }
+
+arcade::SDLTexture::SDLTexture(const MyTexture& textureInfo): ITexture(textureInfo), _textureInformations(textureInfo)
+{
+};
+

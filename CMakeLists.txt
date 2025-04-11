@@ -19,23 +19,33 @@ add_executable(${PROJECT_NAME} ${CORE_SRC} ${CORE_INC})
 
 # Compile SDL Dynamic Lib
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+find_package(SDL2_mixer REQUIRED)
 file (GLOB_RECURSE SDL_SRC "src/Graphics/Sdl/*.cpp")
 file (GLOB_RECURSE SDL_INC "src/Graphics/Sdl/*.hpp")
 add_library(arcade_sdl2 SHARED ${SDL_SRC} ${SDL_INC})
 target_include_directories(arcade_sdl2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Sdl ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_target_properties(arcade_sdl2 PROPERTIES PREFIX "")
-target_link_libraries(arcade_sdl2 PRIVATE SDL2::SDL2)
+target_link_libraries(arcade_sdl2 PRIVATE
+        ${SDL2_LIBRARIES}
+        ${SDL2_IMAGE_LIBRARIES}
+        ${SDL2_TTF_LIBRARIES}
+        ${SDL2_MIXER_LIBRARIES}
+        -lSDL2_mixer
+        -lSDL2_ttf
+        -lSDL2_image
+)
+
 
 # Compile SFML Dynamic Lib
-find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.5.1 COMPONENTS graphics window audio system REQUIRED)
 file (GLOB_RECURSE SFML_SRC "src/Graphics/Sfml/*.cpp")
 file (GLOB_RECURSE SFML_INC "src/Graphics/Sfml/*.hpp")
 add_library(arcade_sfml SHARED ${SFML_SRC} ${SFML_INC})
 target_include_directories(arcade_sfml PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Sfml ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_target_properties(arcade_sfml PROPERTIES PREFIX "")
-
-# Lier SFML à arcade_sfml
-target_link_libraries(arcade_sfml PRIVATE sfml-graphics sfml-window sfml-system)
+target_link_libraries(arcade_sfml PRIVATE sfml-graphics sfml-window sfml-system sfml-audio)
 
 # Compile Ncurses Dynamic library
 file (GLOB_RECURSE NCURSES_SRC "src/Graphics/Ncurses/*.cpp")
@@ -45,9 +55,29 @@ target_link_libraries(arcade_ncurses PRIVATE ncurses)
 target_include_directories(arcade_ncurses PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Ncurses ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_target_properties(arcade_ncurses PROPERTIES PREFIX "")
 
+# Compile Common Files
+file (GLOB_RECURSE COMMON_SRC "src/Games/Common/*.cpp")
+file (GLOB_RECURSE COMMON_INC "src/Games/Common/*.hpp")
+
+# Compile Nibbler Dynamic Lib
+file (GLOB_RECURSE NIBBLER_SRC "src/Games/Nibbler/*.cpp")
+file (GLOB_RECURSE NIBBLER_INC "src/Games/Nibbler/*.hpp")
+add_library(arcade_nibbler SHARED ${NIBBLER_SRC} ${NIBBLER_INC} ${COMMON_SRC} ${COMMON_INC})
+target_include_directories(arcade_nibbler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Games/Nibbler ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src/Games/Common/BaseSnakeGame)
+set_target_properties(arcade_nibbler PROPERTIES PREFIX "")
+
+# Compile Snake Dynamic Lib
+file (GLOB_RECURSE SNAKE_SRC "src/Games/Snake/*.cpp")
+file (GLOB_RECURSE SNAKE_INC "src/Games/Snake/*.hpp")
+add_library(arcade_snake SHARED ${SNAKE_SRC} ${SNAKE_INC} ${COMMON_SRC} ${COMMON_INC})
+target_include_directories(arcade_snake PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Games/Snake ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src/Games/Common/BaseSnakeGame)
+set_target_properties(arcade_snake PROPERTIES PREFIX "")
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Arcade ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
 target_compile_options(arcade_sdl2 PRIVATE -fno-gnu-unique)
 target_compile_options(arcade_sfml PRIVATE -fno-gnu-unique)
 target_compile_options(arcade_ncurses PRIVATE -fno-gnu-unique)
+target_compile_options(arcade_nibbler PRIVATE -fno-gnu-unique)
+target_compile_options(arcade_snake PRIVATE -fno-gnu-unique)

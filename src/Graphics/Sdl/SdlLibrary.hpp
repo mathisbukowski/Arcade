@@ -34,11 +34,11 @@ namespace arcade
         /**
          * Construct a new Sdl object
          */
-        SdlLibrary();
+        SdlLibrary() : _rendererManager(), _display(SDLDisplayModule(this->_rendererManager)), _textures(SDLTextureManager(this->_rendererManager)) {}
         /**
          * Destroy the Sdl object
          */
-        ~SdlLibrary();
+        virtual ~SdlLibrary() = default;
         /**
          * Get the Display object
          * @return IDisplayModule&
@@ -58,9 +58,10 @@ namespace arcade
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        virtual ISoundManager &getSounds() override { return this->_sounds; };
+        ISoundManager &getSounds() override { return this->_sounds; };
 
     private:
+        SDLRendererManager _rendererManager;
         SDLDisplayModule _display;
         SDLFontManager _fonts;
         SDLTextureManager _textures;

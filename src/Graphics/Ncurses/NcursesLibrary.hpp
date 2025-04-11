@@ -26,7 +26,9 @@
 namespace arcade
 {
     /**
-     * Sfml class to handle the SFML library for the display
+     * @class NcursesLibrary
+     * This class is used to create a library using the ncurses library
+     * It inherits from the IDisplayLibrary interface
      */
     class NcursesLibrary : public IDisplayLibrary
     {
@@ -61,9 +63,21 @@ namespace arcade
         ISoundManager &getSounds() override { return this->_sounds; }
 
     private:
+        /**
+         * Texture Manager
+         */
         NcursesTextureManager _textures;
+        /**
+         * Display Module
+         */
         NcursesDisplayModule _display;
+        /**
+         * Font Manager
+         */
         NcursesFontManager _fonts;
+        /**
+         * Sound Manager
+         */
         NcursesSoundManager _sounds;
     };
 }

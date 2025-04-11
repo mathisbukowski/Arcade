@@ -12,11 +12,12 @@
 #include <SDL2/SDL_keycode.h>
 
 #include "IDisplayModule.hpp"
+#include "SdlRendererManager.hpp"
 
 namespace arcade {
     class SDLDisplayModule : public IDisplayModule {
     public:
-        SDLDisplayModule(const std::string &name = "SDL2");
+        SDLDisplayModule(SDLRendererManager& rendererManager);
         ~SDLDisplayModule() override;
         /**
          * Initialize the SDL library
@@ -76,19 +77,18 @@ namespace arcade {
          */
         [[nodiscard]] Mouse &getMouse() override;
 
-        [[nodiscard]] std::shared_ptr<SDL_Renderer> getRenderer() const {return _renderer;}
-        [[nodiscard]] std::shared_ptr<SDL_Window> getWindow() const { return _window; }
-        [[nodiscard]] WindowProperties getWindowProperties() const { return _windowProperties; }
+        [[nodiscard]] WindowProperties& getWindowProperties() override { return _windowProperties; }
 
     private:
         std::shared_ptr<SDL_Renderer> _renderer = nullptr;
         std::shared_ptr<SDL_Window> _window = nullptr;
         WindowProperties _windowProperties;
-        std::string _name;
+        std::string _name = "SDL2";
         bool _isOpen;
         Keyboard _keyboard;
         Mouse _mouse;
         Keyboard::KeyCode mapSDLKeyToArcade(SDL_Keycode key);
+        SDLRendererManager& _rendererManager;
     };
 };
 

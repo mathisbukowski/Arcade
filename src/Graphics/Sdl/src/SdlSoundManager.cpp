@@ -14,7 +14,7 @@ arcade::SDLSound::SDLSound() : _soundInformations(""), _chunk(nullptr), _channel
 
 arcade::SDLSound::~SDLSound()
 {
-    stop();
+    this->stop();
     _chunk.reset();
 }
 

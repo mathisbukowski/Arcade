@@ -18,7 +18,6 @@ arcade::NcursesDisplayModule::NcursesDisplayModule(const std::string &name): _wi
 
 arcade::NcursesDisplayModule::~NcursesDisplayModule()
 {
-    std::cout << "[DEBUG] NcursesDisplayModule destructor called" << std::endl;
     this->stop();
 }
 
@@ -65,14 +64,13 @@ void arcade::NcursesDisplayModule::clearWindow(Color color)
 
     if (color.getOpacity() != 0) {
         init_color(COLOR_BLACK, color.getR(), color.getG(), color.getB());
-        init_pair(1, COLOR_BLACK, COLOR_BLACK);
+        init_pair(1, COLOR_RED, COLOR_RED);
         attron(COLOR_PAIR(1));
         clear();
         attroff(COLOR_PAIR(1));
     } else {
         clear();
     }
-    refresh();
 }
 
 void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
@@ -82,9 +80,8 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
 
     if (std::holds_alternative<TextureText>(textureInformations)) {
         auto &textureText = std::get<TextureText>(textureInformations);
-        attron(COLOR_PAIR(textureText.getColor().getOpacity()));
         mvprintw(static_cast<int>(position.getY()), static_cast<int>(position.getX()), textureText.getText().c_str());
-        attroff(COLOR_PAIR(textureText.getColor().getOpacity()));
+        std::cout << textureText.getText() << std::endl;
         refresh();
     } else
         throw std::runtime_error("Terminal does not support images");
@@ -105,7 +102,7 @@ void arcade::NcursesDisplayModule::updateWindow(float delta)
         lastTimeCheck = currentTime;
     }
     try {
-        processEvents();
+        this->processEvents();
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Error in updateWindow: " << e.what() << std::endl;
     }
@@ -119,7 +116,7 @@ void arcade::NcursesDisplayModule::processEvents()
         _keyboard.clearPressedKeys();
         int ch = getch();
         if (ch != ERR) {
-            handleEvent(ch);
+            this->handleEvent(ch);
         }
     } catch (const std::exception& e) {
         std::cerr << "Error in processEvents: " << e.what() << std::endl;

@@ -25,8 +25,7 @@ namespace arcade {
         public:
             /**
              * Constructor
-             * @param directory Directory to search for libraries
-             * @param loadImmediately Whether to load libraries immediately
+             * @param libToLoad const std::string &  Path to the library to load
              */
             DynamicLibraryManager(const std::string& libToLoad);
 
@@ -36,18 +35,18 @@ namespace arcade {
             ~DynamicLibraryManager();
             /**
              * Scan a directory for libraries
-             * @param directory Directory path
-             * @param loadDiscovered Whether to load discovered librariesx
+             * @param libToLoad const std::string & Path to the library to load
              */
             void scanDirectory(const std::string& libToLoad);
             /**
              * Get all loaded libraries
-             * @return _libraries
+             * @return std::map<std::string, std::shared_ptr<DynamicLibraryObject>>
              */
             [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibraries() const { return _libraries; }
 
             /**
              * Get all libraries of a specific type
+             * @param type LibType Type of library to filter
              * @return std::map<std::string, std::shared_ptr<DynamicLibraryObject>>
              */
             [[nodiscard]] std::map<std::string, std::shared_ptr<DynamicLibraryObject>> getAllLibrariesByType(LibType type) const;
@@ -60,7 +59,7 @@ namespace arcade {
 
             /**
              * Set current graphic library
-             * @param current_graphic_lib New graphic library
+             * @param current_graphic_lib const std::shared_ptr<DynamicLibraryObject> & New graphic library
              */
             void setCurrentGraphicLib(const std::shared_ptr<DynamicLibraryObject>& current_graphic_lib);
 
@@ -72,7 +71,7 @@ namespace arcade {
 
             /**
              * Set current game library
-             * @param current_game_lib New game library
+             * @param current_game_lib const std::shared_ptr<DynamicLibraryObject> & New game library
              */
             void setCurrentGameLib(const std::shared_ptr<DynamicLibraryObject>& current_game_lib);
 
@@ -95,8 +94,14 @@ namespace arcade {
              */
             std::map<std::string, std::shared_ptr<DynamicLibraryObject>> _libraries;
 
+            /**
+             * Current graphic library
+             */
             std::shared_ptr<DynamicLibraryObject> _currentGraphicLib;
 
+            /**
+             * Current game library
+             */
             std::shared_ptr<DynamicLibraryObject> _currentGameLib;
     };
 }

@@ -5,35 +5,45 @@ generator: doxide
 
 # TextureImg
 
-**class TextureImg**
+**class TextureImg : public TextureBase**
 
-TextureImg properties
+Class for textured images
 
+
+## Variables
+
+| Name | Description |
+| ---- | ----------- |
+| [_path](#_path) | Path to the image file  |
 
 ## Functions
 
 | Name | Description |
 | ---- | ----------- |
-| [TextureImg](#TextureImg) | Construct a new Texture Img object :material-location-enter: `path` :    Path to the image file :material-location-enter: `rect` :    Rect properties :material-keyboard-return: **Return** :    TextureImg  |
+| [TextureImg](#TextureImg) | Constructor for TextureImg :material-location-enter: `path` :    std::string Path to the image file :material-location-enter: `rect` :    const std::optional <Rect> & Rect properties  |
 | [getPath](#getPath) | Get the Path object :material-keyboard-return: **Return** :    std::string  |
-| [getRect](#getRect) | Get the Rect object :material-keyboard-return: **Return** :    std::optional<Rect>  |
-| [setRect](#setRect) | Set the Rect object :material-location-enter: `rect` :    Rect properties  |
+
+## Variable Details
+
+### _path<a name="_path"></a>
+
+!!! variable "std::string _path"
+
+    Path to the image file
+    
 
 ## Function Details
 
 ### TextureImg<a name="TextureImg"></a>
-!!! function "TextureImg(std::string path, const std::optional&lt;Rect&gt; &amp;rect = std::nullopt)"
+!!! function "explicit TextureImg(std::string path, const std::optional&lt;Rect&gt; &amp;rect = std::nullopt)"
 
-    Construct a new Texture Img object
+    Constructor for TextureImg
         
     :material-location-enter: `path`
-    :    Path to the image file
+    :    std::string Path to the image file
         
     :material-location-enter: `rect`
-    :    Rect properties
-        
-    :material-keyboard-return: **Return**
-    :    TextureImg
+    :    const std::optional <Rect> & Rect properties
     
 
 ### getPath<a name="getPath"></a>
@@ -43,23 +53,5 @@ TextureImg properties
         
     :material-keyboard-return: **Return**
     :    std::string
-    
-
-### getRect<a name="getRect"></a>
-!!! function "[[nodiscard]] std::optional&lt;Rect&gt; getRect() const"
-
-    Get the Rect object
-        
-    :material-keyboard-return: **Return**
-    :    std::optional<Rect>
-    
-
-### setRect<a name="setRect"></a>
-!!! function "void setRect(const std::optional&lt;Rect&gt; &amp;newRect)"
-
-    Set the Rect object
-        
-    :material-location-enter: `rect`
-    :    Rect properties
     
 
