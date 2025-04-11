@@ -2,45 +2,70 @@
 ** EPITECH PROJECT, 2025
 ** arcade
 ** File description:
-** 03
+** SdlDisplayModule implementation
 */
 
 #include "SdlDisplayModule.hpp"
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
+#include <stdexcept>
 
-#include "SdlTextureManager.hpp"
+namespace arcade {
 
-arcade::SDLDisplayModule::SDLDisplayModule(SDLRendererManager& renderer_manager): _windowProperties("", 0, 0), _isOpen(false), _rendererManager(renderer_manager)
+SDLDisplayModule::SDLDisplayModule(SDLRendererManager& renderer_manager)
+    : _windowProperties("", 0, 0), _isOpen(false), _rendererManager(renderer_manager)
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
+    initializeSDL();
 }
 
-arcade::SDLDisplayModule::~SDLDisplayModule()
+SDLDisplayModule::~SDLDisplayModule()
 {
     this->stop();
 }
 
-void arcade::SDLDisplayModule::init(const std::string& title, std::size_t width, std::size_t height)
+void SDLDisplayModule::initializeSDL()
 {
-    WindowProperties newWindownProperties = {title, width, height};
-    this->setupWindowProperties(newWindownProperties);
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        throw std::runtime_error("SDL could not initialize! SDL Error: " + std::string(SDL_GetError()));
+
+    int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+
+    if (!(IMG_Init(imgFlags) & imgFlags))
+        std::cerr << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+}
+
+void SDLDisplayModule::init(const std::string& title, std::size_t width, std::size_t height)
+{
+    WindowProperties newWindowProperties = {title, width, height};
+
+    this->setupWindowProperties(newWindowProperties);
     _rendererManager.initializeRenderer(title, width, height);
     _renderer = _rendererManager.getRenderer();
     _window = _rendererManager.getWindow();
+    validateRendererAndWindow();
+    this->openWindow();
+}
+
+void SDLDisplayModule::validateRendererAndWindow()
+{
     if (!_renderer)
         throw std::runtime_error("Failed to create renderer");
     if (!_window)
         throw std::runtime_error("Failed to create window");
-    this->openWindow();
 }
 
-void arcade::SDLDisplayModule::stop()
+void SDLDisplayModule::stop()
 {
     if (!isWindowOpen())
         return;
+    cleanupResources();
+}
+
+void SDLDisplayModule::cleanupResources()
+{
     if (_renderer)
         _renderer.reset();
     if (_window)
@@ -50,134 +75,192 @@ void arcade::SDLDisplayModule::stop()
     SDL_Quit();
 }
 
-void arcade::SDLDisplayModule::openWindow()
+void SDLDisplayModule::openWindow()
 {
     this->_isOpen = true;
 }
 
-void arcade::SDLDisplayModule::closeWindow()
+void SDLDisplayModule::closeWindow()
 {
     this->_isOpen = false;
 }
 
-void arcade::SDLDisplayModule::clearWindow(Color color)
+void SDLDisplayModule::clearWindow(Color color)
 {
     SDL_SetRenderDrawColor(_renderer.get(), color.getR(), color.getG(), color.getB(), color.getOpacity());
     SDL_RenderClear(_renderer.get());
 }
 
-void arcade::SDLDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
+void SDLDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
 {
     auto sdlTexture = std::dynamic_pointer_cast<SDLTexture>(texture);
-    if (!sdlTexture) {
-        std::cerr << "Invalid texture type" << std::endl;
+
+    if (!sdlTexture || !sdlTexture->getTexture())
         return;
+
+    if (std::holds_alternative<TextureText>(sdlTexture->getInformations())) {
+        drawTextTexture(sdlTexture, position);
+    } else {
+        drawSpriteTexture(sdlTexture, position);
     }
-    SDL_Rect srcRect = sdlTexture->getRect();
+}
+
+void SDLDisplayModule::drawTextTexture(std::shared_ptr<SDLTexture> texture, Vector<float> position)
+{
+    SDL_Rect srcRect = {0, 0, 0, 0};
     SDL_Rect dstRect = {
         static_cast<int>(position.getX()),
         static_cast<int>(position.getY()),
-        srcRect.w,
-        srcRect.h
+        0, 0
     };
-    SDL_RenderCopy(_renderer.get(), sdlTexture->getTexture().get(), NULL, &dstRect);
+
+    SDL_QueryTexture(texture->getTexture().get(), nullptr, nullptr, &srcRect.w, &srcRect.h);
+
+    dstRect.w = srcRect.w;
+    dstRect.h = srcRect.h;
+
+    SDL_RenderCopy(_renderer.get(), texture->getTexture().get(), &srcRect, &dstRect);
 }
 
-arcade::Keyboard &arcade::SDLDisplayModule::getKeyboard()
+void SDLDisplayModule::drawSpriteTexture(std::shared_ptr<SDLTexture> texture, Vector<float> position)
+{
+    SDL_Rect srcRect = {0, 0, 0, 0};
+    SDL_Rect dstRect;
+
+    SDL_QueryTexture(texture->getTexture().get(), nullptr, nullptr, &srcRect.w, &srcRect.h);
+
+    auto [scaleX, scaleY] = calculateSpriteScale(texture->getTexture().get());
+    dstRect.w = static_cast<int>(srcRect.w * scaleX);
+    dstRect.h = static_cast<int>(srcRect.h * scaleY);
+
+    auto [x, y] = calculateAdjustedPosition(position);
+    dstRect.x = static_cast<int>(x);
+    dstRect.y = static_cast<int>(y);
+
+    SDL_RenderCopy(_renderer.get(), texture->getTexture().get(), &srcRect, &dstRect);
+}
+
+std::pair<float, float> SDLDisplayModule::calculateSpriteScale(SDL_Texture* texture)
+{
+    int textureWidth, textureHeight;
+    SDL_QueryTexture(texture, nullptr, nullptr, &textureWidth, &textureHeight);
+
+    float cellWidth = _windowProperties.getWidth() / GRID_SIZE;
+    float cellHeight = _windowProperties.getHeight() / GRID_SIZE;
+
+    if (textureWidth > 0 && textureHeight > 0) {
+        float scaleX = (cellWidth * CELL_SCALE_FACTOR) / textureWidth;
+        float scaleY = (cellHeight * CELL_SCALE_FACTOR) / textureHeight;
+        return {scaleX, scaleY};
+    }
+    return {1.0f, 1.0f};
+}
+
+std::pair<float, float> SDLDisplayModule::calculateAdjustedPosition(Vector<float> position)
+{
+    float cellWidth = _windowProperties.getWidth() / GRID_SIZE;
+    float cellHeight = _windowProperties.getHeight() / GRID_SIZE;
+
+    float offsetX = (cellWidth * (1.0f - CELL_SCALE_FACTOR)) / 2.0f;
+    float offsetY = (cellHeight * (1.0f - CELL_SCALE_FACTOR)) / 2.0f;
+
+    return {position.getX() + offsetX, position.getY() + offsetY};
+}
+
+Keyboard &SDLDisplayModule::getKeyboard()
 {
     return _keyboard;
 }
 
-arcade::Mouse &arcade::SDLDisplayModule::getMouse()
+Mouse &SDLDisplayModule::getMouse()
 {
     return _mouse;
 }
 
-void arcade::SDLDisplayModule::updateWindow(float delta)
+void SDLDisplayModule::updateWindow(float delta)
 {
-    SDL_Event event;
     (void)delta;
 
     _keyboard.clearPressedKeys();
-
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        case SDL_QUIT:
-            this->closeWindow();
-            break;
-        case SDL_KEYDOWN:
-            {
-                Keyboard::KeyCode key = this->mapSDLKeyToArcade(event.key.keysym.sym);
-                if (key != Keyboard::UNKNOWN)
-                    _keyboard.setKey(key, true);
-            }
-            break;
-        case SDL_KEYUP:
-            {
-                Keyboard::KeyCode key = this->mapSDLKeyToArcade(event.key.keysym.sym);
-                if (key != Keyboard::UNKNOWN)
-                    _keyboard.setKey(key, false);
-            }
-            break;
-        case SDL_MOUSEMOTION:
-            _mouse.setPos(Vector<float>(static_cast<float>(event.motion.x),
-                                       static_cast<float>(event.motion.y)));
-            break;
-        case SDL_MOUSEBUTTONDOWN:
-            _mouse.setPressed(true);
-            break;
-        case SDL_MOUSEBUTTONUP:
-            _mouse.setPressed(false);
-            break;
-        }
-    }
+    processEvents();
     SDL_RenderPresent(_renderer.get());
 }
 
-arcade::Keyboard::KeyCode arcade::SDLDisplayModule::mapSDLKeyToArcade(SDL_Keycode key)
+void SDLDisplayModule::processEvents()
 {
-    switch (key) {
-        case SDLK_a: return Keyboard::A;
-        case SDLK_b: return Keyboard::B;
-        case SDLK_c: return Keyboard::C;
-        case SDLK_d: return Keyboard::D;
-        case SDLK_e: return Keyboard::E;
-        case SDLK_f: return Keyboard::F;
-        case SDLK_g: return Keyboard::G;
-        case SDLK_h: return Keyboard::H;
-        case SDLK_i: return Keyboard::I;
-        case SDLK_j: return Keyboard::J;
-        case SDLK_k: return Keyboard::K;
-        case SDLK_l: return Keyboard::L;
-        case SDLK_m: return Keyboard::M;
-        case SDLK_n: return Keyboard::N;
-        case SDLK_o: return Keyboard::O;
-        case SDLK_p: return Keyboard::P;
-        case SDLK_q: return Keyboard::Q;
-        case SDLK_r: return Keyboard::R;
-        case SDLK_s: return Keyboard::S;
-        case SDLK_t: return Keyboard::T;
-        case SDLK_u: return Keyboard::U;
-        case SDLK_v: return Keyboard::V;
-        case SDLK_w: return Keyboard::W;
-        case SDLK_x: return Keyboard::X;
-        case SDLK_y: return Keyboard::Y;
-        case SDLK_z: return Keyboard::Z;
-        case SDLK_RETURN: return Keyboard::ENTER;
-        case SDLK_1: return Keyboard::KEY_1;
-        case SDLK_2: return Keyboard::KEY_2;
-        case SDLK_3: return Keyboard::KEY_3;
-        case SDLK_4: return Keyboard::KEY_4;
-        case SDLK_5: return Keyboard::KEY_5;
-        case SDLK_6: return Keyboard::KEY_6;
-        case SDLK_7: return Keyboard::KEY_7;
-        case SDLK_8: return Keyboard::KEY_8;
-        case SDLK_9: return Keyboard::KEY_9;
-        case SDLK_UP: return Keyboard::UP;
-        case SDLK_DOWN: return Keyboard::DOWN;
-        case SDLK_LEFT: return Keyboard::LEFT;
-        case SDLK_RIGHT: return Keyboard::RIGHT;
-        case SDLK_ESCAPE: return Keyboard::ESCAPE;
-        default: return Keyboard::UNKNOWN;
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+        handleEvent(event);
+}
+
+void SDLDisplayModule::handleEvent(const SDL_Event& event)
+{
+    switch (event.type) {
+    case SDL_QUIT:
+        this->closeWindow();
+        break;
+    case SDL_KEYDOWN:
+        handleKeyboardEvent(event.key, true);
+        break;
+    case SDL_KEYUP:
+        handleKeyboardEvent(event.key, false);
+        break;
+    case SDL_MOUSEMOTION:
+        handleMouseMotionEvent(event.motion);
+        break;
+    case SDL_MOUSEBUTTONDOWN:
+        handleMouseButtonEvent(event.button, true);
+        break;
+    case SDL_MOUSEBUTTONUP:
+        handleMouseButtonEvent(event.button, false);
+        break;
+    default:
+        break;
     }
+}
+
+void SDLDisplayModule::handleKeyboardEvent(const SDL_KeyboardEvent& keyEvent, bool isPressed)
+{
+    Keyboard::KeyCode key = this->mapSDLKeyToArcade(keyEvent.keysym.sym);
+    if (key != Keyboard::UNKNOWN) {
+        _keyboard.setKey(key, isPressed);
+    }
+}
+
+void SDLDisplayModule::handleMouseButtonEvent(const SDL_MouseButtonEvent& mouseEvent, bool isPressed)
+{
+    _mouse.setPressed(isPressed);
+    _mouse.setPos(Vector<float>(static_cast<float>(mouseEvent.x), static_cast<float>(mouseEvent.y)));
+}
+
+void SDLDisplayModule::handleMouseMotionEvent(const SDL_MouseMotionEvent& mouseEvent)
+{
+    _mouse.setPos(Vector<float>(static_cast<float>(mouseEvent.x), static_cast<float>(mouseEvent.y)));
+}
+
+Keyboard::KeyCode SDLDisplayModule::mapSDLKeyToArcade(SDL_Keycode key)
+{
+    static const std::unordered_map<SDL_Keycode, Keyboard::KeyCode> keyMap = {
+        {SDLK_a, Keyboard::A}, {SDLK_b, Keyboard::B}, {SDLK_c, Keyboard::C},
+        {SDLK_d, Keyboard::D}, {SDLK_e, Keyboard::E}, {SDLK_f, Keyboard::F},
+        {SDLK_g, Keyboard::G}, {SDLK_h, Keyboard::H}, {SDLK_i, Keyboard::I},
+        {SDLK_j, Keyboard::J}, {SDLK_k, Keyboard::K}, {SDLK_l, Keyboard::L},
+        {SDLK_m, Keyboard::M}, {SDLK_n, Keyboard::N}, {SDLK_o, Keyboard::O},
+        {SDLK_p, Keyboard::P}, {SDLK_q, Keyboard::Q}, {SDLK_r, Keyboard::R},
+        {SDLK_s, Keyboard::S}, {SDLK_t, Keyboard::T}, {SDLK_u, Keyboard::U},
+        {SDLK_v, Keyboard::V}, {SDLK_w, Keyboard::W}, {SDLK_x, Keyboard::X},
+        {SDLK_y, Keyboard::Y}, {SDLK_z, Keyboard::Z},
+        {SDLK_RETURN, Keyboard::ENTER},
+        {SDLK_1, Keyboard::KEY_1}, {SDLK_2, Keyboard::KEY_2}, {SDLK_3, Keyboard::KEY_3},
+        {SDLK_4, Keyboard::KEY_4}, {SDLK_5, Keyboard::KEY_5}, {SDLK_6, Keyboard::KEY_6},
+        {SDLK_7, Keyboard::KEY_7}, {SDLK_8, Keyboard::KEY_8}, {SDLK_9, Keyboard::KEY_9},
+        {SDLK_UP, Keyboard::UP}, {SDLK_DOWN, Keyboard::DOWN},
+        {SDLK_LEFT, Keyboard::LEFT}, {SDLK_RIGHT, Keyboard::RIGHT},
+        {SDLK_ESCAPE, Keyboard::ESCAPE}
+    };
+
+    auto it = keyMap.find(key);
+    return (it != keyMap.end()) ? it->second : Keyboard::UNKNOWN;
+}
+
 }
