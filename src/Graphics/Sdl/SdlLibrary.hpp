@@ -36,7 +36,13 @@ namespace arcade
         /**
          * Construct a new Sdl object
          */
-        SdlLibrary() : _rendererManager(), _display(SDLDisplayModule(this->_rendererManager)), _textures(SDLTextureManager(this->_rendererManager)) {}
+         SdlLibrary() :
+             _rendererManager(),
+             _display(SDLDisplayModule(this->_rendererManager)),
+             _textures(SDLTextureManager(this->_rendererManager)),
+             _fonts(),
+             _sounds()
+         { }
         /**
          * Destroy the Sdl object
          */

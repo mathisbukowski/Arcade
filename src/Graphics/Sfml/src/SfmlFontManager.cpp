@@ -35,7 +35,7 @@ namespace arcade {
         return _font;
     }
 
-    int SFMLFontManager::load(const std::string& name, const Font& font)
+    int SFMLFontManager::load(const std::string& name, Font& font)
     {
         try {
             _fonts[name] = std::make_shared<SFMLFont>(font);

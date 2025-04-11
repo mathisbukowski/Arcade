@@ -16,7 +16,7 @@
 
 
 namespace arcade {
-    
+
     /**
      * Font properties
      */
@@ -85,7 +85,7 @@ namespace arcade {
      */
     class IFont {
     public:
-        /** 
+        /**
          * Destroy the IFont object
          */
         virtual ~IFont() = default;
@@ -112,7 +112,7 @@ namespace arcade {
          * @param font const Font & Font properties
          * @return int 0 if success, -1 if error
          */
-        [[nodiscard]] virtual int load(const std::string& name, const Font& font) = 0;
+        [[nodiscard]] virtual int load(const std::string& name, Font& font) = 0;
         /**
          * Get a font
          * @param name const std::string &Name of the font
