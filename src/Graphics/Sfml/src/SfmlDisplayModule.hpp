@@ -9,6 +9,7 @@
 #define SFMLDISPLAYMODULE_HPP
 
 #include "IDisplayModule.hpp"
+#include "SfmlTextureManager.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace arcade {
@@ -39,6 +40,10 @@ namespace arcade {
         void handleEvent(const sf::Event& event);
         void handleKeyEvent(const sf::Event::KeyEvent& keyEvent, bool isPressed);
         Keyboard::KeyCode mapSfmlKeyToArcade(sf::Keyboard::Key sfmlKey);
+        void drawText(std::shared_ptr<SFMLTexture> texture, Vector<float> position);
+        void drawSprite(std::shared_ptr<SFMLTexture> texture, Vector<float> position);
+        std::pair<float, float> calculateSpriteScale(const sf::Sprite& sprite);
+        std::pair<float, float> calculateAdjustedPosition(Vector<float> position);
         std::string _name;
         std::shared_ptr<sf::RenderWindow> _window;
         Keyboard _keyboard;
