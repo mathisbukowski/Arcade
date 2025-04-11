@@ -22,8 +22,8 @@ namespace arcade {
         ~SFMLSound() override = default;
 
         const SoundInfos& getInformations() const override;
-        void play(float volume);
-        void stop();
+        void play(float volume) override;
+        void stop() override;
 
     private:
         void loadSound(const SoundInfos& soundInfos);

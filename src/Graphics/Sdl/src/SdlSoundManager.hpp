@@ -21,8 +21,8 @@ namespace arcade {
         SDLSound();
         ~SDLSound();
         [[nodiscard]] const SoundInfos& getInformations() const override { return _soundInformations; }
-        void play(float volume);
-        void stop();
+        void play(float volume) override;
+        void stop() override;
         void setSoundInfos(const SoundInfos& infos) { _soundInformations = infos; }
 
     private:
