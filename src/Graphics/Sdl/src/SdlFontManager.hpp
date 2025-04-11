@@ -39,7 +39,7 @@ namespace arcade {
                 throw std::runtime_error("Failed to initialize TTF");
         };
         ~SDLFontManager() override = default;
-        int load(const std::string& name, const Font& newFont) override;
+        int load(const std::string& name, Font& newFont) override;
         [[nodiscard]] std::shared_ptr<IFont> get(const std::string& name) const override;
 
     private:
