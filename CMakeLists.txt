@@ -19,12 +19,20 @@ add_executable(${PROJECT_NAME} ${CORE_SRC} ${CORE_INC})
 
 # Compile SDL Dynamic Lib
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+find_package(SDL2_mixer REQUIRED)
 file (GLOB_RECURSE SDL_SRC "src/Graphics/Sdl/*.cpp")
 file (GLOB_RECURSE SDL_INC "src/Graphics/Sdl/*.hpp")
 add_library(arcade_sdl2 SHARED ${SDL_SRC} ${SDL_INC})
 target_include_directories(arcade_sdl2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/Graphics/Sdl ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set_target_properties(arcade_sdl2 PROPERTIES PREFIX "")
-target_link_libraries(arcade_sdl2 PRIVATE SDL2::SDL2)
+target_link_libraries(arcade_sdl2 PRIVATE
+        ${SDL2_LIBRARIES}
+        ${SDL2_IMAGE_LIBRARIES}
+        ${SDL2_TTF_LIBRARIES}
+        ${SDL2_MIXER_LIBRARIES}
+)
 
 
 # Compile SFML Dynamic Lib
