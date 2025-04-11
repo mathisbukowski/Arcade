@@ -13,64 +13,75 @@
 namespace arcade {
 
 /**
- * @brief Implementation of the classic Snake game
- */
+* @class SnakeGame
+* This class implements the Snake game logic.
+* It inherits from BaseSnakeGame and provides specific functionalities for the Snake game.
+*/
 class SnakeGame : public BaseSnakeGame {
 public:
     /**
-     * @brief Constructor
-     * @param cyclical Whether the game has cyclical borders (snake can go through walls)
+     * Constructor
+     * @param cyclical bool Whether the game has cyclical borders (snake can go through walls)
      */
     explicit SnakeGame(bool cyclical = false);
 
     /**
-     * @brief Destructor
+     * Destructor
      */
     ~SnakeGame() override = default;
 
     /**
-     * @brief Updates the game state
-     * @param delta Time elapsed since last update in seconds
+     * Updates the game state
+     * @param delta float Time elapsed since last update in seconds
      */
     void update(float delta) override;
 
 
 private:
     /**
-     * @brief Adjusts position for cyclical boundaries
+     * Adjusts position for cyclical boundaries
      * Snake can pass through walls and appear on the other side if enabled
-     * @param pos Position to adjust
-     * @return Adjusted position
+     * @param pos const Vector<float> & Position to adjust
+     * @return Vector<float> -Adjusted position
      */
     Vector<float> adjustPosition(const Vector<float>& pos) const override;
 
     /**
-     * @brief Checks collisions specific to Snake game
+     * Checks collisions specific to Snake game
      * In Snake, colliding with walls is fatal unless cyclical borders are enabled
-     * @return Type of collision detected
+     * @return CollisionTypeType of collision detected
      */
     CollisionType checkCollisions() override;
 
     /**
-     * @brief Initialize the grid for Snake
+     * Initialize the grid for Snake
      * Snake has a simple empty grid without obstacles
      */
     void initGrid() override;
 
     /**
-     * @brief Handles the game over state
+     * Handles the game over state
      * Displays game over screen and plays sound
      */
     void onGameOver() override;
 
     /**
-     * @brief Creates the window title for Snake
-     * @return Window title string
+     * Creates the window title for Snake
+     * @return std::string Window title string
      */
     std::string getWindowTitle() const;
 
+    /**
+     * Constants for the default game speed
+     */
     static constexpr float DEFAULT_SPEED = 0.18f;
+    /**
+     * Constants for the default game score multiplier
+     */
     static constexpr float SCORE_MULTIPLIER = 1.2f;
+    /**
+     * Constants for the default game food spawn frequency
+     */
     static constexpr int FOOD_SPAWN_FREQUENCY = 1;
 };
 

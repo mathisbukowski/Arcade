@@ -13,40 +13,48 @@
 
 namespace arcade {
 
+/**
+ * @class LevelManager
+ * This class is used to manage levels for the Nibbler game.
+ * It loads levels from a file and provides methods to access them.
+ */
 class LevelManager {
 public:
     /**
-     * @brief Constructor
-     * @param levelFilePath Path to the level file
+     * Constructor
+     * @param levelFilePath const std::string & Path to the level file
      */
     explicit LevelManager(const std::string& levelFilePath = "assets/nibbler/levels.txt");
 
     /**
-     * @brief Get a level layout by index
-     * @param level Level index (1-based)
-     * @return Level layout as a vector of strings
+     *  Get a level layout by index
+     * @param level int Level index (1-based)
+     * @return std::vector<std::string> Level layout as a vector of strings
      */
     std::vector<std::string> getLevel(int level) const;
 
     /**
-     * @brief Get the total number of levels
-     * @return Number of levels
+     * Get the total number of levels
+     * @return int Number of levels
      */
     int getLevelCount() const;
 
 private:
     /**
-     * @brief Load levels from a file
-     * @param filePath Path to the level file
+     * Load levels from a file
+     * @param filePath const std::string & Path to the level file
      */
     void loadLevelsFromFile(const std::string& filePath);
 
     /**
-     * @brief Create a default level as fallback
-     * @return Default level layout
+     * Create a default level as fallback
+     * @return std::vector<std::string> Default level layout
      */
     std::vector<std::string> createDefaultLevel() const;
 
+    /**
+     * Path to the level file
+     */
     std::vector<std::vector<std::string>> _levels;
 };
 

@@ -54,7 +54,7 @@ namespace arcade {
          * Set the font
          * @param font const std::shared_ptr<TTF_Font> & Font
          */
-        void setFont(const std::shared_ptr<TTF_Font> &font) { _font = font; };
+        void setFont(const std::shared_ptr<TTF_Font> &font) { _font = font; }
     private:
         /**
          * Font
