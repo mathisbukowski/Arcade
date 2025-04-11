@@ -7,6 +7,7 @@
 
 #include "Core.hpp"
 #include <iostream>
+#include <algorithm>
 
 namespace arcade {
 
