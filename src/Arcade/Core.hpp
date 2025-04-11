@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** Arcade
 ** File description:
-** Core
+** Core header file
 */
 
 #ifndef CORE_HPP_
@@ -19,8 +19,8 @@
 
 namespace arcade {
     /**
-     * enum class GameState
-     * Represents the current state of the game.
+     * @enum GameState
+     * @brief Represents the current state of the game.
      */
     enum class GameState {
         MENU,
@@ -29,194 +29,159 @@ namespace arcade {
     };
 
     /**
-     * struct Score
-     * Represents a player's score in a game.
+     * @enum MenuSection
+     * @brief Represents different sections in the menu
      */
-    struct Score {
-        /**
-         * Player's name
-         */
-        std::string playerName;
-        /**
-         * Game name
-         */
-        std::string gameName;
-        /**
-         * Score value
-         */
-        int score;
-
-        /**
-         * Constructor
-         * @param name const std::string & Player's name
-         * @param game const std::string & Game name
-         * @param value int Score value
-         */
-        Score(const std::string& name, const std::string& game, int value)
-            : playerName(name), gameName(game), score(value) {}
+    enum class MenuSection {
+        GAMES,
+        GRAPHICS,
+        PLAYER_NAME
     };
 
     /**
-     * class Core
-     * Main class for the Arcade game engine.
+     * @class Score
+     * @brief Represents a player's score in a game.
+     */
+    class Score {
+    public:
+        std::string _playerName;
+        std::string _gameName;
+        int _score;
+
+        /**
+         * Constructor
+         * @param name Player's name
+         * @param game Game name
+         * @param value Score value
+         */
+        Score(const std::string& name, const std::string& game, int value)
+            : _playerName(name), _gameName(game), _score(value) {}
+    };
+
+    /**
+     * @class Core
+     * @brief Main class for the Arcade game engine.
      */
     class Core {
     public:
         /**
          * Constructor
-         * @param initialLibPath const std::string & Path to the initial library
+         * @param initialLibPath Path to the initial library
          */
         Core(const std::string& initialLibPath);
+
         /**
-         * Destructor of the Core class
+         * Destructor
          */
         ~Core();
 
         /**
-         * Run the main loop of the game engine
+         * Main game loop
          */
         void run();
 
     private:
-        /**
-         * Current state of the game
-         */
+        // Game state
         GameState _state;
-        /**
-         * Player's name
-         */
         std::string _playerName;
-        /**
-         * Scores vector
-         */
         std::vector<Score> _scores;
-        /**
-         * Library manager for loading dynamic libraries
-         */
-        std::unique_ptr<DynamicLibraryManager> _libManager;
 
-        /**
-         * Pointer to the current graphics library
-         */
+        // Libraries
+        std::unique_ptr<DynamicLibraryManager> _libManager;
         std::shared_ptr<IDisplayLibrary> _currentGraphicLib;
-        /**
-         * Pointer to the current game library
-         */
         std::shared_ptr<IGameModule> _currentGame;
 
-        /**
-         * chrono to keep track of the last frame time
-         */
+        // Timing
         std::chrono::high_resolution_clock::time_point _lastFrameTime;
-        /**
-         * Time since the last frame
-         */
         float _deltaTime;
 
-        /**
-         * Resolution scaler for the graphics library
-         */
+        // Resolution scaling
         std::unique_ptr<ResolutionScaler> _resolutionScaler;
-        /**
-         * Initialize the graphics library
-         * @param path const std::string & Path to the library
-         */
+
+        // Menu navigation
+        MenuSection _currentMenuSection = MenuSection::GAMES;
+        int _selectedGameIndex = 0;
+        int _selectedGraphicLibIndex = 0;
+
+        // Input handling
+        bool _previousUpState = false;
+        bool _previousDownState = false;
+        bool _previousLeftState = false;
+        bool _previousRightState = false;
+        bool _previousEnterState = false;
+        bool _previousAState = false;
+        bool _previousEscapeState = false;
+
+        // Library initialization
         void initializeGraphicsLib(const std::string& path);
-        /**
-         * Initialize the game library
-         */
         void initializeGameLib();
 
-        /**
-         * Update the menu state
-         */
+        // Update and display methods
+        void updateDeltaTime();
         void updateMenu();
-        /**
-         * Update the game state
-         */
         void updateGame();
-        /**
-         * Display the menu
-         */
         void displayMenu();
-        /**
-         * Display the game
-         */
         void displayGame();
 
-        /**
-         * Load scores from a file
-         */
+        // Score management
         void loadScores();
-        /**
-         * Save scores to a file
-         */
         void saveScores();
-        /**
-         * Switch the graphics library
-         * @param libName const std::string & Name of the library to switch to
-         */
-        void switchGraphicsLib(const std::string& libName);
-        /**
-         * Switch the game library
-         * @param gameName const std::string & Name of the game to switch to
-         */
-        void switchGame(const std::string& gameName);
-        /**
-         * Restart the current game
-         */
-        void restartGame();
-        /**
-         * Go to the menu state
-         */
-        void goToMenu();
-        /**
-         * Handle input for the menu
-         */
-        void handleMenuInput();
-        /**
-         * Handle input for the game
-         */
-        void handleGameInput();
-        /**
-         * update the delta time
-         */
-        void updateDeltaTime();
-        /**
-         * Render the game list
-         * @param x int X position
-         * @param y int Y position
-         */
-        void renderGameList(float x, float y);
-        /**
-         * Render the graphics list
-         * @param x int X position
-         * @param y int Y position
-         */
-        void renderGraphicsList(float x, float y);
-        /**
-         * Render the scores
-         * @param x int X position
-         * @param y int Y position
-         */
-        void renderScores(float x, float y);
-        /**
-         * Render the player name input
-         * @param x int X position
-         * @param y int Y position
-         */
-        void renderPlayerNameInput(float x, float y);
 
-        /**
-         * Check if the mouse is clicked on the game list
-         * @param mouseX float X position of the mouse
-         * @param mouseY float Y position of the mouse
-         */
+        // Library switching
+        void switchGraphicsLib(const std::string& libName);
+        void switchGame(const std::string& gameName);
+        void restartGame();
+        void tryRestartGame();
+        void trySwitchToNextGame();
+        void goToMenu();
+
+        // Menu display organization
+        void prepareMenuDisplay();
+        void drawMenuSectionBackgrounds();
+        void drawMenuTitle();
+        void renderMenuSections();
+        void renderMenuInstructions();
+
+        // Menu input processing
+        bool processMenuKeyboardInput(Keyboard& keyboard);
+        void handleMenuInput();
+        void handleGameInput();
+        bool isKeyJustPressed(Keyboard& keyboard, Keyboard::KeyCode key, bool& previousState);
+
+        // Menu navigation
+        void navigateMenuUp();
+        void navigateMenuDown();
+        void navigateMenuLeft();
+        void navigateMenuRight();
+        void navigateGamesListUp();
+        void navigateGamesListDown();
+        void navigateGraphicsListUp();
+        void navigateGraphicsListDown();
+        void handleMenuSelection();
+        void selectGame();
+        void selectGraphicsLib();
+
+        // Menu rendering
+        void renderGameList(float x, float y);
+        void renderGraphicsList(float x, float y);
+        void renderScores(float x, float y);
+        void renderPlayerNameInput(float x, float y);
+        void renderMenuListTitle(float x, float y, const std::string& title, MenuSection section, const std::string& textureName);
+        void renderGameItems(float x, float y);
+        void renderGraphicsItems(float x, float y);
+        void renderMenuItem(const std::string& textureName, const std::string& text, Color color, float x, float y);
+        void renderScoreItems(float x, float y);
+        void drawMenuSection(float x, float y, float width, float height, const std::string& name, Color color);
+
+        // Menu interaction utilities
+        bool isItemHovered(float x, float y, float width, float height, const Vector<float>& mousePos) const;
+        Color getItemTextColor(bool isSelected, bool isHovered, bool isCurrent) const;
+
+        // Mouse input
+        void checkMenuClicks(float mouseX, float mouseY);
         void checkGameListClicks(float mouseX, float mouseY);
-        /**
-         * index of the selected game
-         */
-        int _selectedGameIndex;
+        void checkGraphicsListClicks(float mouseX, float mouseY);
+        void checkPlayerNameClick(float mouseX, float mouseY);
     };
 }
 
