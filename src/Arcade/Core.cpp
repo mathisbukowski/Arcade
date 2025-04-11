@@ -224,7 +224,7 @@ void Core::handleGameInput() {
     }
 }
 
-void Core::renderGameList(int x, int y) {
+void Core::renderGameList(float x, float y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 
@@ -272,7 +272,7 @@ void Core::renderGameList(int x, int y) {
     }
 }
 
-void Core::renderGraphicsList(int x, int y) {
+void Core::renderGraphicsList(float x, float y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 
@@ -297,7 +297,7 @@ void Core::renderGraphicsList(int x, int y) {
     }
 }
 
-void Core::renderScores(int x, int y) {
+void Core::renderScores(float x, float y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 
@@ -331,7 +331,7 @@ void Core::renderScores(int x, int y) {
     }
 }
 
-void Core::renderPlayerNameInput(int x, int y) {
+void Core::renderPlayerNameInput(float x, float y) {
     auto& display = _currentGraphicLib->getDisplay();
     auto& textures = _currentGraphicLib->getTextures();
 

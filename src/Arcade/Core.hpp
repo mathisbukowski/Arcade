@@ -187,25 +187,25 @@ namespace arcade {
          * @param x int X position
          * @param y int Y position
          */
-        void renderGameList(int x, int y);
+        void renderGameList(float x, float y);
         /**
          * Render the graphics list
          * @param x int X position
          * @param y int Y position
          */
-        void renderGraphicsList(int x, int y);
+        void renderGraphicsList(float x, float y);
         /**
          * Render the scores
          * @param x int X position
          * @param y int Y position
          */
-        void renderScores(int x, int y);
+        void renderScores(float x, float y);
         /**
          * Render the player name input
          * @param x int X position
          * @param y int Y position
          */
-        void renderPlayerNameInput(int x, int y);
+        void renderPlayerNameInput(float x, float y);
 
         /**
          * Check if the mouse is clicked on the game list
