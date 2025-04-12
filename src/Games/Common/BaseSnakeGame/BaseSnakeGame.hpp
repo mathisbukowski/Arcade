@@ -314,22 +314,22 @@ namespace arcade
             void decrementTimeRemaining(float delta);
 
         private:
-            std::deque<Vector<float>> _segments;
-            Direction _currentDirection;
-            Direction _nextDirection;
-            std::vector<Vector<float>> _foods;
-            std::vector<Vector<float>> _bonusFoods;
-            std::vector<std::vector<CellType>> _grid;
-            int _score;
-            bool _gameOver;
-            float _moveTimer;
-            float _moveInterval;
-            float _bonusFoodTimer;
-            float _bonusFoodDuration;
-            int _level;
-            float _timeRemaining;
-            std::string _playerName;
-            GameMode _mode;
+            std::deque<Vector<float>> _segments; /* All part of the snake*/
+            Direction _currentDirection; /* Current movement direction */
+            Direction _nextDirection; /* Next movement direction */
+            std::vector<Vector<float>> _foods; /* All food positions */
+            std::vector<Vector<float>> _bonusFoods; /* All bonus food positions */
+            std::vector<std::vector<CellType>> _grid; /* Game grid */
+            int _score; /* Current score */
+            bool _gameOver; /* Game over state */ 
+            float _moveTimer; /* Timer for snake movement */
+            float _moveInterval; /* Interval between snake movements */
+            float _bonusFoodTimer; /* Timer for bonus food */ 
+            float _bonusFoodDuration; /* Duration of bonus food */
+            int _level; /* Current level */
+            float _timeRemaining; /* Time remaining in seconds */
+            std::string _playerName; /* Player's name */ 
+            GameMode _mode; /* Current game mode */
         };
     private:
         /**
