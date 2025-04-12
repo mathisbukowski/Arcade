@@ -72,7 +72,7 @@ It inherits from the ISound interface
     
 
 ### play<a name="play"></a>
-!!! function "void play(float volume)"
+!!! function "void play(float volume) override"
 
     Play the sound
     
@@ -90,7 +90,7 @@ It inherits from the ISound interface
     
 
 ### stop<a name="stop"></a>
-!!! function "void stop()"
+!!! function "void stop() override"
 
     Stop the sound
     

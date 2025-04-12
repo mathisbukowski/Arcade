@@ -20,7 +20,7 @@
 namespace arcade {
     /**
      * @enum GameState
-     * @brief Represents the current state of the game.
+     * Represents the current state of the game.
      */
     enum class GameState {
         MENU,
@@ -30,7 +30,7 @@ namespace arcade {
 
     /**
      * @enum MenuSection
-     * @brief Represents different sections in the menu
+     * Represents different sections in the menu
      */
     enum class MenuSection {
         GAMES,
@@ -40,7 +40,7 @@ namespace arcade {
 
     /**
      * @class Score
-     * @brief Represents a player's score in a game.
+     * Represents a player's score in a game.
      */
     class Score {
     public:
@@ -60,7 +60,7 @@ namespace arcade {
 
     /**
      * @class Core
-     * @brief Main class for the Arcade game engine.
+     * Main class for the Arcade game engine.
      */
     class Core {
     public:
