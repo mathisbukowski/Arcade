@@ -141,7 +141,7 @@ extern "C" {
         return arcade::LibType::GAME;
     }
 
-    const char* entryPointName() {
+    std::string entryPointName() {
         return "Snake";
     }
 }

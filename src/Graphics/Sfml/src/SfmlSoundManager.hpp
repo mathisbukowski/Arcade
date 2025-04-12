@@ -36,14 +36,14 @@ namespace arcade {
          */
         const SoundInfos& getInformations() const override;
         /**
-         * play sound
-         * @return sf::SoundBuffer&
-         */
-        void play(float volume);
+       * play sound
+       * @return sf::SoundBuffer&
+       */
+        void play(float volume) override;
         /**
          * stop sound
          */
-        void stop();
+        void stop() override;
 
     private:
         /**

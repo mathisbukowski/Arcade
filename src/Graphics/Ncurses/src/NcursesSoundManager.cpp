@@ -18,6 +18,7 @@ std::shared_ptr<arcade::ISound> arcade::NcursesSoundManager::get(const std::stri
     return nullptr;
 }
 
+
 int arcade::NcursesSoundManager::load(const std::string& name, const SoundInfos& sound)
 {
     try {
@@ -29,13 +30,24 @@ int arcade::NcursesSoundManager::load(const std::string& name, const SoundInfos&
     }
 }
 
+void arcade::NcursesSound::play(float volume)
+{
+    std::cout << "NCURSE doesn't provide sounds." << volume << std::endl;
+}
+
+void arcade::NcursesSound::stop()
+{
+    std::cout << "NCURSE doesn't provide sounds." << std::endl;
+}
+
+
 void arcade::NcursesSoundManager::playSound(const std::string& name, float volume)
 {
     auto sound = this->get(name);
     if (sound) {
         auto soundInfos = sound->getInformations();
-        soundInfos.play();
         soundInfos.setVolume(volume);
+        sound->play(volume);
         std::cout << "Playing sound: " << name << " at volume: " << volume << std::endl;
     }
 }
@@ -45,7 +57,7 @@ void arcade::NcursesSoundManager::stopSound(const std::string& name)
     auto sound = this->get(name);
     if (sound) {
         auto soundInfos = sound->getInformations();
-        soundInfos.stop();
+        sound->stop();
         std::cout << "Stopped sound: " << name << std::endl;
     }
 }

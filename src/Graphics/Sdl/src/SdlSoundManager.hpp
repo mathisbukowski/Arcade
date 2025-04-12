@@ -40,11 +40,11 @@ namespace arcade {
          * Play the sound
          * @param volume float Volume of the sound
          */
-        void play(float volume);
+        void play(float volume) override;
         /**
          * Stop the sound
          */
-        void stop();
+        void stop() override;
         /**
          * Get the sound information
          * @param infos SoundInfos & Sound information

@@ -12,7 +12,7 @@ extern "C" arcade::IDisplayLibrary *entryPoint()
     return new arcade::SdlLibrary();
 }
 
-extern "C" const char *entryPointName()
+extern "C" std::string entryPointName()
 {
     return "SDL2";
 }

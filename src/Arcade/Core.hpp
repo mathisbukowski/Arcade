@@ -96,12 +96,12 @@ namespace arcade {
         float _deltaTime; /* Time since last frame */
 
         // Resolution scaling
-        std::unique_ptr<ResolutionScaler> _resolutionScaler; /* Resolution scaler */
+        std::unique_ptr<ResolutionScaler> _resolutionScaler = nullptr; /* Resolution scaler */
 
         // Menu navigation
         MenuSection _currentMenuSection = MenuSection::GAMES; /* Current menu section */
         int _selectedGameIndex = 0; /* Selected game index */
-        int _selectedGraphicLibIndex = 0; /* Selected graphic library index */ 
+        int _selectedGraphicLibIndex = 0; /* Selected graphic library index */
 
         // Input handling
         bool _previousUpState = false; /* previous step of up move */
@@ -156,7 +156,7 @@ namespace arcade {
 
         /**
          * Switch to a different graphics library or game
-         * @param libName Name of the graphics library  
+         * @param libName Name of the graphics library
         */
         void switchGraphicsLib(const std::string& libName);
         /**

@@ -62,14 +62,13 @@ void arcade::NcursesDisplayModule::clearWindow(Color color)
 {
     if (!_isOpen) return;
 
+    erase();
     if (color.getOpacity() != 0) {
         init_color(COLOR_BLACK, color.getR(), color.getG(), color.getB());
         init_pair(1, COLOR_RED, COLOR_RED);
         attron(COLOR_PAIR(1));
-        clear();
         attroff(COLOR_PAIR(1));
     } else {
-        clear();
     }
 }
 
@@ -81,8 +80,6 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
     if (std::holds_alternative<TextureText>(textureInformations)) {
         auto &textureText = std::get<TextureText>(textureInformations);
         mvprintw(static_cast<int>(position.getY()), static_cast<int>(position.getX()), textureText.getText().c_str());
-        std::cout << textureText.getText() << std::endl;
-        refresh();
     } else
         throw std::runtime_error("Terminal does not support images");
 }
@@ -93,6 +90,7 @@ void arcade::NcursesDisplayModule::updateWindow(float delta)
     static int frameCount = 0;
     static auto lastTimeCheck = std::chrono::high_resolution_clock::now();
 
+    doupdate();
     frameCount++;
     auto currentTime = std::chrono::high_resolution_clock::now();
     auto elapsedSec = std::chrono::duration<float>(currentTime - lastTimeCheck).count();

@@ -21,7 +21,7 @@ extern "C" {
         return arcade::LibType::DISPLAY;
     }
 
-    const char* entryPointName() {
+    std::string entryPointName() {
         return "SFML";
     }
 }

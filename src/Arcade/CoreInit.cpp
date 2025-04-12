@@ -46,7 +46,7 @@ void Core::initializeGraphicsLib(const std::string& path) {
         auto entryPointFunc = graphicLib->getFunction<EntryPointFunc>("entryPoint");
         _currentGraphicLib.reset(entryPointFunc());
         _currentGraphicLib->getDisplay().init("Arcade", 800, 600);
-        _resolutionScaler = std::make_unique<ResolutionScaler>(_currentGraphicLib->getDisplay());
+        _resolutionScaler.reset(new ResolutionScaler(_currentGraphicLib->getDisplay()));
     } catch (const std::exception& e) {
         std::cerr << "Failed to initialize graphics library: " << e.what() << std::endl;
         throw;
@@ -81,7 +81,7 @@ void Core::switchGraphicsLib(const std::string& libName) {
 
             _currentGraphicLib.reset(entryPointFunc());
             _currentGraphicLib->getDisplay().init("Arcade", 800, 600);
-            _resolutionScaler = std::make_unique<ResolutionScaler>(_currentGraphicLib->getDisplay());
+            _resolutionScaler.reset(new ResolutionScaler(_currentGraphicLib->getDisplay()));
 
             if (_state == GameState::GAME && _currentGame) {
                 _currentGame->stop();

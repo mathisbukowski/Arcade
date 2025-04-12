@@ -45,6 +45,9 @@ namespace arcade {
          * @return Rect Scaled Rect
          */
         [[nodiscard]] Rect buildScreenRect(const Vector<float>& logicalPos, const Vector<float>& logicalSize) const {    return {toScreenPosition(logicalPos), toScreenSize(logicalSize).getX(), toScreenSize(logicalSize).getY()};}
+
+        bool isTextBased() const { return _isTextBased; }
+
     private:
         /**
          * Scale factors for X axis
