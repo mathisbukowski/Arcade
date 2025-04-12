@@ -7,8 +7,20 @@ generator: doxide
 
 **class SdlLibrary : public IDisplayLibrary**
 
-Sdl class to handle the SDL library for the display
 
+This class is used to create a library using the SDL2 library
+It inherits from the IDisplayLibrary interface
+
+
+## Variables
+
+| Name | Description |
+| ---- | ----------- |
+| [_rendererManager](#_rendererManager) | SDL Renderer Manager  |
+| [_display](#_display) | Display Module  |
+| [_fonts](#_fonts) | Font Manager  |
+| [_textures](#_textures) | Texture Manager  |
+| [_sounds](#_sounds) | Sound Manager  |
 
 ## Functions
 
@@ -19,6 +31,43 @@ Sdl class to handle the SDL library for the display
 | [getTextures](#getTextures) | Get the Texture Manager object :material-keyboard-return: **Return** :    ITextureManager&  |
 | [getFonts](#getFonts) | Get the Font Manager object :material-keyboard-return: **Return** :    IFontManager&  |
 | [getSounds](#getSounds) | Get the Sound Manager object :material-keyboard-return: **Return** :    ISoundManager&  |
+
+## Variable Details
+
+### _display<a name="_display"></a>
+
+!!! variable "SDLDisplayModule _display"
+
+    Display Module
+    
+
+### _fonts<a name="_fonts"></a>
+
+!!! variable "SDLFontManager _fonts"
+
+    Font Manager
+    
+
+### _rendererManager<a name="_rendererManager"></a>
+
+!!! variable "SDLRendererManager _rendererManager"
+
+    SDL Renderer Manager
+    
+
+### _sounds<a name="_sounds"></a>
+
+!!! variable "SDLSoundManager _sounds"
+
+    Sound Manager
+    
+
+### _textures<a name="_textures"></a>
+
+!!! variable "SDLTextureManager _textures"
+
+    Texture Manager
+    
 
 ## Function Details
 

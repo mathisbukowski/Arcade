@@ -17,46 +17,59 @@
 
 
 namespace arcade {
-/**
- * Implementation of IDisplayLibrary for SFML
- */
-class SFMLLibrary : public IDisplayLibrary {
+    /**
+    * @class SFMLLibrary
+    * This class is used to create a library using the SFML library
+    * It inherits from the IDisplayLibrary interface
+    */
+    class SFMLLibrary : public IDisplayLibrary {
     public:
-    /**
-     * Constructor of SFMLLibrary
-     */
+        /**
+        * Construct a new SFMLLibrary object
+        */
         SFMLLibrary() = default;
-    /**
-     * Destructor of SFMLLibrary
-     */
+        /**
+        * Destroy the SFMLLibrary object
+        */
         ~SFMLLibrary() override = default;
-    /**
-     * Return the display module
-     * @return IDisplayModule&
-     */
+        /**
+        * Return the display module
+        * @return IDisplayModule&
+        */
         IDisplayModule& getDisplay() override { return this->_display; }
-    /**
-     * Return the texture manager
-     * @return ITextureManager&
-     */
+        /**
+        * Return the texture manager
+        * @return ITextureManager&
+        */
         ITextureManager& getTextures() override { return this->_textureManager; }
-    /**
-     * Return the font manager
-     * @return IFontManager&
-     */
+        /**
+        * Return the font manager
+        * @return IFontManager&
+        */
         IFontManager& getFonts() override { return this->_fontManager; }
-    /**
-     * Return the sound manager
-     * @return ISoundManager&
-     */
+        /**
+        * Return the sound manager
+        * @return ISoundManager&
+        */
         ISoundManager& getSounds() override { return this->_soundManager; }
 
     private:
+        /**
+         * Display module
+         */
         SFMLDisplay _display;
+        /**
+         * Texture manager
+         */
         SFMLTextureManager _textureManager;
+        /**
+         * Font manager
+         */
         SFMLFontManager _fontManager;
+        /**
+         * Sound manager
+         */
         SFMLSoundManager _soundManager;
-};
-
+    };
 }
 #endif //ARCADE_SFML_HPP

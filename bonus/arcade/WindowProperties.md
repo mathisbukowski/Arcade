@@ -22,11 +22,11 @@ Properties of the window
 
 | Name | Description |
 | ---- | ----------- |
-| [WindowProperties](#WindowProperties) | Constructor for the WindowProperties class :material-location-enter: `title` :    Title of the window :material-location-enter: `width` :    Width of the window :material-location-enter: `height` :    Height of the window  |
+| [WindowProperties](#WindowProperties) | Constructor for the WindowProperties class :material-location-enter: `title` :    const std::string & Title of the window :material-location-enter: `width` :    std::size_t Width of the window :material-location-enter: `height` :    std::size_t Height of the window  |
 | [getWidth](#getWidth) | Default constructor for the WindowProperties class Get the width of the window :material-keyboard-return: **Return** :    std::size_t Width of the window  |
-| [setWidth](#setWidth) | Set the width of the window :material-location-enter: `newWidth` :    New width of the window  |
+| [setWidth](#setWidth) | Set the width of the window :material-location-enter: `newWidth` :    std::size_t New width of the window  |
 | [getHeight](#getHeight) | Get the height of the window :material-keyboard-return: **Return** :    std::size_t Height of the window  |
-| [setHeight](#setHeight) | Set the height of the window :material-location-enter: `newHeight` :    size_t New height of the window  |
+| [setHeight](#setHeight) | Set the height of the window :material-location-enter: `newHeight` :    std::size_t New height of the window  |
 | [getTitle](#getTitle) | Get the title of the window :material-keyboard-return: **Return** :    const std::string& Title of the window  |
 | [setTitle](#setTitle) | Set the title of the window :material-location-enter: `newTitle` :    const std::string &New title of the window  |
 
@@ -61,13 +61,13 @@ Properties of the window
     Constructor for the WindowProperties class
     
     :material-location-enter: `title`
-    :    Title of the window
+    :    const std::string & Title of the window
         
     :material-location-enter: `width`
-    :    Width of the window
+    :    std::size_t Width of the window
         
     :material-location-enter: `height`
-    :    Height of the window
+    :    std::size_t Height of the window
     
 
 ### getHeight<a name="getHeight"></a>
@@ -104,7 +104,7 @@ Properties of the window
     Set the height of the window
         
     :material-location-enter: `newHeight`
-    :    size_t New height of the window
+    :    std::size_t New height of the window
     
 
 ### setTitle<a name="setTitle"></a>
@@ -122,6 +122,6 @@ Properties of the window
     Set the width of the window
         
     :material-location-enter: `newWidth`
-    :    New width of the window
+    :    std::size_t New width of the window
     
 

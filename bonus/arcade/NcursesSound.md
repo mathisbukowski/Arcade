@@ -24,6 +24,8 @@ It inherits from the ISound interface
 | ---- | ----------- |
 | [NcursesSound](#NcursesSound) | Constructor :material-location-enter: `sound` :    SoundInfos & Sound to create  |
 | [getInformations](#getInformations) | Get the sound informations :material-keyboard-return: **Return** :    const SoundInfos & Sound informations  |
+| [play](#play) | Play the sound :material-location-enter: `volume` :    float Volume of the sound  |
+| [stop](#stop) | Stop the sound  |
 
 ## Variable Details
 
@@ -52,5 +54,20 @@ It inherits from the ISound interface
         
     :material-keyboard-return: **Return**
     :    const SoundInfos & Sound informations
+    
+
+### play<a name="play"></a>
+!!! function "void play(float volume) override"
+
+    Play the sound
+        
+    :material-location-enter: `volume`
+    :    float Volume of the sound
+    
+
+### stop<a name="stop"></a>
+!!! function "void stop() override"
+
+    Stop the sound
     
 

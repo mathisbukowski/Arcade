@@ -146,7 +146,7 @@ It inherits from the IDisplayModule interface
     
 
 ### getWindowProperties<a name="getWindowProperties"></a>
-!!! function "[[nodiscard]] WindowProperties getWindowProperties() const"
+!!! function "[[nodiscard]] WindowProperties&amp; getWindowProperties() override"
 
     Get the window properties
         

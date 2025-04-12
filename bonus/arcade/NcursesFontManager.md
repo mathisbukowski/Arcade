@@ -49,7 +49,7 @@ generator: doxide
     
 
 ### load<a name="load"></a>
-!!! function "int load(const std::string&amp; name, const Font&amp; font) override"
+!!! function "int load(const std::string&amp; name, Font&amp; font) override"
 
     Function to load a font
         

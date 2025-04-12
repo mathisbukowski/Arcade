@@ -22,191 +22,222 @@
 namespace arcade {
     /**
      * @class SDLDisplayModule
-     * @brief Implementation of the display module interface using SDL2
+     * Implementation of the display module interface using SDL2
+     * It inherits from IDisplayModule
      */
     class SDLDisplayModule : public IDisplayModule {
     public:
         /**
-         * @brief Constructor
-         * @param rendererManager Reference to the SDL renderer manager
+         * Constructor
+         * @param rendererManager SDLRendererManager& Reference to the SDL renderer manager
          */
         explicit SDLDisplayModule(SDLRendererManager& rendererManager);
 
         /**
-         * @brief Destructor
+         * Destructor
          */
         ~SDLDisplayModule() override;
 
         /**
-         * @brief Initialize the SDL display with specified parameters
-         * @param title Window title
-         * @param width Window width
-         * @param height Window height
+         * Initialize the SDL display with specified parameters
+         * @param title const std::string & Window title
+         * @param width size_t Window width
+         * @param height size_t Window height
          */
         void init(const std::string& title, size_t width, size_t height) override;
 
         /**
-         * @brief Stop and cleanup the SDL display
+         * Stop and cleanup the SDL display
          */
         void stop() override;
 
         /**
-         * @brief Get the name of the display module
-         * @return Display module name
+         * Get the name of the display module
+         * @return const std::string & Display module name
          */
         [[nodiscard]] const std::string &getName() const override { return _name; }
 
         /**
-         * @brief Configure window properties
-         * @param properties Window properties to set
+         * Configure window properties
+         * @param properties WindowProperties & Window properties to set
          */
         void setupWindowProperties(WindowProperties &properties) override { _windowProperties = properties; }
 
         /**
-         * @brief Open the window
+         * Open the window
          */
         void openWindow() override;
 
         /**
-         * @brief Close the window
+         * Close the window
          */
         void closeWindow() override;
 
         /**
-         * @brief Clear window with specified color
+         * Clear window with specified color
          * @param color Color to use for clearing
          */
         void clearWindow(Color color) override;
 
         /**
-         * @brief Update window state and process events
-         * @param delta Time since last update
+         * Update window state and process events
+         * @param delta float Time since last update
          */
         void updateWindow(float delta) override;
 
         /**
-         * @brief Check if window is currently open
-         * @return True if window is open
+         * Check if window is currently open
+         * @return bool True if window is open
          */
         bool isWindowOpen() override { return _isOpen; }
 
         /**
-         * @brief Draw a texture at specified position
-         * @param texture Texture to draw
-         * @param position Position where to draw
+         * Draw a texture at specified position
+         * @param texture std::shared_ptr<ITexture> Texture to draw
+         * @param position Vector<float> Position where to draw
          */
         void drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position) override;
 
         /**
-         * @brief Get keyboard input handler
-         * @return Reference to keyboard handler
+         * Get keyboard input handler
+         * @return Keyboard & Reference to keyboard handler
          */
         [[nodiscard]] Keyboard &getKeyboard() override;
 
         /**
-         * @brief Get mouse input handler
-         * @return Reference to mouse handler
+         * Get mouse input handler
+         * @return Mouse & Reference to mouse handler
          */
         [[nodiscard]] Mouse &getMouse() override;
 
         /**
-         * @brief Get current window properties
-         * @return Window properties
+         * Get current window properties
+         * @return WindowProperties & Window properties
          */
         [[nodiscard]] WindowProperties& getWindowProperties() override { return _windowProperties; }
 
     private:
         /**
-         * @brief Initialize SDL subsystems
+         * Initialize SDL subsystems
          */
         void initializeSDL();
 
         /**
-         * @brief Validate renderer and window creation
+         * Validate renderer and window creation
          */
         void validateRendererAndWindow();
 
         /**
-         * @brief Clean up SDL resources
+         * Clean up SDL resources
          */
         void cleanupResources();
 
         /**
-         * @brief Draw text texture
-         * @param texture SDL texture containing text
-         * @param position Position where to draw
+         * Draw text texture
+         * @param texture std::shared_ptr<SDLTexture> SDL texture containing text
+         * @param position Vector<float> Position where to draw
          */
         void drawTextTexture(std::shared_ptr<SDLTexture> texture, Vector<float> position);
 
         /**
-         * @brief Draw sprite texture
-         * @param texture SDL texture containing sprite
-         * @param position Position where to draw
+         * Draw sprite texture
+         * @param texture std::shared_ptr<SDLTexture> SDL texture containing sprite
+         * @param position Vector<float> Position where to draw
          */
         void drawSpriteTexture(std::shared_ptr<SDLTexture> texture, Vector<float> position);
 
         /**
-         * @brief Calculate scaling factors for sprite
-         * @param texture SDL texture to scale
-         * @return Pair of scaling factors (x, y)
+         * Calculate scaling factors for sprite
+         * @param texture SDL_Texture* SDL texture to scale
+         * @return std::pair<float, float> Pair of scaling factors (x, y)
          */
         std::pair<float, float> calculateSpriteScale(SDL_Texture* texture);
 
         /**
-         * @brief Calculate adjusted position based on cell size
-         * @param position Original position
-         * @return Adjusted position
+         * Calculate adjusted position based on cell size
+         * @param position Vector<float> Original position
+         * @return std::pair<float, float> Adjusted position
          */
         std::pair<float, float> calculateAdjustedPosition(Vector<float> position);
 
         /**
-         * @brief Process SDL events
+         * Process SDL events
          */
         void processEvents();
 
         /**
-         * @brief Handle specific SDL event
-         * @param event SDL event to handle
+         * Handle specific SDL event
+         * @param event const SDL_Event & SDL event to handle
          */
         void handleEvent(const SDL_Event& event);
 
         /**
-         * @brief Handle keyboard event
-         * @param keyEvent SDL key event
-         * @param isPressed True if key is pressed, false if released
+         * Handle keyboard event
+         * @param keyEvent const SDL_KeyboardEvent & SDL key event
+         * @param isPressed bool True if key is pressed, false if released
          */
         void handleKeyboardEvent(const SDL_KeyboardEvent& keyEvent, bool isPressed);
 
         /**
-         * @brief Handle mouse button event
-         * @param mouseEvent SDL mouse button event
-         * @param isPressed True if button is pressed, false if released
+         * Handle mouse button event
+         * @param mouseEvent const SDL_MouseButtonEvent & SDL mouse button event
+         * @param isPressed bool True if button is pressed, false if released
          */
         void handleMouseButtonEvent(const SDL_MouseButtonEvent& mouseEvent, bool isPressed);
 
         /**
-         * @brief Handle mouse motion event
-         * @param mouseEvent SDL mouse motion event
+         * Handle mouse motion event
+         * @param mouseEvent const SDL_MouseMotionEvent& SDL mouse motion event
          */
         void handleMouseMotionEvent(const SDL_MouseMotionEvent& mouseEvent);
 
         /**
-         * @brief Map SDL key code to arcade key code
-         * @param key SDL key code
-         * @return Corresponding arcade key code
+         * Map SDL key code to arcade key code
+         * @param key SDL_Keycode SDL key code
+         * @return Keyboard::KeyCode Corresponding arcade key code
          */
         Keyboard::KeyCode mapSDLKeyToArcade(SDL_Keycode key);
 
+        /**
+         * SDL renderer manager reference
+         */
         std::shared_ptr<SDL_Renderer> _renderer = nullptr;
+        /**
+         * SDL window reference
+         */
         std::shared_ptr<SDL_Window> _window = nullptr;
+        /**
+         * Window properties
+         */
         WindowProperties _windowProperties;
+        /**
+         * Name of the window
+         */
         std::string _name = "SDL2";
+        /**
+         * bool indicating if the window is open
+         */
         bool _isOpen;
+        /**
+         * Keyboard input handler
+         */
         Keyboard _keyboard;
+        /**
+         * Mouse input handler
+         */
         Mouse _mouse;
+        /**
+         * SDL renderer manager reference
+         */
         SDLRendererManager& _rendererManager;
 
+        /**
+         * Constants for grid size
+         */
         static constexpr float GRID_SIZE = 20.0f;
+        /**
+         * Constants for cell scale factor
+         */
         static constexpr float CELL_SCALE_FACTOR = 1.0f;
     };
 }

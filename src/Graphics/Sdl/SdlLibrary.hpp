@@ -26,7 +26,9 @@
 namespace arcade
 {
     /**
-     * Sdl class to handle the SDL library for the display
+     * @class SdlLibrary
+     * This class is used to create a library using the SDL2 library
+     * It inherits from the IDisplayLibrary interface
      */
     class SdlLibrary : public IDisplayLibrary
     {
@@ -64,13 +66,28 @@ namespace arcade
          * Get the Sound Manager object
          * @return ISoundManager&
          */
-        ISoundManager &getSounds() override { return this->_sounds; };
+        ISoundManager &getSounds() override { return this->_sounds; }
 
     private:
+        /**
+         * SDL Renderer Manager
+         */
         SDLRendererManager _rendererManager;
+        /**
+         * Display Module
+         */
         SDLDisplayModule _display;
+        /**
+         * Font Manager
+         */
         SDLFontManager _fonts;
+        /**
+         * Texture Manager
+         */
         SDLTextureManager _textures;
+        /**
+         * Sound Manager
+         */
         SDLSoundManager _sounds;
     };
 }

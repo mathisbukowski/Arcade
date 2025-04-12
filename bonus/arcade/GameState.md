@@ -7,7 +7,7 @@ generator: doxide
 
 **enum class GameState**
 
-enum class GameState
+
 Represents the current state of the game.
 
 
