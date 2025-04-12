@@ -96,7 +96,7 @@ namespace arcade {
         float _deltaTime;
 
         // Resolution scaling
-        std::unique_ptr<ResolutionScaler> _resolutionScaler;
+        std::unique_ptr<ResolutionScaler> _resolutionScaler = nullptr;
 
         // Menu navigation
         MenuSection _currentMenuSection = MenuSection::GAMES;

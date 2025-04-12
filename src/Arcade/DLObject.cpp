@@ -34,6 +34,7 @@ arcade::DynamicLibraryObject::DynamicLibraryObject(const std::string& path)
 
 arcade::DynamicLibraryObject::~DynamicLibraryObject()
 {
+    _handle.reset();
 }
 
 std::string arcade::DynamicLibraryObject::getName() const
@@ -65,7 +66,7 @@ arcade::LibType arcade::DynamicLibraryObject::getEntryPointType() const
 
 std::string arcade::DynamicLibraryObject::getEntryPointName()
 {
-    using EntryPointNameFunc = const char* (*)();
+    using EntryPointNameFunc = std::string(*)();
 
     dlerror();
     void* symbol = dlsym(_handle.get(), "entryPointName");
@@ -77,5 +78,5 @@ std::string arcade::DynamicLibraryObject::getEntryPointName()
     }
 
     auto entryPointFunc = reinterpret_cast<EntryPointNameFunc>(symbol);
-    return std::string(entryPointFunc());
+    return entryPointFunc();
 }

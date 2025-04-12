@@ -29,6 +29,16 @@ namespace arcade {
          * @return const SoundInfos & Sound informations
          */
         [[nodiscard]] const SoundInfos& getInformations() const override { return _soundInformations; }
+        /**
+         * Play the sound
+         * @param volume float Volume of the sound
+         */
+        void play(float volume) override;
+
+        /**
+         * Stop the sound
+         */
+        void stop() override;
     private:
         /**
          * Sound informations

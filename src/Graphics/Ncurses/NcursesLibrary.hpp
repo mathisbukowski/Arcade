@@ -8,7 +8,6 @@
 #ifndef ARCADE_NCURSESLIBRARY_HPP
     #define ARCADE_NCURSESLIBRARY_HPP
 
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <map>

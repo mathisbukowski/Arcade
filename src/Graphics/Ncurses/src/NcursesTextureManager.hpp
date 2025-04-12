@@ -36,11 +36,14 @@ namespace arcade {
          * @param texture MyTexture & Texture to set
          */
         void set(MyTexture& texture) override {_textureInformations = texture;}
+
+
     private:
         /**
          * Texture informations
          */
         MyTexture _textureInformations;
+        TextureText convertImageToText(const TextureImg& img);
     };
 
     /**

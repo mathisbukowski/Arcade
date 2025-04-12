@@ -33,12 +33,57 @@ arcade::NcursesTexture::NcursesTexture(const MyTexture& texture) : ITexture(text
     _textureInformations(texture)
 {
     if (std::holds_alternative<TextureImg>(texture)) {
-        std::cerr << "Images don't support." << std::endl;
+        auto& imgTexture = std::get<TextureImg>(texture);
+        _textureInformations = convertImageToText(imgTexture);
     }
-    if (std::holds_alternative<TextureText>(texture)) {
+    else if (std::holds_alternative<TextureText>(texture)) {
         auto textureText = std::get<TextureText>(texture);
         _textureInformations = textureText;
     } else {
-        std::cerr << "Invalid texture type" << std::endl;
+        TextureText defaultText("?", Color(255, 255, 255));
+        _textureInformations = defaultText;
     }
+}
+
+arcade::TextureText arcade::NcursesTexture::convertImageToText(const TextureImg& img)
+{
+    std::string path = img.getPath();
+    Color color = Color(255, 255, 255);
+    char representation = ' ';
+
+    std::string lowerPath = path;
+    for (auto& c : lowerPath) c = std::tolower(c);
+
+    if (lowerPath.find("head") != std::string::npos) {
+        if (lowerPath.find("up") != std::string::npos) {
+            representation = 'U';
+        } else if (lowerPath.find("down") != std::string::npos) {
+            representation = 'D';
+        } else if (lowerPath.find("left") != std::string::npos) {
+            representation = 'L';
+        } else if (lowerPath.find("right") != std::string::npos || lowerPath.find("head.png") != std::string::npos) {
+            representation = 'R';
+        } else {
+            representation = 'O';
+        }
+    }
+    else if (lowerPath.find("body") != std::string::npos) {
+        representation = 'B';
+    }
+    else if (lowerPath.find("wall") != std::string::npos) {
+        representation = '#';
+    }
+    else if (lowerPath.find("food") != std::string::npos) {
+        representation = 'F';
+    }
+    else if (lowerPath.find("bonus_food") != std::string::npos) {
+        representation = 'S';
+    }
+    else {
+        representation = '?';
+    }
+    TextureText textTexture("", color);
+    textTexture.setText(std::string(1, representation));
+
+    return textTexture;
 }

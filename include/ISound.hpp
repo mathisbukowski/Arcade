@@ -44,26 +44,10 @@ namespace arcade {
         [[nodiscard]] float getVolume() const { return _volume; }
 
         /**
-         * Check if the sound is currently playing
-         * @return bool True if the sound is playing, false otherwise
-         */
-        [[nodiscard]] bool isPlaying() const { return _playing; }
-
-        /**
          * Set the volume level
          * @param newVolume float New volume value
          */
         virtual void setVolume(float newVolume) { _volume = newVolume; }
-
-        /**
-         * Play the sound
-         */
-        virtual void play() { _playing = true; }
-
-        /**
-         * Stop the sound
-         */
-        virtual void stop() { _playing = false; }
 
         /**
          * Check if the music is looped
@@ -87,10 +71,6 @@ namespace arcade {
          */
         float _volume;
         /**
-         * Playing state
-         */
-        bool _playing = false;
-        /**
          * Looping state
          */
         bool _loop = false;
@@ -111,6 +91,16 @@ namespace arcade {
          * @return const MySound& Sound information
          */
         [[nodiscard]] virtual const SoundInfos& getInformations() const = 0;
+
+        /**
+        * Play the sound
+        */
+        virtual void play(float volume) = 0;
+
+        /**
+         * Stop the sound
+         */
+        virtual void stop() = 0;
     };
 
     /**
