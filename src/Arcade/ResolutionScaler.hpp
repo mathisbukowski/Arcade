@@ -21,6 +21,9 @@ namespace arcade {
         [[nodiscard]] Vector<float> toScreenSize(const Vector<float>& size) const {return {size.getX() * _scaleX, size.getY() * _scaleY};}
 
         [[nodiscard]] Rect buildScreenRect(const Vector<float>& logicalPos, const Vector<float>& logicalSize) const {    return {toScreenPosition(logicalPos), toScreenSize(logicalSize).getX(), toScreenSize(logicalSize).getY()};}
+
+        bool isTextBased() const { return _isTextBased; }
+
     private:
         float _scaleX;
         float _scaleY;
