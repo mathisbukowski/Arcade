@@ -34,7 +34,7 @@ arcade::NcursesTexture::NcursesTexture(const MyTexture& texture) : ITexture(text
 {
     if (std::holds_alternative<TextureImg>(texture)) {
         auto& imgTexture = std::get<TextureImg>(texture);
-        _textureInformations = convertImageToText(imgTexture);
+        _textureInformations = this->convertImageToText(imgTexture);
     }
     else if (std::holds_alternative<TextureText>(texture)) {
         auto textureText = std::get<TextureText>(texture);

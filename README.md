@@ -38,8 +38,17 @@ Run the project!
 
 ## Documentation
 
-For the documentation, you can go in the ArcadeGuide.md file to have more informations about how create a library or a game.
+For the documentation, you can go in the arcade-documentation.md file to have more informations about how create a library or a game.
 
+## Keybinds
+- Up Arrow : Move up
+- Down Arrow : Move down
+- Left Arrow : Move left
+- Right Arrow : Move right
+- A : Restart
+- Enter : Select
+- ESC (SDL2/SFML) : Quit
+- Q (NCURSES) : Quit
 
 ## Authors
 

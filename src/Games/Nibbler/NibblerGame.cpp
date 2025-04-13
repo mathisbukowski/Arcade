@@ -20,7 +20,7 @@ NibblerGame::NibblerGame()
     _hasWalls = true;
     _useTimeLimit = true;
     _state.setMoveInterval(DEFAULT_SPEED);
-    loadLevel(_state.getLevel());
+    this->loadLevel(_state.getLevel());
     _state.setGameOver(false);
 }
 
@@ -32,7 +32,7 @@ void NibblerGame::initGrid()
         for (size_t x = 0; x < _gridWidth; ++x)
             _state.setCellType(y, x, CellType::Empty);
     }
-    loadLevel(_state.getLevel());
+    this->loadLevel(_state.getLevel());
 }
 
 void NibblerGame::loadLevel(int level)
@@ -75,7 +75,7 @@ CollisionType NibblerGame::checkCollisions()
         head.getY() < 0 || head.getY() >= _gridHeight)
         return CollisionType::Wall;
 
-    CellType cellType = checkCell(head);
+    CellType cellType = this->checkCell(head);
 
     switch (cellType) {
         case CellType::Wall:
@@ -95,15 +95,15 @@ Direction NibblerGame::handleAutomaticTurns(const Vector<float>& currentPosition
 {
     Direction currentDir = _state.getCurrentDirection();
 
-    if (isTjunction(currentPosition))
+    if (this->isTjunction(currentPosition))
         return currentDir;
 
-    std::vector<Direction> availableDirections = getAvailableDirections(currentPosition);
+    std::vector<Direction> availableDirections = this->getAvailableDirections(currentPosition);
 
     availableDirections.erase(
         std::remove_if(availableDirections.begin(), availableDirections.end(),
             [this, currentDir](Direction dir) {
-                return areOppositeDirections(dir, currentDir);
+                return this->areOppositeDirections(dir, currentDir);
             }),
         availableDirections.end()
     );
@@ -134,13 +134,13 @@ std::vector<Direction> NibblerGame::getAvailableDirections(const Vector<float>& 
     Vector<float> posDown(position.getX(), position.getY() + 1);
     Vector<float> posLeft(position.getX() - 1, position.getY());
 
-    if (checkCell(posUp) != CellType::Wall && checkCell(posUp) != CellType::OutOfBounds)
+    if (this->checkCell(posUp) != CellType::Wall && this->checkCell(posUp) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Up);
-    if (checkCell(posRight) != CellType::Wall && checkCell(posRight) != CellType::OutOfBounds)
+    if (this->checkCell(posRight) != CellType::Wall && this->checkCell(posRight) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Right);
-    if (checkCell(posDown) != CellType::Wall && checkCell(posDown) != CellType::OutOfBounds)
+    if (this->checkCell(posDown) != CellType::Wall && this->checkCell(posDown) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Down);
-    if (checkCell(posLeft) != CellType::Wall && checkCell(posLeft) != CellType::OutOfBounds)
+    if (this->checkCell(posLeft) != CellType::Wall && this->checkCell(posLeft) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Left);
     return availableDirections;
 }
@@ -153,13 +153,13 @@ bool NibblerGame::isTjunction(const Vector<float>& position) const
     Vector<float> posDown(position.getX(), position.getY() + 1);
     Vector<float> posLeft(position.getX() - 1, position.getY());
 
-    if (checkCell(posUp) != CellType::Wall && checkCell(posUp) != CellType::OutOfBounds)
+    if (this->checkCell(posUp) != CellType::Wall && this->checkCell(posUp) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Up);
-    if (checkCell(posRight) != CellType::Wall && checkCell(posRight) != CellType::OutOfBounds)
+    if (this->checkCell(posRight) != CellType::Wall && this->checkCell(posRight) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Right);
-    if (checkCell(posDown) != CellType::Wall && checkCell(posDown) != CellType::OutOfBounds)
+    if (this->checkCell(posDown) != CellType::Wall && this->checkCell(posDown) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Down);
-    if (checkCell(posLeft) != CellType::Wall && checkCell(posLeft) != CellType::OutOfBounds)
+    if (this->checkCell(posLeft) != CellType::Wall && this->checkCell(posLeft) != CellType::OutOfBounds)
         availableDirections.push_back(Direction::Left);
     return availableDirections.size() >= 3;
 }
@@ -168,19 +168,19 @@ void NibblerGame::update(float delta)
 {
     if (!_state.isGameOver()) {
         Vector<float> head = _state.getHead();
-        Direction newDirection = handleAutomaticTurns(head);
+        Direction newDirection = this->handleAutomaticTurns(head);
         if (newDirection != _state.getCurrentDirection() &&
-            !areOppositeDirections(newDirection, _state.getCurrentDirection())) {
+            !this->areOppositeDirections(newDirection, _state.getCurrentDirection())) {
             _state.setNextDirection(newDirection);
         }
     }
     BaseSnakeGame::update(delta);
-    if (hasDisplayLibrary()) {
+    if (this->hasDisplayLibrary()) {
         try {
-            auto& display = getDisplayLibrary().getDisplay();
+            auto& display = this->getDisplayLibrary().getDisplay();
             WindowProperties props("", 800, 600);
             display.setupWindowProperties(props);
-            props.setTitle(getWindowTitle());
+            props.setTitle(this->getWindowTitle());
             display.setupWindowProperties(props);
         } catch (const std::exception&) {
         }
@@ -193,9 +193,9 @@ void NibblerGame::onLevelComplete()
     int newLevel = std::min(currentLevel + 1, MAX_LEVEL);
 
     _state.setLevel(newLevel);
-    initGrid();
-    initSnake();
-    spawnFood();
+    this->initGrid();
+    this->initSnake();
+    this->spawnFood();
     int remainingFood = _state.getFoods().size();
     _state.setTimeRemaining(BASE_TIME_LIMIT + remainingFood * TIME_BONUS_PER_FOOD);
     _state.incrementScore(1000);

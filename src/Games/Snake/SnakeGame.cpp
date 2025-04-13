@@ -56,7 +56,7 @@ CollisionType SnakeGame::checkCollisions()
         return CollisionType::Wall;
     }
 
-    CellType cellType = checkCell(head);
+    CellType cellType = this->checkCell(head);
 
     switch (cellType) {
         case CellType::Snake:
@@ -84,7 +84,7 @@ void SnakeGame::onGameOver()
 {
     BaseSnakeGame::onGameOver();
 
-    if (hasDisplayLibrary()) {
+    if (this->hasDisplayLibrary()) {
         try {
             int finalScore = _state.getScore();
             int length = static_cast<int>(_state.getLength());
@@ -116,12 +116,12 @@ void SnakeGame::update(float delta)
 {
     BaseSnakeGame::update(delta);
 
-    if (hasDisplayLibrary()) {
+    if (this->hasDisplayLibrary()) {
         try {
-            auto& display = getDisplayLibrary().getDisplay();
+            auto& display = this->getDisplayLibrary().getDisplay();
             WindowProperties props("", 800, 600);
             display.setupWindowProperties(props);
-            props.setTitle(getWindowTitle());
+            props.setTitle(this->getWindowTitle());
             display.setupWindowProperties(props);
         } catch (const std::exception&) {
         }

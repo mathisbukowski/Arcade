@@ -37,8 +37,8 @@ int SDLTextureManager::load(const std::string& name, const MyTexture& newTexture
     auto existingTexture = _textures.find(name);
 
     if (existingTexture != _textures.end())
-        return updateTexture(existingTexture->second, newTexture);
-    return createTexture(name, newTexture);
+        return this->updateTexture(existingTexture->second, newTexture);
+    return this->createTexture(name, newTexture);
 }
 
 int SDLTextureManager::createTexture(const std::string& name, const MyTexture& newTexture)
@@ -87,20 +87,20 @@ int SDLTexture::createTexture(const MyTexture& textureInfos, const std::shared_p
     this->_textureInformations = textureInfos;
 
     if (std::holds_alternative<TextureImg>(this->_textureInformations)) {
-        return createImageTexture(std::get<TextureImg>(this->_textureInformations), renderer);
+        return this->createImageTexture(std::get<TextureImg>(this->_textureInformations), renderer);
     }
     else if (std::holds_alternative<TextureText>(this->_textureInformations)) {
-        return createTextTexture(std::get<TextureText>(this->_textureInformations), renderer);
+        return this->createTextTexture(std::get<TextureText>(this->_textureInformations), renderer);
     }
 
-    createErrorTexture(renderer);
+    this->createErrorTexture(renderer);
     return 0;
 }
 
 int SDLTexture::createImageTexture(const TextureImg& textureImg, const std::shared_ptr<SDL_Renderer>& renderer)
 {
     if (textureImg.getPath().empty() || !std::filesystem::exists(std::filesystem::path(textureImg.getPath()))) {
-        createErrorTexture(renderer);
+        this->createErrorTexture(renderer);
         return 0;
     }
     this->_texture = std::shared_ptr<SDL_Texture>(
@@ -109,14 +109,14 @@ int SDLTexture::createImageTexture(const TextureImg& textureImg, const std::shar
     );
     if (!this->_texture) {
         std::cerr << "Failed to load texture image: " << textureImg.getPath() << " - " << IMG_GetError() << std::endl;
-        createErrorTexture(renderer);
+        this->createErrorTexture(renderer);
         return 0;
     }
-    applyRectFromTextureInfo(textureImg);
+    this->applyRectFromTextureInfo(textureImg);
 
     if (!this->_rect.w || !this->_rect.h) {
-        if (!queryTextureDimensions()) {
-            createErrorTexture(renderer);
+        if (!this->queryTextureDimensions()) {
+            this->createErrorTexture(renderer);
             return 0;
         }
     }
@@ -126,7 +126,7 @@ int SDLTexture::createImageTexture(const TextureImg& textureImg, const std::shar
 int SDLTexture::createTextTexture(const TextureText& textureText, const std::shared_ptr<SDL_Renderer>& renderer)
 {
     if (textureText.getText().empty()) {
-        createEmptyTexture(renderer);
+        this->createEmptyTexture(renderer);
         return 0;
     }
 
@@ -137,7 +137,7 @@ int SDLTexture::createTextTexture(const TextureText& textureText, const std::sha
 
     if (!font) {
         std::cerr << "Failed to load font: " << fontPath << " - " << TTF_GetError() << std::endl;
-        createErrorTexture(renderer);
+        this->createErrorTexture(renderer);
         return 0;
     }
     SDL_Color color = {
@@ -154,7 +154,7 @@ int SDLTexture::createTextTexture(const TextureText& textureText, const std::sha
 
     if (!surface) {
         std::cerr << "Failed to render text '" << textureText.getText() << "': " << TTF_GetError() << std::endl;
-        createErrorTexture(renderer);
+        this->createErrorTexture(renderer);
         return 0;
     }
     this->_texture = std::shared_ptr<SDL_Texture>(
@@ -164,15 +164,15 @@ int SDLTexture::createTextTexture(const TextureText& textureText, const std::sha
 
     if (!this->_texture) {
         std::cerr << "Failed to create texture from text: " << SDL_GetError() << std::endl;
-        createErrorTexture(renderer);
+        this->createErrorTexture(renderer);
         return 0;
     }
 
-    applyRectFromTextureInfo(textureText);
+    this->applyRectFromTextureInfo(textureText);
 
     if (!this->_rect.w || !this->_rect.h) {
         if (!queryTextureDimensions()) {
-            createErrorTexture(renderer);
+            this->createErrorTexture(renderer);
             return 0;
         }
     }

@@ -138,9 +138,9 @@ namespace arcade {
                 return;
             }
             if (sfmlTexture->isText()) {
-                drawText(sfmlTexture, position);
+                this->drawText(sfmlTexture, position);
             } else {
-                drawSprite(sfmlTexture, position);
+                this->drawSprite(sfmlTexture, position);
             }
         } catch (const std::exception& e) {
             std::cerr << "Error in drawTexture: " << e.what() << std::endl;
@@ -159,10 +159,10 @@ namespace arcade {
         sf::Sprite& sprite = texture->getSprite();
         sf::Vector2f originalScale = sprite.getScale();
 
-        auto [scaleX, scaleY] = calculateSpriteScale(sprite);
+        auto [scaleX, scaleY] = this->calculateSpriteScale(sprite);
         sprite.setScale(scaleX, scaleY);
 
-        auto [x, y] = calculateAdjustedPosition(position);
+        auto [x, y] = this->calculateAdjustedPosition(position);
         sprite.setPosition(x, y);
 
         _window->draw(sprite);

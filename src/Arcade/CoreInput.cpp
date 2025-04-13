@@ -61,12 +61,12 @@ bool Core::processMenuKeyboardInput(Keyboard& keyboard) {
 void Core::handleGameInput() {
     auto& keyboard = _currentGraphicLib->getDisplay().getKeyboard();
 
-    if (isKeyJustPressed(keyboard, Keyboard::KeyCode::ESCAPE, _previousEscapeState)) {
+    if (this->isKeyJustPressed(keyboard, Keyboard::KeyCode::ESCAPE, _previousEscapeState)) {
         _state = GameState::MENU;
         return;
     }
-    if (isKeyJustPressed(keyboard, Keyboard::KeyCode::A, _previousAState)) {
-        tryRestartGame();
+    if (this->isKeyJustPressed(keyboard, Keyboard::KeyCode::A, _previousAState)) {
+        this->tryRestartGame();
         return;
     }
 }
@@ -92,10 +92,10 @@ void Core::trySwitchToNextGame() {
 void Core::navigateMenuUp() {
     switch (_currentMenuSection) {
         case MenuSection::GAMES:
-            navigateGamesListUp();
+            this->navigateGamesListUp();
             break;
         case MenuSection::GRAPHICS:
-            navigateGraphicsListUp();
+            this->navigateGraphicsListUp();
             break;
         case MenuSection::PLAYER_NAME:
             break;
@@ -121,10 +121,10 @@ void Core::navigateGraphicsListUp() {
 void Core::navigateMenuDown() {
     switch (_currentMenuSection) {
         case MenuSection::GAMES:
-            navigateGamesListDown();
+            this->navigateGamesListDown();
             break;
         case MenuSection::GRAPHICS:
-            navigateGraphicsListDown();
+            this->navigateGraphicsListDown();
             break;
         case MenuSection::PLAYER_NAME:
             break;
@@ -178,10 +178,10 @@ void Core::navigateMenuRight() {
 void Core::handleMenuSelection() {
     switch (_currentMenuSection) {
         case MenuSection::GAMES:
-            selectGame();
+            this->selectGame();
             break;
         case MenuSection::GRAPHICS:
-            selectGraphicsLib();
+            this->selectGraphicsLib();
             break;
         case MenuSection::PLAYER_NAME:
             break;
@@ -212,10 +212,10 @@ void Core::selectGraphicsLib() {
             auto currentState = _state;
             auto currentGame = _libManager->getCurrentGameLib();
 
-            switchGraphicsLib(name);
+            this->switchGraphicsLib(name);
             _state = currentState;
             if (currentGame && _state == GameState::GAME)
-                switchGame(currentGame->getName());
+                this->switchGame(currentGame->getName());
             return;
         }
         index++;
@@ -223,9 +223,9 @@ void Core::selectGraphicsLib() {
 }
 
 void Core::checkMenuClicks(float mouseX, float mouseY) {
-    checkGameListClicks(mouseX, mouseY);
-    checkGraphicsListClicks(mouseX, mouseY);
-    checkPlayerNameClick(mouseX, mouseY);
+    this->checkGameListClicks(mouseX, mouseY);
+    this->checkGraphicsListClicks(mouseX, mouseY);
+    this->checkPlayerNameClick(mouseX, mouseY);
 }
 
 void Core::checkGameListClicks(float mouseX, float mouseY) {
@@ -277,10 +277,10 @@ void Core::checkGraphicsListClicks(float mouseX, float mouseY) {
                 auto currentState = _state;
                 auto currentGame = _libManager->getCurrentGameLib();
 
-                switchGraphicsLib(name);
+                this->switchGraphicsLib(name);
                 _state = currentState;
                 if (currentGame && _state == GameState::GAME)
-                    switchGame(currentGame->getName());
+                    this->switchGame(currentGame->getName());
                 return;
             } catch (const std::exception& e) {
                 std::cerr << "Failed to switch graphics library: " << e.what() << std::endl;

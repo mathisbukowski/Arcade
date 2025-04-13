@@ -12,12 +12,12 @@
 namespace arcade {
 
 LevelManager::LevelManager(const std::string& levelFilePath) {
-    loadLevelsFromFile(levelFilePath);
+    this->loadLevelsFromFile(levelFilePath);
 }
 
 std::vector<std::string> LevelManager::getLevel(int level) const {
     if (level < 1 || level > static_cast<int>(_levels.size()))
-        return createDefaultLevel();
+        return this->createDefaultLevel();
     return _levels[level - 1];
 }
 
@@ -29,7 +29,7 @@ void LevelManager::loadLevelsFromFile(const std::string& filePath) {
     std::ifstream file(filePath);
     if (!file.is_open()) {
         std::cerr << "Failed to open level file: " << filePath << std::endl;
-        _levels.push_back(createDefaultLevel());
+        _levels.push_back(this->createDefaultLevel());
         return;
     }
 
@@ -50,7 +50,7 @@ void LevelManager::loadLevelsFromFile(const std::string& filePath) {
     if (!currentLevel.empty())
         _levels.push_back(currentLevel);
     if (_levels.empty())
-        _levels.push_back(createDefaultLevel());
+        _levels.push_back(this->createDefaultLevel());
 }
 
 std::vector<std::string> LevelManager::createDefaultLevel() const {

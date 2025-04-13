@@ -12,23 +12,23 @@
 namespace arcade {
 
 void Core::displayMenu() {
-    prepareMenuDisplay();
-    renderMenuSections();
-    renderMenuInstructions();
+    this->prepareMenuDisplay();
+    this->renderMenuSections();
+    this->renderMenuInstructions();
     _currentGraphicLib->getDisplay().updateWindow(_deltaTime);
 }
 
 void Core::prepareMenuDisplay() {
     _currentGraphicLib->getDisplay().clearWindow(Color(20, 20, 30));
-    drawMenuSectionBackgrounds();
-    drawMenuTitle();
+    this->drawMenuSectionBackgrounds();
+    this->drawMenuTitle();
 }
 
 void Core::drawMenuSectionBackgrounds() {
-    drawMenuSection(100, 150, 300, 180, "games_bg", Color(40, 40, 60));
-    drawMenuSection(500, 150, 300, 180, "graphics_bg", Color(40, 40, 60));
-    drawMenuSection(100, 350, 300, 180, "scores_bg", Color(40, 40, 60));
-    drawMenuSection(500, 400, 300, 80, "name_bg", Color(40, 40, 60));
+    this->drawMenuSection(100, 150, 300, 180, "games_bg", Color(40, 40, 60));
+    this->drawMenuSection(500, 150, 300, 180, "graphics_bg", Color(40, 40, 60));
+    this->drawMenuSection(100, 350, 300, 180, "scores_bg", Color(40, 40, 60));
+    this->drawMenuSection(500, 400, 300, 80, "name_bg", Color(40, 40, 60));
 }
 
 void Core::drawMenuTitle() {
@@ -40,15 +40,15 @@ void Core::drawMenuTitle() {
         std::cerr << "Failed to load menu_title texture" << std::endl;
     _currentGraphicLib->getDisplay().drawTexture(
         textures.get("menu_title"),
-        _resolutionScaler->toScreenPosition(Vector<float>(350, 50))
+        Vector<float>(350, 50)
     );
 }
 
 void Core::renderMenuSections() {
-    auto positionGameList = _resolutionScaler->toScreenPosition(Vector<float>(100, 150));
-    auto positionGraphicsList = _resolutionScaler->toScreenPosition(Vector<float>(500, 150));
-    auto positionScores = _resolutionScaler->toScreenPosition(Vector<float>(100, 350));
-    auto positionPlayerName = _resolutionScaler->toScreenPosition(Vector<float>(500, 400));
+    auto positionGameList = Vector<float>(100, 150);
+    auto positionGraphicsList = Vector<float>(500, 150);
+    auto positionScores = Vector<float>(100, 350);
+    auto positionPlayerName = Vector<float>(500, 400);
 
     this->renderGameList(positionGameList.getX(), positionGameList.getY());
     this->renderGraphicsList(positionGraphicsList.getX(), positionGraphicsList.getY());
@@ -65,8 +65,7 @@ void Core::renderMenuInstructions() {
 
     if (result != 0)
         std::cerr << "Failed to load menu_instructions texture" << std::endl;
-    _currentGraphicLib->getDisplay().drawTexture(textures.get("menu_instructions"), _resolutionScaler->toScreenPosition(Vector<float>(250, 550))
-    );
+    _currentGraphicLib->getDisplay().drawTexture(textures.get("menu_instructions"), Vector<float>(250, 550));
 }
 
 void Core::displayGame() {
@@ -87,17 +86,17 @@ void Core::drawMenuSection(float x, float y, float width, float height, const st
 
     if (result != 0)
         std::cerr << "Failed to load " << name << " texture" << std::endl;
-    display.drawTexture(textures.get(name), _resolutionScaler->toScreenPosition(Vector<float>(x, y)));
+    display.drawTexture(textures.get(name), Vector<float>(x, y));
 }
 
 void Core::renderGameList(float x, float y) {
-    renderMenuListTitle(x, y, "Games:", MenuSection::GAMES, "games_title");
-    renderGameItems(x, y + 30);
+    this->renderMenuListTitle(x, y, "Games:", MenuSection::GAMES, "games_title");
+    this->renderGameItems(x, y + 30);
 }
 
 void Core::renderGraphicsList(float x, float y) {
-    renderMenuListTitle(x, y, "Graphics Libraries:", MenuSection::GRAPHICS, "graphics_title");
-    renderGraphicsItems(x, y + 30);
+    this->renderMenuListTitle(x, y, "Graphics Libraries:", MenuSection::GRAPHICS, "graphics_title");
+    this->renderGraphicsItems(x, y + 30);
 }
 
 void Core::renderMenuListTitle(float x, float y, const std::string& title, MenuSection section, const std::string& textureName) {
@@ -109,7 +108,7 @@ void Core::renderMenuListTitle(float x, float y, const std::string& title, MenuS
 
     if (result != 0)
         std::cerr << "Failed to load " << textureName << " texture" << std::endl;
-    display.drawTexture(textures.get(textureName), _resolutionScaler->toScreenPosition(Vector<float>(x, y)));
+    display.drawTexture(textures.get(textureName), Vector<float>(x, y));
 }
 
 void Core::renderGameItems(float x, float y) {
@@ -120,12 +119,12 @@ void Core::renderGameItems(float x, float y) {
     int index = 0;
 
     for (const auto& [name, lib] : gameLibs) {
-        bool isHovered = isItemHovered(x, y + yOffset, 200, 25, mouse.getPos());
+        bool isHovered = this->isItemHovered(x, y + yOffset, 200, 25, mouse.getPos());
         bool isSelected = (index == _selectedGameIndex && _currentMenuSection == MenuSection::GAMES);
-        Color textColor = getItemTextColor(isSelected, isHovered, false);
+        Color textColor = this->getItemTextColor(isSelected, isHovered, false);
 
         std::string displayName = isSelected ? "> " + name : "  " + name;
-        renderMenuItem("game_" + std::to_string(index), displayName, textColor, x, y + yOffset);
+        this->renderMenuItem("game_" + std::to_string(index), displayName, textColor, x, y + yOffset);
         yOffset += 25;
         index++;
     }
@@ -139,16 +138,16 @@ void Core::renderGraphicsItems(float x, float y) {
     int index = 0;
 
     for (const auto& [name, lib] : graphicLibs) {
-        bool isHovered = isItemHovered(x, y + yOffset, 200, 25, mouse.getPos());
+        bool isHovered = this->isItemHovered(x, y + yOffset, 200, 25, mouse.getPos());
         bool isSelected = (index == _selectedGraphicLibIndex && _currentMenuSection == MenuSection::GRAPHICS);
         bool isCurrent = (_currentGraphicLib->getDisplay().getName() == name);
-        Color textColor = getItemTextColor(isSelected, isHovered, isCurrent);
+        Color textColor = this->getItemTextColor(isSelected, isHovered, isCurrent);
 
         std::string displayName = isSelected ? "> " + name : "  " + name;
         if (isCurrent)
             displayName += " (active)";
-        renderMenuItem("graphic_" + name, displayName, textColor, x, y + yOffset);
-        yOffset += 25;
+        this->renderMenuItem("graphic_" + name, displayName, textColor, x, y + yOffset);
+        yOffset += 35;
         index++;
     }
 }
@@ -161,7 +160,7 @@ void Core::renderMenuItem(const std::string& textureName, const std::string& tex
 
     if (result != 0)
         std::cerr << "Failed to load " << textureName << " texture" << std::endl;
-    display.drawTexture(textures.get(textureName), _resolutionScaler->toScreenPosition(Vector<float>(x, y)));
+    display.drawTexture(textures.get(textureName), Vector<float>(x, y));
 }
 
 bool Core::isItemHovered(float x, float y, float width, float height, const Vector<float>& mousePos) const {
@@ -189,8 +188,8 @@ void Core::renderScores(float x, float y) {
 
     if (result != 0)
         std::cerr << "Failed to load scores_title texture" << std::endl;
-    display.drawTexture(textures.get("scores_title"), _resolutionScaler->toScreenPosition(Vector<float>(x, y)));
-    renderScoreItems(x, y + 30);
+    display.drawTexture(textures.get("scores_title"), Vector<float>(x, y));
+    this->renderScoreItems(x, y + 30);
 }
 
 void Core::renderScoreItems(float x, float y) {
@@ -204,14 +203,14 @@ void Core::renderScoreItems(float x, float y) {
         if (count >= 10)
             break;
         std::string scoreText = score._playerName + " - " + score._gameName + ": " + std::to_string(score._score);
-        renderMenuItem("score_" + std::to_string(count), scoreText, Color(200, 200, 200), x, y + yOffset);
+        this->renderMenuItem("score_" + std::to_string(count), scoreText, Color(200, 200, 200), x, y + yOffset);
         yOffset += 25;
         count++;
     }
 }
 
 void Core::renderPlayerNameInput(float x, float y) {
-    renderMenuListTitle(x, y, "Your Name:", MenuSection::PLAYER_NAME, "name_title");
+    this->renderMenuListTitle(x, y, "Your Name:", MenuSection::PLAYER_NAME, "name_title");
 
     auto& textures = _currentGraphicLib->getTextures();
     auto& display = _currentGraphicLib->getDisplay();
@@ -221,7 +220,7 @@ void Core::renderPlayerNameInput(float x, float y) {
 
     if (result != 0)
         std::cerr << "Failed to load player_name texture" << std::endl;
-    display.drawTexture(textures.get("player_name"), _resolutionScaler->toScreenPosition(Vector<float>(x, y + 30)));
+    display.drawTexture(textures.get("player_name"), Vector<float>(x, y + 30));
 }
 
 }
