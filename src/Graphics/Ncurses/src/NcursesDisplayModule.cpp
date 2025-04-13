@@ -16,17 +16,17 @@
 
 arcade::NcursesDisplayModule::NcursesDisplayModule(const std::string &name): _windowProperties("", 0, 0), _name(name), _isOpen(false) {}
 
-arcade::NcursesDisplayModule::~NcursesDisplayModule()
-{
-    this->stop();
-}
+arcade::NcursesDisplayModule::~NcursesDisplayModule() = default;
 
 void arcade::NcursesDisplayModule::init(const std::string &title, size_t width, size_t height)
 {
-    _windowProperties.setTitle(title);
-    _windowProperties.setWidth(width);
-    _windowProperties.setHeight(height);
     initscr();
+    int maxWidth, maxHeight;
+    getmaxyx(stdscr, maxHeight, maxWidth);
+    _windowProperties.setWidth(maxWidth);
+    _windowProperties.setHeight(maxHeight);
+    _windowProperties.setTitle(title);
+
     if (!has_colors()) {
         this->stop();
         throw std::runtime_error("Terminal does not support colors");
@@ -72,6 +72,14 @@ void arcade::NcursesDisplayModule::clearWindow(Color color)
     }
 }
 
+float arcade::NcursesDisplayModule::getScaleFactorX() const {
+    return 60 / 800.0f;
+}
+
+float arcade::NcursesDisplayModule::getScaleFactorY() const {
+    return 18.25 / 600.0f;
+}
+
 void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<float> position)
 {
     auto texturePtr = texture.get();
@@ -79,7 +87,7 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
 
     if (std::holds_alternative<TextureText>(textureInformations)) {
         auto &textureText = std::get<TextureText>(textureInformations);
-        mvprintw(static_cast<int>(position.getY()), static_cast<int>(position.getX()), textureText.getText().c_str());
+        mvprintw(static_cast<int>(position.getY() * getScaleFactorY()), static_cast<int>(position.getX() * getScaleFactorX()), textureText.getText().c_str());
     } else
         throw std::runtime_error("Terminal does not support images");
 }

@@ -21,10 +21,7 @@ SDLDisplayModule::SDLDisplayModule(SDLRendererManager& renderer_manager)
     initializeSDL();
 }
 
-SDLDisplayModule::~SDLDisplayModule()
-{
-    this->stop();
-}
+SDLDisplayModule::~SDLDisplayModule() = default;
 
 void SDLDisplayModule::initializeSDL()
 {

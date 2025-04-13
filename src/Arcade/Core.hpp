@@ -15,7 +15,6 @@
 #include "DLManager.hpp"
 #include "IGameModule.hpp"
 #include "IDisplayLibrary.hpp"
-#include "ResolutionScaler.hpp"
 
 namespace arcade {
     /**
@@ -94,9 +93,6 @@ namespace arcade {
         // Timing
         std::chrono::high_resolution_clock::time_point _lastFrameTime; /* Last frame time */
         float _deltaTime; /* Time since last frame */
-
-        // Resolution scaling
-        std::unique_ptr<ResolutionScaler> _resolutionScaler = nullptr; /* Resolution scaler */
 
         // Menu navigation
         MenuSection _currentMenuSection = MenuSection::GAMES; /* Current menu section */

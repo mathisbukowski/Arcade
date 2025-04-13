@@ -93,6 +93,10 @@ namespace arcade {
          */
         [[nodiscard]] WindowProperties& getWindowProperties() override { return _windowProperties; }
 
+        float getScaleFactorY() const;
+
+        float getScaleFactorX() const;
+
         /**
          * Process events
          */
