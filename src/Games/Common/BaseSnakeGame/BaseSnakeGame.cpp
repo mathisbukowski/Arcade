@@ -253,30 +253,30 @@ BaseSnakeGame::BaseSnakeGame(GameMode mode)
 void BaseSnakeGame::init(std::shared_ptr<IDisplayLibrary> library) {
     try {
         _displayLib = std::ref(*library);
-        setupGame();
-        loadTextures();
-        loadSounds();
+        this->setupGame();
+        this->loadTextures();
+        this->loadSounds();
     } catch (const std::exception& e) {
         throw std::runtime_error("Failed to initialize game: " + std::string(e.what()));
     }
 }
 
 void BaseSnakeGame::setupGame() {
-    initGrid();
-    initSnake();
-    spawnFood();
+    this->initGrid();
+    this->initSnake();
+    this->spawnFood();
 }
 
 void BaseSnakeGame::loadTextures() {
-    if (!hasDisplayLibrary())
+    if (!this->hasDisplayLibrary())
         return;
 
     try {
-        auto& textures = getDisplayLibrary().getTextures();
-        loadBasicTextures(textures);
+        auto& textures = this->getDisplayLibrary().getTextures();
+        this->loadBasicTextures(textures);
 
         if (_hasWalls)
-            loadWallTexture(textures);
+            this->loadWallTexture(textures);
     } catch (const std::exception& e) {
         std::cerr << "Error loading textures: " << e.what() << std::endl;
     }
@@ -311,11 +311,11 @@ void BaseSnakeGame::loadWallTexture(ITextureManager& textures) {
 }
 
 void BaseSnakeGame::loadSounds() {
-    if (!hasDisplayLibrary())
+    if (!this->hasDisplayLibrary())
         return;
 
     try {
-        auto& sounds = getDisplayLibrary().getSounds();
+        auto& sounds = this->getDisplayLibrary().getSounds();
         int gameOverSoundId = sounds.load("game_over", SoundInfos("assets/sounds/game_over.wav"));
         int eatSoundId = sounds.load("eat", SoundInfos("assets/sounds/eat.wav"));
         int levelCompleteSoundId = sounds.load("level_complete", SoundInfos("assets/sounds/level_complete.wav"));
@@ -366,19 +366,19 @@ void BaseSnakeGame::initSnake() {
     _state.prependSegment(Vector<float>(startX - 2, startY));
     _state.prependSegment(Vector<float>(startX - 1, startY));
     _state.prependSegment(Vector<float>(startX, startY));
-    updateGrid();
+    this->updateGrid();
 }
 
 bool BaseSnakeGame::spawnFood(bool isBonus) {
-    auto emptyCells = findEmptyCells();
+    auto emptyCells = this->findEmptyCells();
 
     if (emptyCells.empty()) {
         _state.setGameOver(true);
         return false;
     }
 
-    Vector<float> foodPos = chooseRandomCell(emptyCells);
-    placeFood(foodPos, isBonus);
+    Vector<float> foodPos = this->chooseRandomCell(emptyCells);
+    this->placeFood(foodPos, isBonus);
 
     return true;
 }
@@ -415,7 +415,7 @@ void BaseSnakeGame::placeFood(const Vector<float>& pos, bool isBonus) {
 
 void BaseSnakeGame::trySpawnBonusFood() {
     if (_state.getBonusFoods().empty() && (std::uniform_int_distribution<int>(1, BONUS_FOOD_CHANCE)(_rng) == 1)) {
-        spawnFood(true);
+        this->spawnFood(true);
         _state.setBonusFoodTimer(_state.getBonusFoodDuration());
     }
 }
