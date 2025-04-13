@@ -87,7 +87,7 @@ void arcade::NcursesDisplayModule::drawTexture(std::shared_ptr<ITexture> texture
 
     if (std::holds_alternative<TextureText>(textureInformations)) {
         auto &textureText = std::get<TextureText>(textureInformations);
-        mvprintw(static_cast<int>(position.getY() * getScaleFactorY()), static_cast<int>(position.getX() * getScaleFactorX()), textureText.getText().c_str());
+        mvprintw(static_cast<int>(position.getY() * this->getScaleFactorY()), static_cast<int>(position.getX() * this->getScaleFactorX()), textureText.getText().c_str());
     } else
         throw std::runtime_error("Terminal does not support images");
 }
