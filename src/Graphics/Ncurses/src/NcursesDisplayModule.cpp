@@ -146,8 +146,11 @@ void arcade::NcursesDisplayModule::handleEvent(int ch)
         case KEY_RIGHT:
             _keyboard.setKey(arcade::Keyboard::KeyCode::RIGHT, true);
             break;
-        case 27:
+        case 'q':
             _keyboard.setKey(arcade::Keyboard::KeyCode::ESCAPE, true);
+            break;
+        case 'a':
+            _keyboard.setKey(arcade::Keyboard::KeyCode::A, true);
             break;
         case '\n':
             _keyboard.setKey(arcade::Keyboard::KeyCode::ENTER, true);
