@@ -32,12 +32,10 @@ int arcade::NcursesSoundManager::load(const std::string& name, const SoundInfos&
 
 void arcade::NcursesSound::play(float volume)
 {
-    std::cout << "NCURSE doesn't provide sounds." << volume << std::endl;
 }
 
 void arcade::NcursesSound::stop()
 {
-    std::cout << "NCURSE doesn't provide sounds." << std::endl;
 }
 
 
@@ -48,7 +46,6 @@ void arcade::NcursesSoundManager::playSound(const std::string& name, float volum
         auto soundInfos = sound->getInformations();
         soundInfos.setVolume(volume);
         sound->play(volume);
-        std::cout << "Playing sound: " << name << " at volume: " << volume << std::endl;
     }
 }
 
@@ -58,6 +55,5 @@ void arcade::NcursesSoundManager::stopSound(const std::string& name)
     if (sound) {
         auto soundInfos = sound->getInformations();
         sound->stop();
-        std::cout << "Stopped sound: " << name << std::endl;
     }
 }

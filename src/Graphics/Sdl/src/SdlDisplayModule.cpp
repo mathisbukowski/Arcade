@@ -18,7 +18,7 @@ namespace arcade {
 SDLDisplayModule::SDLDisplayModule(SDLRendererManager& renderer_manager)
     : _windowProperties("", 0, 0), _isOpen(false), _rendererManager(renderer_manager)
 {
-    initializeSDL();
+    this->initializeSDL();
 }
 
 SDLDisplayModule::~SDLDisplayModule() = default;
@@ -42,7 +42,7 @@ void SDLDisplayModule::init(const std::string& title, std::size_t width, std::si
     _rendererManager.initializeRenderer(title, width, height);
     _renderer = _rendererManager.getRenderer();
     _window = _rendererManager.getWindow();
-    validateRendererAndWindow();
+    this->validateRendererAndWindow();
     this->openWindow();
 }
 
@@ -58,7 +58,7 @@ void SDLDisplayModule::stop()
 {
     if (!isWindowOpen())
         return;
-    cleanupResources();
+    this->cleanupResources();
 }
 
 void SDLDisplayModule::cleanupResources()
@@ -96,9 +96,9 @@ void SDLDisplayModule::drawTexture(std::shared_ptr<ITexture> texture, Vector<flo
         return;
 
     if (std::holds_alternative<TextureText>(sdlTexture->getInformations())) {
-        drawTextTexture(sdlTexture, position);
+        this->drawTextTexture(sdlTexture, position);
     } else {
-        drawSpriteTexture(sdlTexture, position);
+        this->drawSpriteTexture(sdlTexture, position);
     }
 }
 
@@ -126,11 +126,11 @@ void SDLDisplayModule::drawSpriteTexture(std::shared_ptr<SDLTexture> texture, Ve
 
     SDL_QueryTexture(texture->getTexture().get(), nullptr, nullptr, &srcRect.w, &srcRect.h);
 
-    auto [scaleX, scaleY] = calculateSpriteScale(texture->getTexture().get());
+    auto [scaleX, scaleY] = this->calculateSpriteScale(texture->getTexture().get());
     dstRect.w = static_cast<int>(srcRect.w * scaleX);
     dstRect.h = static_cast<int>(srcRect.h * scaleY);
 
-    auto [x, y] = calculateAdjustedPosition(position);
+    auto [x, y] = this->calculateAdjustedPosition(position);
     dstRect.x = static_cast<int>(x);
     dstRect.y = static_cast<int>(y);
 
@@ -179,7 +179,7 @@ void SDLDisplayModule::updateWindow(float delta)
     (void)delta;
 
     _keyboard.clearPressedKeys();
-    processEvents();
+    this->processEvents();
     SDL_RenderPresent(_renderer.get());
 }
 
@@ -187,7 +187,7 @@ void SDLDisplayModule::processEvents()
 {
     SDL_Event event;
     while (SDL_PollEvent(&event))
-        handleEvent(event);
+        this->handleEvent(event);
 }
 
 void SDLDisplayModule::handleEvent(const SDL_Event& event)
@@ -197,19 +197,19 @@ void SDLDisplayModule::handleEvent(const SDL_Event& event)
         this->closeWindow();
         break;
     case SDL_KEYDOWN:
-        handleKeyboardEvent(event.key, true);
+        this->handleKeyboardEvent(event.key, true);
         break;
     case SDL_KEYUP:
-        handleKeyboardEvent(event.key, false);
+        this->handleKeyboardEvent(event.key, false);
         break;
     case SDL_MOUSEMOTION:
-        handleMouseMotionEvent(event.motion);
+        this->handleMouseMotionEvent(event.motion);
         break;
     case SDL_MOUSEBUTTONDOWN:
-        handleMouseButtonEvent(event.button, true);
+        this->handleMouseButtonEvent(event.button, true);
         break;
     case SDL_MOUSEBUTTONUP:
-        handleMouseButtonEvent(event.button, false);
+        this->handleMouseButtonEvent(event.button, false);
         break;
     default:
         break;
