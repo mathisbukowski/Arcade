@@ -71,6 +71,16 @@ void Core::initializeGameLib() {
 }
 
 void Core::switchGraphicsLib(const std::string& libName) {
+    std::string currentGraphicLibPath;
+
+    for (const auto& [name, lib] : _libManager->getAllLibrariesByType(LibType::DISPLAY)) {
+        if (_currentGraphicLib && _currentGraphicLib->getDisplay().getName() == lib->getName()) {
+            currentGraphicLibPath = name;
+            break;
+        }
+    }
+    if (currentGraphicLibPath == libName)
+        return;
     if (_currentGraphicLib)
         _currentGraphicLib->getDisplay().stop();
 

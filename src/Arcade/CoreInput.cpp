@@ -69,10 +69,6 @@ void Core::handleGameInput() {
         tryRestartGame();
         return;
     }
-    if (keyboard.isKeyPressed(Keyboard::KeyCode::KEY_2)) {
-        trySwitchToNextGame();
-        return;
-    }
 }
 
 void Core::tryRestartGame() {
